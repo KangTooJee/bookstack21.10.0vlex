@@ -1,0 +1,5 @@
+.env
+.git
+source/BookStack-21.10.1/.git
+source/BookStack-21.10.1/node_modules
+source/BookStack-21.10.1/vendor
