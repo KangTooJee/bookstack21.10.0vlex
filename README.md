@@ -1,19 +1,31 @@
-# BookStack v21.10.1 — môi trường thử nghiệm Docker
+# BookStack v21.11.1 — mô phỏng VLEX
 
-Mã nguồn được giải nén từ `C:\Vlex\BookStack-21.10.1.zip`.
-SHA256: `450223B9F408B102D4CF6B1FD3A1A924763086953077AB9E7E4E7FA80B7D06AD`.
-File `source/BookStack-21.10.1/version` xác nhận `v21.10.1`.
+Môi trường được dựng mới từ `C:\Vlex\BookStack-21.11.1.zip`, giữ chức năng nhập Word đã bổ sung. Dữ liệu và ba volumes của bản 21.10.1 đã được xóa theo yêu cầu. Mã nguồn 21.10.1 vẫn có trong lịch sử Git.
 
-## Truy cập
+## Cấu hình cố định
 
-- URL mặc định: http://localhost:8080 (xem `APP_PORT` trong `.env`).
-- Tài khoản ban đầu: `admin@admin.com`.
-- Mật khẩu ban đầu: `password`.
-- Dịch vụ chỉ lắng nghe trên `127.0.0.1`, dành cho thử nghiệm tại máy này.
+| Thành phần | Phiên bản |
+| --- | --- |
+| BookStack | v21.11.1 |
+| PHP | 8.0.30 |
+| Laravel Framework | 8.70.2 |
+| Database | MySQL 8.0.36 |
+| Web server | Apache, trong image PHP |
+| Chuyển Word | LibreOffice Writer |
+| Múi giờ ứng dụng | Asia/Ho_Chi_Minh |
 
-## Chạy và dừng
+ZIP SHA256: `C5CDEA43E9D7211F30ED421E24F64A75E125923A030948C9FCE362DF564CF134`.
 
-Mở PowerShell trong thư mục chứa README này. Docker Desktop phải đang chạy với Linux containers.
+`composer.lock` gốc SHA256: `081369FDFE308E94E3A852E5FC0FF1A37C682A01DCAB9B269B4AACB87F6772E0`.
+
+## Truy cập và chạy
+
+- URL: http://localhost:8080
+- Tài khoản ban đầu: `admin@admin.com`
+- Mật khẩu ban đầu: `password`
+- Chỉ mở trên `127.0.0.1`, dành cho mô phỏng tại máy này.
+
+Chạy PowerShell trong thư mục chứa README, Docker Desktop ở chế độ Linux containers:
 
 ```powershell
 ./init-env.ps1
@@ -24,39 +36,32 @@ docker compose stop
 docker compose start
 ```
 
-Lần dựng mới trên Windows, chạy `init-env.ps1` để tạo `.env` với khóa và mật khẩu ngẫu nhiên. Script giữ nguyên cấu hình nếu `.env` đã tồn tại. `.env.example` liệt kê các biến cần thiết; không commit `.env` lên Git.
+Script `init-env.ps1` tạo khóa và mật khẩu riêng, giữ nguyên `.env` nếu file đã tồn tại. Không commit `.env`.
 
-PHP 7.4 và Composer 2.2 được dùng để tương thích với mã nguồn, các thư viện PHP được cài theo `composer.lock`. CSS/JS đã được đóng gói trong ZIP nên không cần Node.js. Database dùng MariaDB 10.6, tự khởi tạo và chạy migration khi ứng dụng bắt đầu.
+Database, storage và ảnh lưu trong volumes của project `bookstack-21111-lab`. Chỉ dùng `docker compose down --volumes` khi chủ động muốn xóa toàn bộ dữ liệu thử nghiệm.
 
-Database, tệp tải lên và storage được lưu trong ba Docker volumes của project `bookstack-21101-lab`. Dừng hoặc tạo lại container vẫn giữ dữ liệu. Không dùng `docker compose down -v` nếu muốn giữ dữ liệu.
+## Thư viện cố định, không tự cập nhật
 
-Khóa ứng dụng và mật khẩu database nằm trong `.env`, đã được tạo riêng cho lần cài này. Giữ file này cùng với bản sao lưu dữ liệu. Email thử nghiệm ghi vào log trong container, không gửi ra ngoài.
+ZIP nguồn không chứa thư viện `vendor`. Docker dùng Composer 2.2 được ghim digest chỉ trong build stage để chạy `composer install --no-dev` theo đúng `composer.lock`. Không chạy `composer update`, không thay file khóa. Build kiểm tra hash file khóa, yêu cầu nền tảng và Laravel đúng 8.70.2. Container chạy web chứa `vendor` đã cài, không chứa chương trình Composer và không cài thư viện lúc khởi động.
 
-## Thử chức năng
+CSS/JS có sẵn trong ZIP, không chạy npm install hoặc build lại frontend. Chạy web sau khi build không cần truy cập kho Composer. Lần build đầu vẫn cần mạng để tải image, gói hệ điều hành và thư viện đã khóa.
 
-1. Đăng nhập và tạo một Shelf (kệ sách), Book (sách), Chapter (chương), Page (trang).
-2. Thử trình soạn thảo, ảnh đính kèm, tìm kiếm và lịch sử chỉnh sửa.
-3. Trong phần quản trị, xem Roles/Users và thử phân quyền trên một sách mẫu.
+## Phạm vi mô phỏng dự án khách hàng
 
-Đây là bản 2021 theo ZIP được cung cấp, phù hợp làm mốc đánh giá. Chưa cài một phiên bản mới để so sánh song song.
+PHP 8.0.30 và Laravel 8.70.2 khớp yêu cầu. MySQL 8.0.36 là phiên bản được chọn cho mô phỏng; chưa có số phiên bản database thực của khách hàng. Mã nguồn nền là BookStack 21.11.1 gốc cùng phần nhập Word đã phát triển tại đây.
 
-## Kiểm tra sau cài đặt (22/10/2026)
+Ảnh chụp dự án khách hàng cho thấy có thêm PHPWord và cấu trúc `Modules`; ZIP gốc không có các tùy biến đó. Chưa bổ sung hay tự chọn phiên bản thư viện khác ngoài lockfile. Để mô phỏng toàn bộ dự án, cần `composer.lock`, cấu hình và mã tùy biến thực của khách hàng. Chức năng nhập Word hiện dùng LibreOffice, không phải PHPWord của khách hàng.
 
-- Container ứng dụng chạy; database báo healthy; phiên bản trong container là `v21.10.1`.
-- Đăng nhập bằng tài khoản ban đầu thành công.
-- Các đường dẫn `/books`, `/shelves`, `/settings`, `/settings/users`, `/dist/styles.css`, `/dist/app.js` đều trả HTTP 200.
-- Luồng tạo nội dung và tải Word đã được kiểm tra bên dưới. Chưa kiểm tra xuất PDF.
+## Nhập Word
 
-## Nhập Word thành nội dung trang
+Tạo sách hoặc chương, sau đó chọn **Nhập Word (.doc/.docx)** ở menu hành động. File tối đa 20 MB. Nội dung được chuyển thành HTML trong trang nháp mới; kiểm tra rồi bấm **Lưu trang**.
 
-Trong menu hành động của sách, chương hoặc trang, bấm **Nhập Word (.doc/.docx)**. Chọn tài liệu tối đa 20 MB và nhập tên trang nếu muốn. Nội dung mở trong trình soạn thảo dưới dạng trang nháp mới; bấm **Lưu trang** để xuất bản vào sách/chương tương ứng.
+Hỗ trợ văn bản tiếng Việt, tiêu đề, danh sách, bảng/ô gộp, ảnh nhúng và liên kết mục lục. Ảnh được lưu vào kho BookStack. Mục lục Word là nội dung HTML tĩnh; không tự tính lại số trang in. Bố cục trang in, đầu/chân trang, kiểu chữ và đối tượng Word phức tạp có thể khác bản gốc. Ảnh bên ngoài phải nhúng vào Word trước khi nhập. Không hỗ trợ file có mật khẩu.
 
-Nội dung nhập gồm văn bản tiếng Việt, tiêu đề, in đậm/nghiêng, danh sách, bảng, ô gộp, ảnh nhúng và các liên kết mục lục có trong tài liệu. Ảnh được lưu vào kho ảnh BookStack và gắn với trang. Tiêu đề tạo thanh điều hướng trang của BookStack. Mục lục Word được nhập như nội dung HTML, không tự cập nhật số trang in. Ảnh chỉ liên kết tới ổ đĩa hoặc website bên ngoài cần được nhúng vào Word trước khi nhập. File có mật khẩu và file đổi đuôi không đúng định dạng sẽ bị từ chối.
+Yêu cầu quyền tạo trang và quyền tạo ảnh nếu tài liệu có ảnh. Giới hạn chuyển đổi 60 giây, dọn thư mục tạm sau khi xử lý. Email ghi log trong môi trường thử nghiệm.
 
-Chức năng tạo trang nháp mới trong cùng sách/chương, không thay nội dung trang đang xem. Yêu cầu quyền tạo trang tại đích; nếu có ảnh thì cần thêm quyền tạo ảnh. Thời gian chuyển đổi giới hạn 60 giây. Thư mục tạm được dọn sau mỗi lần nhập.
+## Kiểm tra
 
-Docker image đã bổ sung LibreOffice Writer để chuyển Word sang HTML. Bố cục trang in, đầu/chân trang, kiểu chữ và đối tượng Word phức tạp có thể khác tài liệu gốc. Đây là chức năng bổ sung vào bản Docker, chưa áp dụng lên website thực của bạn.
+`tests/check-runtime.php` xác minh phiên bản, toàn bộ thư viện production khớp lockfile, kết nối MySQL và việc không có Composer ở runtime. `tests/word-import/` chứa kiểm tra chuyển Word, lọc HTML, file lỗi và luồng tải lên → bản nháp → xuất bản → tải ảnh/giữ điểm neo mục lục. Bài kiểm tra HTTP tạo sách thử riêng rồi đưa vào thùng rác.
 
-### Kiểm thử nhập Word
-
-File mẫu và mã kiểm tra nằm trong `tests/word-import/`. Đã kiểm tra cả `.doc` và `.docx` chứa tiếng Việt, ảnh nhúng, danh sách, bảng có ô gộp và liên kết mục lục: chuyển đổi, mở bản nháp, xuất bản và tải ảnh thành công. Đã kiểm tra từ chối file sai định dạng, lọc script/thuộc tính HTML không an toàn và chuyển người chưa đăng nhập về trang đăng nhập. Bài kiểm tra HTTP tạo sách tạm rồi chuyển sách thử vào thùng rác, không sửa nội dung người dùng.
+Kết quả kiểm tra ngày 22/10/2026: PHP 8.0.30, Laravel 8.70.2, BookStack v21.11.1, MySQL 8.0.36; 104 thư viện production khớp lockfile gốc và không có Composer executable trong container web. Chuyển đổi DOC/DOCX và luồng nhập trên HTTP đều qua, gồm tiếng Việt, bảng/ô gộp, ảnh và điểm neo mục lục; file sai định dạng trả HTTP 422, người chưa đăng nhập được chuyển về trang đăng nhập. Sau kiểm tra đã khởi tạo lại database và volumes trống để bàn giao, không giữ sách/trang/ảnh kiểm thử.

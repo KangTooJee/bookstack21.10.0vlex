@@ -2,6 +2,7 @@
 require '/var/www/html/vendor/autoload.php';
 $app = require '/var/www/html/bootstrap/app.php';
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+set_exception_handler(function (Throwable $error) { fwrite(STDERR, $error->getMessage() . "\n"); exit(1); });
 $service = $app->make(BookStack\Uploads\WordImportService::class);
 $fixtureDirectory = '/tmp/word-import-test';
 $image = imagecreatetruecolor(20, 20);
