@@ -1,0 +1,26 @@
+/* Scoped to spreadsheet pages, including legacy Calc imports. No frontend rebuild required. */
+@media screen {
+    .excel-page .tri-layout-middle-contents,
+    .excel-page .page-content {
+        max-width: none;
+        min-width: 0;
+    }
+    .excel-page .page-content {
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-gutter: stable;
+    }
+    .excel-page .page-content table {
+        table-layout: auto;
+        width: max-content !important;
+        min-width: 100%;
+        max-width: none;
+        float: none !important;
+    }
+    .excel-page .page-content td,
+    .excel-page .page-content th {
+        min-width: 120px;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+}

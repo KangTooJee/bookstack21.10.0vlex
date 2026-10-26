@@ -164,8 +164,11 @@ class WordImportService
 
     private function restoreListIndents(\DOMElement $body, array $indents): void
     {
+        if (!$indents) {
+            return;
+        }
         $items = new \SplObjectStorage();
-        foreach (iterator_to_array($body->getElementsByTagName('a')) as $anchor) {
+        foreach ((new \DOMXPath($body->ownerDocument))->query('.//a[@name]', $body) as $anchor) {
             $name = $anchor->getAttribute('name');
             if (!array_key_exists($name, $indents)) {
                 continue;
@@ -203,7 +206,7 @@ class WordImportService
     }
 
     // Shared by office imports/exports; image paths must resolve inside the conversion directory.
-    public function cleanHtml(string $html, string $directory, array $listIndents = []): string
+    public function cleanHtml(string $html, string $directory, array $listIndents = [], int $maxElements = 0): string
     {
         $doc = new DOMDocument();
         $previous = libxml_use_internal_errors(true);
@@ -222,7 +225,12 @@ class WordImportService
         $this->restoreListIndents($body, $listIndents);
 
         $allowed = explode(' ', 'p div span h1 h2 h3 h4 h5 h6 table thead tbody tfoot tr td th caption colgroup col ol ul li a img strong b em i u s strike sup sub br hr blockquote pre code font dl dt dd');
-        $nodes = iterator_to_array($body->getElementsByTagName('*'));
+        // XPath returns a static node set. Materializing a live DOM tag list can
+        // repeatedly rescan large Calc tables and exhaust the HTTP time limit.
+        $nodes = iterator_to_array((new \DOMXPath($doc))->query('.//*', $body));
+        if ($maxElements > 0 && count($nodes) > $maxElements) {
+            throw new RuntimeException('Nội dung có quá 100.000 phần tử HTML để chỉnh sửa trong một trang. Hãy tách các sheet hoặc vùng dữ liệu thành file nhỏ hơn.');
+        }
         $imageBytes = 0;
         foreach (array_reverse($nodes) as $node) {
             $tag = strtolower($node->tagName);
@@ -290,7 +298,7 @@ class WordImportService
         // images (without dimensions) and FrameN text boxes. Their page-relative
         // placement cannot survive in page HTML, so they become stray content.
         // Remove whole frames before sanitizing styles or creating bookmark anchors.
-        foreach (iterator_to_array($body->getElementsByTagName('*')) as $node) {
+        foreach ((new \DOMXPath($body->ownerDocument))->query('.//span[@id] | .//img[@name]', $body) as $node) {
             $tag = strtolower($node->tagName);
             $floatingFrame = $tag === 'span'
                 && preg_match('/^Frame[0-9]+$/', $node->getAttribute('id'))

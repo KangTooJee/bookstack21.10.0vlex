@@ -1,5 +1,14 @@
 @extends('layouts.tri')
 
+@php($excelContent = \BookStack\Uploads\ExcelPageLayout::matches($page->html))
+@section('body-class', $excelContent ? 'tri-layout excel-page' : 'tri-layout')
+
+@if($excelContent)
+    @push('head')
+        <link rel="stylesheet" href="{{ versioned_asset('dist/excel-content.css') }}">
+    @endpush
+@endif
+
 @push('social-meta')
     <meta property="og:description" content="{{ Str::limit($page->text, 100, '...') }}">
 @endpush
@@ -15,7 +24,7 @@
     </div>
 
     <main class="content-wrap card">
-        <div class="page-content clearfix" page-display="{{ $page->id }}">
+        <div class="page-content clearfix" page-display="{{ $page->id }}" @if($excelContent) tabindex="0" role="region" aria-label="Bảng tính Excel, cuộn ngang để xem thêm cột" @endif>
             @include('pages.parts.pointer', ['page' => $page])
             @include('pages.parts.page-display')
         </div>

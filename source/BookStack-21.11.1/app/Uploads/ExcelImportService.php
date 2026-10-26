@@ -29,6 +29,11 @@ class ExcelImportService
             $this->validateFormat($input, $extension);
             $output = (new ExcelConversion())->run($directory, $input, 'html:HTML (StarCalc)');
             $html = file_get_contents($output);
+            // DOM normalization and the editor retain multiple copies. A small
+            // XLSX can expand into HTML too large for one synchronous page import.
+            if (strlen($html) > 10 * 1024 * 1024) {
+                throw new RuntimeException('Excel tạo ra hơn 10 MB HTML, quá lớn để chỉnh sửa trong một trang. Hãy tách sheet/vùng dữ liệu rồi nhập riêng.');
+            }
             // Calc uses bgcolor for fills. Normalize it before the shared allowlist.
             $document = new \DOMDocument();
             $previous = libxml_use_internal_errors(true);
@@ -37,7 +42,7 @@ class ExcelImportService
             } finally {
                 libxml_clear_errors(); libxml_use_internal_errors($previous);
             }
-            foreach ($document->getElementsByTagName('*') as $element) {
+            foreach ((new \DOMXPath($document))->query('//*[@bgcolor]') as $element) {
                 if ($element->hasAttribute('bgcolor')) {
                     $color = $element->getAttribute('bgcolor');
                     if (preg_match('/^#[a-f0-9]{3,6}$/i', $color)) {
@@ -47,7 +52,10 @@ class ExcelImportService
             }
             $body = $document->getElementsByTagName('body')->item(0);
             if (!$body) { throw new RuntimeException('Không tìm thấy nội dung bảng tính.'); }
-            return (new WordImportService())->cleanHtml($document->saveHTML($body), $directory);
+            $normalized = $document->saveHTML($body);
+            unset($body, $element, $document);
+            $clean = (new WordImportService())->cleanHtml($normalized, $directory, [], 100000);
+            return '<a name="bookstack-excel-content"></a>' . $clean;
         } finally {
             File::deleteDirectory($directory);
         }

@@ -20,7 +20,7 @@
                     <input id="excel-document" type="file" name="document" accept=".xls,.xlsx" required>
                     @if($errors->has('document'))<p class="text-neg" role="alert">{{ $errors->first('document') }}</p>@endif
                 </div>
-                <p class="text-muted">Các sheet được chuyển thành bảng có thể chỉnh sửa. Công thức trở thành giá trị hiển thị; không giữ macro, pivot, bộ lọc hoặc bố cục in. File đặt mật khẩu không được hỗ trợ.</p>
+                <p class="text-muted">Các sheet được chuyển thành bảng có thể chỉnh sửa. Công thức trở thành giá trị hiển thị; không giữ macro, pivot, bộ lọc hoặc bố cục in. File đặt mật khẩu không được hỗ trợ. Bảng tính quá lớn cần tách theo sheet hoặc vùng dữ liệu trước khi nhập.</p>
                 <div class="form-group text-right">
                     <a href="{{ $parent->getUrl() }}" class="button outline">Hủy</a>
                     <button type="submit" class="button">Nhập và mở bản nháp</button>

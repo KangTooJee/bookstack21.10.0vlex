@@ -84,6 +84,8 @@ Chọn **Nhập Excel (.xls/.xlsx)** trong menu sách/chương/trang để nhậ
 
 Docker bổ sung LibreOffice Calc cho import; export ghi XLSX trực tiếp bằng extension PHP sẵn có, không đổi Composer lock hay phiên bản ứng dụng. Build lại image bằng `docker compose up -d --build`. Xem [phạm vi, file thay đổi và cách kiểm tra Excel](docs/excel-import-export-changes.md).
 
+Trang Excel hiển thị hết chiều rộng vùng nội dung và cuộn ngang khi bảng rộng. Đã tối ưu bước lọc HTML gây timeout với bảng lớn; giới hạn nhập một trang là 10 MB HTML/100.000 phần tử HTML. Workbook lớn hơn cần tách sheet/vùng dữ liệu; không bảo đảm chuyển mọi workbook thành một Page đồng bộ.
+
 ## Kiểm tra môi trường và import
 
 `tests/check-runtime.php` xác minh phiên bản, toàn bộ thư viện production khớp lockfile, kết nối MySQL và việc không có Composer ở runtime. `tests/word-import/` chứa kiểm tra chuyển Word, lọc HTML, file lỗi và luồng tải lên → bản nháp → xuất bản → tải ảnh/giữ điểm neo mục lục. Bài kiểm tra HTTP tạo sách thử riêng rồi đưa vào thùng rác.
