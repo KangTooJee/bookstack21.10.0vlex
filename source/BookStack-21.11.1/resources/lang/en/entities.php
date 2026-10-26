@@ -33,6 +33,7 @@ return [
     'no_pages_recently_created' => 'No pages have been recently created',
     'no_pages_recently_updated' => 'No pages have been recently updated',
     'export' => 'Export',
+    'export_word' => 'Word Document',
     'export_html' => 'Contained Web File',
     'export_pdf' => 'PDF File',
     'export_text' => 'Plain Text File',

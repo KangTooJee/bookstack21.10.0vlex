@@ -62,8 +62,28 @@ Hỗ trợ văn bản tiếng Việt, tiêu đề, danh sách, bảng/ô gộp, 
 
 Yêu cầu quyền tạo trang và quyền tạo ảnh nếu tài liệu có ảnh. Giới hạn chuyển đổi 60 giây, dọn thư mục tạm sau khi xử lý. Email ghi log trong môi trường thử nghiệm.
 
-## Kiểm tra
+Các ảnh placeholder `ShapeN` không có kích thước và hộp chữ nổi `FrameN` do LibreOffice xuất từ lớp vẽ được bỏ qua khi nhập. Các đối tượng này phụ thuộc vị trí trên trang Word; khi chuyển thành HTML, chúng có thể bị dồn thành ảnh/chữ thừa trước nội dung. Ảnh nhúng thông thường và văn bản trong luồng chính vẫn được giữ. Chú thích nằm trong hộp chữ nổi có thể cần bổ sung lại trong trình soạn thảo web.
+
+Với DOCX, bước chuẩn bị bản sao tài liệu bỏ đối tượng OLE và ảnh biểu tượng/xem trước của chúng (ví dụ biểu tượng gói cài đặt nhúng); ảnh GIF thông thường vẫn được nhập. Độ thụt lề danh sách được lấy từ cấu hình numbering, cấu hình ghi đè và định dạng trực tiếp của đoạn Word, rồi chuyển thành CSS inline. Danh sách lồng nhau dùng độ lệch tương đối để tránh cộng dồn sai. File Word gốc không bị thay đổi.
+
+## Xuất Word
+
+Sau khi lưu nội dung trang, mở menu **Kết xuất / Export → Tài liệu Word (.docx)**. Chức năng xuất dùng nội dung hiện đang lưu trên web, gồm các chỉnh sửa sau import; hỗ trợ tiêu đề, văn bản có định dạng, danh sách nhiều cấp và thụt lề, bảng/ô gộp, liên kết và ảnh nhúng. Quyền `content-export` và quyền xem trang được áp dụng như các định dạng xuất sẵn có. Hiện xuất từng trang, chưa xuất toàn bộ sách/chương.
+
+Ảnh trong kho BookStack được đóng gói vào DOCX để mở độc lập; ảnh ngoài chưa đưa vào kho ảnh sẽ báo lỗi để tránh thiếu ảnh âm thầm. Ảnh quá rộng được thu vừa chiều ngang trang A4. Bố cục ngắt trang, font thay thế và đối tượng nổi phức tạp có thể khác Word gốc. Nội dung chưa lưu trong trình soạn thảo cần lưu trang trước khi xuất.
+
+Khi xuất, chiều rộng phần trăm được quy đổi theo khối chứa: bảng vừa vùng in, ảnh trong ô vừa phần lòng ô, bảng con vừa ô cha. Tỷ lệ cột, colspan/rowspan và tỷ lệ khung hình được giữ; lưới bảng DOCX dùng bố cục cố định để ảnh không tự đẩy rộng cột. Hàng/ô có chiều cao cố định và nowrap được gỡ trong bản xuất để không cắt mất nội dung. Ảnh quá cao được thu vừa trang có chừa chỗ cho tiêu đề/chú thích; bảng dài vẫn có thể tiếp tục ở trang sau. Chuỗi liền quá dài được bổ sung điểm ngắt vô hình trong bản xuất để Word xuống dòng, không đổi HTML đã lưu. `check-export-layout.php` kiểm tra ảnh trong bảng 100%, tỷ lệ cột, bảng lồng, ô gộp, ảnh cao và nội dung dài; cần render DOCX để kiểm tra cả vị trí thực tế trên trang.
+
+Kiểm tra xuất: chạy `tests/word-import/check-export.php` trong container sau kiểm tra service để xác minh DOCX, nội dung chỉnh sửa, bảng, ảnh và vòng xuất/nhập danh sách. `check-http.ps1` kiểm tra tải DOCX qua web, ảnh đóng gói, dữ liệu đã lưu và chặn người chưa đăng nhập.
+
+Font được tính theo kế thừa HTML, định dạng trực tiếp và thẻ font cũ; đổi `px` sang `pt` theo tỷ lệ 0,75, hỗ trợ `em`/`rem`/phần trăm và từ khóa kích thước. Font mặc định/cỡ tiêu đề theo CSS của web (Windows: Segoe UI 14px), không ép về Arial 11pt. DOCX lưu đúng tên font được chỉ định; máy mở file vẫn cần có font đó để tránh font thay thế. Cỡ chữ được làm tròn theo nửa point của Word. Viền bảng/ô được ghi trực tiếp bằng thuộc tính DOCX, giữ từng cạnh, kiểu nét, màu và độ dày; ô khai báo không viền vẫn không có viền. `check-export-appearance.php` xác minh font và viền từ XML đầu ra thay vì chỉ kiểm tra nội dung chữ.
+
+## Kiểm tra môi trường và import
 
 `tests/check-runtime.php` xác minh phiên bản, toàn bộ thư viện production khớp lockfile, kết nối MySQL và việc không có Composer ở runtime. `tests/word-import/` chứa kiểm tra chuyển Word, lọc HTML, file lỗi và luồng tải lên → bản nháp → xuất bản → tải ảnh/giữ điểm neo mục lục. Bài kiểm tra HTTP tạo sách thử riêng rồi đưa vào thùng rác.
 
 Kết quả kiểm tra ngày 22/10/2026: PHP 8.0.30, Laravel 8.70.2, BookStack v21.11.1, MySQL 8.0.36; 104 thư viện production khớp lockfile gốc và không có Composer executable trong container web. Chuyển đổi DOC/DOCX và luồng nhập trên HTTP đều qua, gồm tiếng Việt, bảng/ô gộp, ảnh và điểm neo mục lục; file sai định dạng trả HTTP 422, người chưa đăng nhập được chuyển về trang đăng nhập. Sau kiểm tra đã khởi tạo lại database và volumes trống để bàn giao, không giữ sách/trang/ảnh kiểm thử.
+
+## Đối chiếu khi áp dụng lên Vlex thật
+
+Xem [bảng kê file import/export Word và hướng dẫn kiểm tra tương thích](docs/word-import-export-changes.md). Snapshot trạng thái Git và SHA256 từng file được lưu trong [manifest](docs/word-import-export-manifest.json).

@@ -6,6 +6,8 @@ use BookStack\Entities\Repos\PageRepo;
 use BookStack\Entities\Tools\ExportFormatter;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Exceptions\NotFoundException;
+use BookStack\Uploads\WordExportService;
+use RuntimeException;
 use Throwable;
 
 class PageExportController extends Controller
@@ -55,9 +57,26 @@ class PageExportController extends Controller
     }
 
     /**
-     * Export a page to a simple plaintext .txt file.
+     * Export the current saved page as a Word document.
      *
      * @throws NotFoundException
+     */
+    public function word(string $bookSlug, string $pageSlug, WordExportService $exporter)
+    {
+        $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        try {
+            $content = $exporter->export($page);
+        } catch (RuntimeException $exception) {
+            $this->showErrorNotification($exception->getMessage());
+            return redirect($page->getUrl());
+        }
+
+        return $this->downloadResponse($content, $pageSlug . '.docx')
+            ->header('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    }
+
+    /**
+     * Export a page to a simple plaintext .txt file.
      */
     public function plainText(string $bookSlug, string $pageSlug)
     {

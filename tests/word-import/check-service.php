@@ -28,6 +28,24 @@ foreach (['<script', 'onclick', 'javascript:', 'background-image', 'url('] as $b
     if (strpos($html, $bad) !== false) { throw new RuntimeException('Unsafe HTML: ' . $bad); }
 }
 if (strpos($html, '<table') === false || strpos($html, 'color: red') === false) { throw new RuntimeException('Content sanitization lost formatting'); }
+$drawingHtml = '<body><p>Before drawings</p>' .
+    '<img src="missing-shape.gif" name="Shape2" alt="Shape2" align="left" hspace="1" vspace="1">' .
+    '<span id="Frame1" style="float: left; width: 0.66in; height: 0.31in"><p>Stray annotation</p><img src="missing-frame.png"></span>' .
+    '<span id="Frame2" style="FLOAT:RIGHT"><p>Another annotation</p></span>' .
+    '<p id="normal-bookmark">Visible body</p><span id="Frame3">Normal inline text</span>' .
+    '<span id="custom-frame" style="float: left">Custom content</span>' .
+    '<img src="fixture.png" name="Shape1" alt="Shape1" align="left" width="20" height="20">' .
+    '<img src="fixture.png" name="Picture 1" align="left">' .
+    '<img src="fixture.png" alt="Shape5"></body>';
+$drawingHtml = $sanitize->invoke($service, $drawingHtml, $fixtureDirectory);
+foreach (['Stray annotation', 'Another annotation', 'missing-shape', 'missing-frame', 'name="Frame1"', 'name="Frame2"'] as $unwanted) {
+    if (strpos($drawingHtml, $unwanted) !== false) { throw new RuntimeException('Floating drawing artifact survived: ' . $unwanted); }
+}
+foreach (['Before drawings', 'Visible body', 'Normal inline text', 'Custom content', 'name="normal-bookmark"', 'name="Frame3"', 'alt="Shape1"', 'alt="Shape5"'] as $expected) {
+    if (strpos($drawingHtml, $expected) === false) { throw new RuntimeException('Drawing cleanup lost content: ' . $expected); }
+}
+if (substr_count($drawingHtml, 'data:image/png;base64,') !== 3) { throw new RuntimeException('Drawing cleanup lost real images'); }
+echo "Floating drawing artifacts removed; body, bookmarks and real images preserved PASS\n";
 foreach (['bad.doc', 'bad.docx', 'bad.txt'] as $name) {
     $path = '/tmp/word-import-test/' . $name;
     file_put_contents($path, 'invalid document');
@@ -47,3 +65,4 @@ foreach (['doc', 'docx'] as $extension) {
     echo strtoupper($extension) . ": text, Vietnamese, table, merged cell, list and embedded image PASS\n";
 }
 echo "Invalid files and HTML sanitization PASS\n";
+require __DIR__ . '/check-docx-layout.php';

@@ -29,6 +29,7 @@ class WordImportService
                 throw new RuntimeException('Không đọc được tài liệu đã tải lên.');
             }
             $this->validateFormat($input, $extension);
+            $listIndents = $extension === 'docx' ? $this->prepareDocx($input) : [];
 
             // A separate profile prevents concurrent imports sharing a running office process.
             mkdir($directory . '/profile/user', 0700, true);
@@ -56,7 +57,7 @@ class WordImportService
                 throw new RuntimeException('Nội dung HTML quá lớn. Hãy chia nhỏ tài liệu.');
             }
 
-            return $this->cleanHtml(file_get_contents($output), $directory);
+            return $this->cleanHtml(file_get_contents($output), $directory, $listIndents);
         } finally {
             File::deleteDirectory($directory);
         }
@@ -91,7 +92,117 @@ class WordImportService
         }
     }
 
-    private function cleanHtml(string $html, string $directory): string
+    private function prepareDocx(string $path): array
+    {
+        $zip = new \ZipArchive();
+        $zip->open($path);
+        try {
+            $wordNamespace = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+            $document = new DOMDocument();
+            if (!$document->loadXML($zip->getFromName('word/document.xml'), LIBXML_NONET)) {
+                throw new RuntimeException('Không đọc được nội dung tài liệu Word.');
+            }
+            $xpath = new \DOMXPath($document);
+            $xpath->registerNamespace('w', $wordNamespace);
+            $xpath->registerNamespace('o', 'urn:schemas-microsoft-com:office:office');
+
+            // OLE packages export as anonymous preview GIFs, not document images.
+            foreach (iterator_to_array($xpath->query('//w:object[.//o:OLEObject]')) as $object) {
+                $object->parentNode->removeChild($object);
+            }
+
+            $numbering = new DOMDocument();
+            $numberingXml = $zip->getFromName('word/numbering.xml');
+            $indents = [];
+            if ($numberingXml !== false && $numbering->loadXML($numberingXml, LIBXML_NONET)) {
+                $numbers = new \DOMXPath($numbering);
+                $numbers->registerNamespace('w', $wordNamespace);
+                $prefix = '_bslist_' . bin2hex(random_bytes(6)) . '_';
+                $bookmarkId = 0;
+                foreach ($xpath->query('//w:bookmarkStart|//w:bookmarkEnd') as $bookmark) {
+                    $bookmarkId = max($bookmarkId, (int) $bookmark->getAttributeNS($wordNamespace, 'id') + 1);
+                }
+                foreach ($xpath->query('//w:body//w:p[w:pPr/w:numPr/w:numId]') as $paragraph) {
+                    $numId = (int) $xpath->evaluate('string(w:pPr/w:numPr/w:numId/@w:val)', $paragraph);
+                    $level = (int) $xpath->evaluate('string(w:pPr/w:numPr/w:ilvl/@w:val)', $paragraph);
+                    $abstractId = $numbers->evaluate('string(/w:numbering/w:num[@w:numId="' . $numId . '"]/w:abstractNumId/@w:val)');
+                    if ($abstractId === '' || !ctype_digit($abstractId)) {
+                        continue;
+                    }
+                    $base = '/w:numbering/w:abstractNum[@w:abstractNumId="' . $abstractId . '"]/w:lvl[@w:ilvl="' . $level . '"]';
+                    $override = '/w:numbering/w:num[@w:numId="' . $numId . '"]/w:lvlOverride[@w:ilvl="' . $level . '"]/w:lvl';
+                    $left = $numbers->evaluate('string(' . $base . '/w:pPr/w:ind/@w:start)');
+                    $left = $left !== '' ? $left : $numbers->evaluate('string(' . $base . '/w:pPr/w:ind/@w:left)');
+                    $overrideLeft = $numbers->evaluate('string(' . $override . '/w:pPr/w:ind/@w:start)');
+                    $overrideLeft = $overrideLeft !== '' ? $overrideLeft : $numbers->evaluate('string(' . $override . '/w:pPr/w:ind/@w:left)');
+                    $directLeft = $xpath->evaluate('string(w:pPr/w:ind/@w:start)', $paragraph);
+                    $directLeft = $directLeft !== '' ? $directLeft : $xpath->evaluate('string(w:pPr/w:ind/@w:left)', $paragraph);
+                    $left = $directLeft !== '' ? $directLeft : ($overrideLeft !== '' ? $overrideLeft : $left);
+                    if ($left === '' || !preg_match('/^-?[0-9]+$/', $left)) {
+                        continue;
+                    }
+                    $name = $prefix . count($indents);
+                    $indents[$name] = (int) $left;
+                    $start = $document->createElementNS($wordNamespace, 'w:bookmarkStart');
+                    $start->setAttributeNS($wordNamespace, 'w:id', (string) $bookmarkId);
+                    $start->setAttributeNS($wordNamespace, 'w:name', $name);
+                    $end = $document->createElementNS($wordNamespace, 'w:bookmarkEnd');
+                    $end->setAttributeNS($wordNamespace, 'w:id', (string) $bookmarkId++);
+                    $properties = $xpath->query('w:pPr', $paragraph)->item(0);
+                    $paragraph->insertBefore($start, $properties->nextSibling);
+                    $paragraph->insertBefore($end, $start->nextSibling);
+                }
+            }
+            if (!$zip->addFromString('word/document.xml', $document->saveXML())) {
+                throw new RuntimeException('Không chuẩn bị được tài liệu Word để chuyển đổi.');
+            }
+            return $indents;
+        } finally {
+            $zip->close();
+        }
+    }
+
+    private function restoreListIndents(\DOMElement $body, array $indents): void
+    {
+        $items = new \SplObjectStorage();
+        foreach (iterator_to_array($body->getElementsByTagName('a')) as $anchor) {
+            $name = $anchor->getAttribute('name');
+            if (!array_key_exists($name, $indents)) {
+                continue;
+            }
+            $item = $anchor->parentNode;
+            while ($item !== $body && strtolower($item->nodeName) !== 'li') {
+                $item = $item->parentNode;
+            }
+            if ($item !== $body) {
+                $items[$item] = $indents[$name];
+            }
+            $anchor->parentNode->removeChild($anchor);
+        }
+        foreach ($items as $item) {
+            $parentLeft = 0;
+            for ($parent = $item->parentNode; $parent !== $body; $parent = $parent->parentNode) {
+                if ($items->contains($parent)) {
+                    $parentLeft = $items[$parent];
+                    break;
+                }
+                if (in_array(strtolower($parent->nodeName), ['ul', 'ol'], true)) {
+                    $parent->setAttribute('style', $parent->getAttribute('style') . '; margin-left: 0; padding-left: 0');
+                }
+            }
+            // Word stores absolute text positions in twips; nested HTML uses
+            // offsets relative to its containing list item's text position.
+            $left = ($items[$item] - $parentLeft) / 1440;
+            $item->setAttribute('style', $item->getAttribute('style') . '; margin-left: ' . $left . 'in; padding-left: 0; text-indent: 0');
+            foreach ($item->childNodes as $child) {
+                if ($child instanceof \DOMElement && $child->tagName === 'p') {
+                    $child->setAttribute('style', $child->getAttribute('style') . '; margin-left: 0; text-indent: 0');
+                }
+            }
+        }
+    }
+
+    private function cleanHtml(string $html, string $directory, array $listIndents = []): string
     {
         $doc = new DOMDocument();
         $previous = libxml_use_internal_errors(true);
@@ -105,6 +216,9 @@ class WordImportService
         if (!$body) {
             throw new RuntimeException('Không tìm thấy nội dung trong tài liệu.');
         }
+
+        $this->removeFloatingDrawingArtifacts($body);
+        $this->restoreListIndents($body, $listIndents);
 
         $allowed = explode(' ', 'p div span h1 h2 h3 h4 h5 h6 table thead tbody tfoot tr td th caption colgroup col ol ul li a img strong b em i u s strike sup sub br hr blockquote pre code font dl dt dd');
         $nodes = iterator_to_array($body->getElementsByTagName('*'));
@@ -169,6 +283,29 @@ class WordImportService
         return $result;
     }
 
+    private function removeFloatingDrawingArtifacts(\DOMElement $body): void
+    {
+        // Writer's HTML export flattens floating drawing overlays into ShapeN
+        // images (without dimensions) and FrameN text boxes. Their page-relative
+        // placement cannot survive in page HTML, so they become stray content.
+        // Remove whole frames before sanitizing styles or creating bookmark anchors.
+        foreach (iterator_to_array($body->getElementsByTagName('*')) as $node) {
+            $tag = strtolower($node->tagName);
+            $floatingFrame = $tag === 'span'
+                && preg_match('/^Frame[0-9]+$/', $node->getAttribute('id'))
+                && preg_match('/(?:^|;)\s*float\s*:\s*(?:left|right)\s*(?:;|$)/i', $node->getAttribute('style'));
+            $drawingPlaceholder = $tag === 'img'
+                && preg_match('/^Shape[0-9]+$/', $node->getAttribute('name'))
+                && $node->getAttribute('alt') === $node->getAttribute('name')
+                && in_array(strtolower($node->getAttribute('align')), ['left', 'right'], true)
+                && !$node->hasAttribute('width') && !$node->hasAttribute('height');
+
+            if ($floatingFrame || $drawingPlaceholder) {
+                $node->parentNode->removeChild($node);
+            }
+        }
+    }
+
     private function cleanStyle(string $style): string
     {
         $result = [];
@@ -178,7 +315,7 @@ class WordImportService
                 continue;
             }
             [$property, $value] = array_map('trim', $parts);
-            if (preg_match('/^(color|background-color|text-align|text-decoration|font-(size|weight|style|family)|vertical-align|white-space|line-height|border(-[a-z-]+)?|padding(-[a-z]+)?|margin(-[a-z]+)?|width|height)$/i', $property)
+            if (preg_match('/^(color|background-color|text-align|text-decoration|text-indent|font-(size|weight|style|family)|vertical-align|white-space|line-height|border(-[a-z-]+)?|padding(-[a-z]+)?|margin(-[a-z]+)?|width|height)$/i', $property)
                 && preg_match('/^[a-zA-Z0-9\s#.,%()\x27"-]+$/', $value)
                 && !preg_match('/url|expression|var\s*\(/i', $value)) {
                 $result[] = $property . ': ' . $value;

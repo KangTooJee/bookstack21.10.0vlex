@@ -1,0 +1,305 @@
+{
+  "snapshot_date": "2026-10-26",
+  "timezone": "Asia/Saigon",
+  "branch": "files-curl",
+  "base_head": "5e9b4137108b1371542e1219c490a9010c2484f1",
+  "working_tree_uncommitted": true,
+  "application_root": "source/BookStack-21.11.1",
+  "note": "Snapshot local, chưa xác nhận tương thích Vlex thật. Không tự bao gồm hash của chính manifest. Cập nhật khi file nguồn thay đổi.",
+  "files": [
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Uploads/WordImportService.php",
+      "scope": "application-change",
+      "purpose": "Chuyển Word sang HTML; lọc nội dung thừa/OLE, giữ ảnh và thụt lề",
+      "git_status": " M",
+      "sha256": "ddcfbce66fafeb4bbc4bd07f5ce879692833c36adc831460848e90b2fb510ce9"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Uploads/WordExportService.php",
+      "scope": "application-change",
+      "purpose": "Điều phối xuất DOCX và đóng gói ảnh",
+      "git_status": "??",
+      "sha256": "8cb641dabb5d7c00aebac30be5c7e7da35cf7a1b85827805309eed0320013825"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Uploads/WordExportLayout.php",
+      "scope": "application-change",
+      "purpose": "Giữ bảng/ảnh trong khối chứa và trang in",
+      "git_status": "??",
+      "sha256": "7df32d6aa3b5c29af8cb2fc8cd8181a4c570d94fd56af4286b7ec66178eae2da"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Uploads/WordExportAppearance.php",
+      "scope": "application-change",
+      "purpose": "Giữ font, cỡ chữ và viền bảng/ô",
+      "git_status": "??",
+      "sha256": "69a5b75b16c13bb499e08aaf105d62ee4f975e15dca3c174d4a25cf9a00568a3"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/PageExportController.php",
+      "scope": "application-change",
+      "purpose": "Action xuất Word với quyền export",
+      "git_status": " M",
+      "sha256": "3e1d4411bbe0fac040c2112914ca4980c58f73b2f8cce71a7a430dfe85cc9eac"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/routes/web.php",
+      "scope": "application-change",
+      "purpose": "Route import có sẵn và route export Word mới",
+      "git_status": " M",
+      "sha256": "80ddacd737b833b081bde57f4259c08a9949b860607413836e64171c143796e8"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/entities/export-menu.blade.php",
+      "scope": "application-change",
+      "purpose": "Mục xuất Word cho trang",
+      "git_status": " M",
+      "sha256": "dd53cfe7e10780e6f4948d711af0102d86fb247ef0421452cf52d75db9a5c4e0"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/lang/en/entities.php",
+      "scope": "application-change",
+      "purpose": "Khóa dịch export_word tiếng Anh",
+      "git_status": " M",
+      "sha256": "703eda5b114530e8ec6f8684826dc29cdb7c109a752227ff5250037ab5f402db"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/lang/vi/entities.php",
+      "scope": "application-change",
+      "purpose": "Khóa dịch export_word tiếng Việt",
+      "git_status": " M",
+      "sha256": "3f80ed89d6c48d0c8d55afb2332f1d4cc33cb73dc85aaab20364217eb8bb178a"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/WordImportController.php",
+      "scope": "existing-import",
+      "purpose": "Form và xử lý upload tạo trang nháp",
+      "git_status": "clean-at-head",
+      "sha256": "69c7096a7cf16937d23f9b357dece1a84b51871d9fa6a3ad4aaacefed20f4f0c"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/pages/import-word.blade.php",
+      "scope": "existing-import",
+      "purpose": "Giao diện tải Word",
+      "git_status": "clean-at-head",
+      "sha256": "50ffd9945a80fbd130d43ea77ca543a40fa90c56f927e642b1f426d887c06ddf"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/pages/parts/word-import-action.blade.php",
+      "scope": "existing-import",
+      "purpose": "Nút import và kiểm tra quyền",
+      "git_status": "clean-at-head",
+      "sha256": "ffbd222c70a4d3ab0cc7889362f0b60674652899767343bd3832d5cb496b8484"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/books/show.blade.php",
+      "scope": "existing-import",
+      "purpose": "Điểm gắn nút import trong sách",
+      "git_status": "clean-at-head",
+      "sha256": "0c0cd11880815791d51b678a940f5d320c22d02cf9be38ff48b773673cd9f8d2"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/chapters/show.blade.php",
+      "scope": "existing-import",
+      "purpose": "Điểm gắn nút import trong chương",
+      "git_status": "clean-at-head",
+      "sha256": "900e3bd6088d6b05003d5fe31423575c74697d107708d36aaee99950ab15fde2"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/pages/show.blade.php",
+      "scope": "existing-import",
+      "purpose": "Điểm gắn import/export trong trang",
+      "git_status": "clean-at-head",
+      "sha256": "5c43f9da2cdf20335c2a9af8d6067c85de8860aa727beea9a804b0ef1f1b13f1"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Entities/Models/Page.php",
+      "scope": "unchanged-dependency",
+      "purpose": "Model trang",
+      "git_status": "clean-at-head",
+      "sha256": "81f6b13915bc59fe153b8c89e40878f863619bf5bec2faf1bd90c00d210281d6"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Entities/Repos/PageRepo.php",
+      "scope": "unchanged-dependency",
+      "purpose": "Truy cập trang và scope quyền",
+      "git_status": "clean-at-head",
+      "sha256": "696a22431a6705338e6eaa0cec98e1c0742c11370c8487d862a56eed0aafc9da"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Entities/Tools/PageContent.php",
+      "scope": "unchanged-dependency",
+      "purpose": "Render HTML và lưu ảnh base64",
+      "git_status": "clean-at-head",
+      "sha256": "2a1427dd2148444641b2f66081f3e244dc464232402ccd268b2544cf19df1f66"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Uploads/ImageService.php",
+      "scope": "unchanged-dependency",
+      "purpose": "Đọc ảnh từ kho cấu hình",
+      "git_status": "clean-at-head",
+      "sha256": "880279a3202102102782bd2befe75c690e4030899cb28dce8fcb4fb3a7ed45e1"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/Controller.php",
+      "scope": "unchanged-dependency",
+      "purpose": "Helper response, thông báo và quyền",
+      "git_status": "clean-at-head",
+      "sha256": "320c4c523c32f7e62b00acbfacd694e1aeb301b017c04e1393b81a566f91456d"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Entities/Tools/ExportFormatter.php",
+      "scope": "unchanged-dependency",
+      "purpose": "Các định dạng export gốc",
+      "git_status": "clean-at-head",
+      "sha256": "58458513d672a363af62e92255842a3c8ad4d3e11119101138eb673531d347af"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/sass/_variables.scss",
+      "scope": "unchanged-dependency",
+      "purpose": "Font và biến giao diện",
+      "git_status": "clean-at-head",
+      "sha256": "88db4d9feb1e2501ec3c69df6360eba7e5fb8a4312dd07b4a262d2876a9f49f3"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/sass/_html.scss",
+      "scope": "unchanged-dependency",
+      "purpose": "Cỡ chữ body mặc định",
+      "git_status": "clean-at-head",
+      "sha256": "5bcdf0968b3979062b7eafe986b6e07fccee4cec04ea23d342ad0798dcf1586f"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/sass/_text.scss",
+      "scope": "unchanged-dependency",
+      "purpose": "Cỡ tiêu đề, font code và danh sách",
+      "git_status": "clean-at-head",
+      "sha256": "e2cad57930b5c42d9eb1d2bd5f59590c07192f1ecc86a0523e2dcb80dd624119"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/sass/_tables.scss",
+      "scope": "unchanged-dependency",
+      "purpose": "Viền và định dạng bảng mặc định",
+      "git_status": "clean-at-head",
+      "sha256": "9e72cfb79d9e7c61e2226b44595e9d8a8f9f04062161f3f8c5040c4eeca4003a"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/sass/_pages.scss",
+      "scope": "unchanged-dependency",
+      "purpose": "CSS nội dung trang và ảnh/bảng",
+      "git_status": "clean-at-head",
+      "sha256": "e2ac37361777b6c966e55cb4f26be0a8430c32589bd2d1463fb7b601c4f2381a"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/sass/_tinymce.scss",
+      "scope": "unchanged-dependency",
+      "purpose": "CSS editor",
+      "git_status": "clean-at-head",
+      "sha256": "731a0ddf51eae1937b02199f1885024a4438cadfe9a82f5085f2f77549ab3e4f"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/js/components/wysiwyg-editor.js",
+      "scope": "unchanged-dependency",
+      "purpose": "Cấu hình editor đang dùng",
+      "git_status": "clean-at-head",
+      "sha256": "8d0bf51b40bfdff8ef33238f9acca23e08096f63a4766a5db824b56c0cf16c18"
+    },
+    {
+      "repo_path": "tests/word-import/check-service.php",
+      "scope": "test",
+      "purpose": "Test chuyển Word, lọc HTML/shape và gọi test layout DOCX",
+      "git_status": " M",
+      "sha256": "82254c383252b797f01418eecba13eb036ea0823a36c34b6698fcf9a1bf84670"
+    },
+    {
+      "repo_path": "tests/word-import/check-docx-layout.php",
+      "scope": "test",
+      "purpose": "Tạo DOCX thử numbering, OLE, GIF và bookmark",
+      "git_status": "??",
+      "sha256": "57d27097225d8b23ea3111fe952bc7930dc18fa6cc63736df2c4ad18feeb85e7"
+    },
+    {
+      "repo_path": "tests/word-import/check-export.php",
+      "scope": "test",
+      "purpose": "Test export và vòng export/import",
+      "git_status": "??",
+      "sha256": "a6b72a790e11123c51aff36dc7727675fba4951501610a6b65497e6984b128e0"
+    },
+    {
+      "repo_path": "tests/word-import/check-export-layout.php",
+      "scope": "test",
+      "purpose": "Test không tràn khối bảng/ảnh/nội dung",
+      "git_status": "??",
+      "sha256": "70819c80d75d84f7bde80701799ed94b2248762af0ee2551547988479c203673"
+    },
+    {
+      "repo_path": "tests/word-import/check-export-appearance.php",
+      "scope": "test",
+      "purpose": "Test font và viền trong XML DOCX",
+      "git_status": "??",
+      "sha256": "b4b867abef8952782462042080a750e111c6046a3e1a424de661b493e8a46204"
+    },
+    {
+      "repo_path": "tests/word-import/check-http.ps1",
+      "scope": "test",
+      "purpose": "Test luồng web và download Word",
+      "git_status": " M",
+      "sha256": "5dafda6cc15d72b698457992f7d314e85053f0b7db3978f378db1ad20b684281"
+    },
+    {
+      "repo_path": "tests/word-import/fixture.html",
+      "scope": "existing-test-fixture",
+      "purpose": "Nguồn HTML tổng hợp",
+      "git_status": "clean-at-head",
+      "sha256": "7b359d9b343a09398c5581f42691e5ba66b2c5ea06d0d0c8f9509240ec8d19b6"
+    },
+    {
+      "repo_path": "tests/word-import/fixture.png",
+      "scope": "existing-test-fixture",
+      "purpose": "Ảnh tổng hợp",
+      "git_status": "clean-at-head",
+      "sha256": "01dd7f08f84eca35384fd4e7d49f70e2cc33c2dd99a45b199bdd2297be5b0462"
+    },
+    {
+      "repo_path": "tests/word-import/fixture.doc",
+      "scope": "existing-test-fixture",
+      "purpose": "Tài liệu DOC tổng hợp",
+      "git_status": "clean-at-head",
+      "sha256": "d44d19ba29952d84b73531e7a41b34fe44cea8257b189176ec855c71d2c20c03"
+    },
+    {
+      "repo_path": "tests/word-import/fixture.docx",
+      "scope": "existing-test-fixture",
+      "purpose": "Tài liệu DOCX tổng hợp",
+      "git_status": "clean-at-head",
+      "sha256": "ce541476349b53e5a9e4a387c0a7492e8b80775d3920d2864757772fab04c957"
+    },
+    {
+      "repo_path": "Dockerfile",
+      "scope": "unchanged-environment",
+      "purpose": "Runtime PHP, LibreOffice, font và extension",
+      "git_status": "clean-at-head",
+      "sha256": "78464dbf8f6cbb146297e9a4de853945b1d51ae8649bcd85420b443392012f37"
+    },
+    {
+      "repo_path": "compose.yaml",
+      "scope": "unchanged-environment",
+      "purpose": "App, database và volumes lab",
+      "git_status": "clean-at-head",
+      "sha256": "d5bf7af3dea3523009747a05347ff489cb6befe4b55b688e08c12eefdf1e1b6f"
+    },
+    {
+      "repo_path": "README.md",
+      "scope": "documentation",
+      "purpose": "Hướng dẫn sử dụng và liên kết bảng kê",
+      "git_status": " M",
+      "sha256": "b7209a3fbc4f1234f9e3fc9a52a0694e4eb34e7299497b91abcde2bf01a80e7a"
+    },
+    {
+      "repo_path": "docs/word-import-export-changes.md",
+      "scope": "documentation",
+      "purpose": "Bảng kê tác dụng file và đối chiếu Vlex",
+      "git_status": "??",
+      "sha256": "51c75734dcf2a71e55d19a21a26462a05e4e0aedcfbba1578692cd452548ba4f"
+    }
+  ]
+}
