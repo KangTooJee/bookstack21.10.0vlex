@@ -34,6 +34,7 @@ return [
     'no_pages_recently_updated' => 'Không có trang nào được cập nhật gần đây',
     'export' => 'Kết xuất',
     'export_word' => 'Tài liệu Word',
+    'export_excel' => 'Bảng tính Excel',
     'export_html' => 'Đang chứa tệp tin Web',
     'export_pdf' => 'Tệp PDF',
     'export_text' => 'Tệp văn bản thuần túy',

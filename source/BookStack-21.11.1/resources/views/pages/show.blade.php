@@ -125,6 +125,7 @@
             {{--User Actions--}}
             @if(userCan('page-update', $page))
                 @include('pages.parts.word-import-action', ['importParent' => $page->getParent()])
+                @include('pages.parts.excel-import-action', ['importParent' => $page->getParent()])
                 <a href="{{ $page->getUrl('/edit') }}" class="icon-list-item">
                     <span>@icon('edit')</span>
                     <span>{{ trans('common.edit') }}</span>

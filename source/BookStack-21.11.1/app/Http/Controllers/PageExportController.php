@@ -7,6 +7,7 @@ use BookStack\Entities\Tools\ExportFormatter;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Uploads\WordExportService;
+use BookStack\Uploads\ExcelExportService;
 use RuntimeException;
 use Throwable;
 
@@ -84,6 +85,20 @@ class PageExportController extends Controller
         $pageText = $this->exportFormatter->pageToPlainText($page);
 
         return $this->downloadResponse($pageText, $pageSlug . '.txt');
+    }
+
+    public function excel(string $bookSlug, string $pageSlug, ExcelExportService $exporter)
+    {
+        $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        try {
+            $content = $exporter->export($page);
+        } catch (RuntimeException $exception) {
+            $this->showErrorNotification($exception->getMessage());
+            return redirect($page->getUrl());
+        }
+
+        return $this->downloadResponse($content, $pageSlug . '.xlsx')
+            ->header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     }
 
     /**

@@ -78,6 +78,12 @@ Kiểm tra xuất: chạy `tests/word-import/check-export.php` trong container s
 
 Font được tính theo kế thừa HTML, định dạng trực tiếp và thẻ font cũ; đổi `px` sang `pt` theo tỷ lệ 0,75, hỗ trợ `em`/`rem`/phần trăm và từ khóa kích thước. Font mặc định/cỡ tiêu đề theo CSS của web (Windows: Segoe UI 14px), không ép về Arial 11pt. DOCX lưu đúng tên font được chỉ định; máy mở file vẫn cần có font đó để tránh font thay thế. Cỡ chữ được làm tròn theo nửa point của Word. Viền bảng/ô được ghi trực tiếp bằng thuộc tính DOCX, giữ từng cạnh, kiểu nét, màu và độ dày; ô khai báo không viền vẫn không có viền. `check-export-appearance.php` xác minh font và viền từ XML đầu ra thay vì chỉ kiểm tra nội dung chữ.
 
+## Nhập và xuất Excel
+
+Chọn **Nhập Excel (.xls/.xlsx)** trong menu sách/chương/trang để nhập bảng tính tối đa 20 MB vào bản nháp, sửa rồi lưu trang. Chọn **Kết xuất → Bảng tính Excel (.xlsx)** để tải nội dung đã lưu, gồm văn bản, bảng/ô gộp, font/màu/viền cơ bản và ảnh nhúng. Nhiều sheet nhập trở thành các bảng trong một trang; xuất thành một sheet `Nội dung`. Công thức được nhập dưới dạng giá trị hiển thị; các ô xuất là text để giữ `00123`, ngày tháng và chuỗi giống công thức. Không giữ macro, pivot và cấu hình workbook gốc.
+
+Docker bổ sung LibreOffice Calc cho import; export ghi XLSX trực tiếp bằng extension PHP sẵn có, không đổi Composer lock hay phiên bản ứng dụng. Build lại image bằng `docker compose up -d --build`. Xem [phạm vi, file thay đổi và cách kiểm tra Excel](docs/excel-import-export-changes.md).
+
 ## Kiểm tra môi trường và import
 
 `tests/check-runtime.php` xác minh phiên bản, toàn bộ thư viện production khớp lockfile, kết nối MySQL và việc không có Composer ở runtime. `tests/word-import/` chứa kiểm tra chuyển Word, lọc HTML, file lỗi và luồng tải lên → bản nháp → xuất bản → tải ảnh/giữ điểm neo mục lục. Bài kiểm tra HTTP tạo sách thử riêng rồi đưa vào thùng rác.

@@ -85,6 +85,7 @@
         <h5>{{ trans('common.actions') }}</h5>
         <div class="icon-list text-primary">
             @include('pages.parts.word-import-action', ['importParent' => $book])
+            @include('pages.parts.excel-import-action', ['importParent' => $book])
 
             @if(userCan('page-create', $book))
                 <a href="{{ $book->getUrl('/create-page') }}" class="icon-list-item">

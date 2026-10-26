@@ -17,6 +17,7 @@ use BookStack\Http\Controllers\Images;
 use BookStack\Http\Controllers\MaintenanceController;
 use BookStack\Http\Controllers\PageController;
 use BookStack\Http\Controllers\WordImportController;
+use BookStack\Http\Controllers\ExcelImportController;
 use BookStack\Http\Controllers\PageExportController;
 use BookStack\Http\Controllers\PageRevisionController;
 use BookStack\Http\Controllers\PageTemplateController;
@@ -89,6 +90,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/books/{bookSlug}/export/plaintext', [BookExportController::class, 'plainText']);
 
     // Pages
+    Route::get('/books/{bookSlug}/import-excel', [ExcelImportController::class, 'create']);
+    Route::post('/books/{bookSlug}/import-excel', [ExcelImportController::class, 'store'])->middleware('throttle:10,1');
+    Route::get('/books/{bookSlug}/chapter/{chapterSlug}/import-excel', [ExcelImportController::class, 'create']);
+    Route::post('/books/{bookSlug}/chapter/{chapterSlug}/import-excel', [ExcelImportController::class, 'store'])->middleware('throttle:10,1');
     Route::get('/books/{bookSlug}/import-word', [WordImportController::class, 'create']);
     Route::post('/books/{bookSlug}/import-word', [WordImportController::class, 'store'])->middleware('throttle:10,1');
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/import-word', [WordImportController::class, 'create']);
@@ -101,6 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/pdf', [PageExportController::class, 'pdf']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/html', [PageExportController::class, 'html']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/word', [PageExportController::class, 'word'])->middleware('throttle:10,1');
+    Route::get('/books/{bookSlug}/page/{pageSlug}/export/excel', [PageExportController::class, 'excel'])->middleware('throttle:10,1');
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/markdown', [PageExportController::class, 'markdown']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/plaintext', [PageExportController::class, 'plainText']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/edit', [PageController::class, 'edit']);

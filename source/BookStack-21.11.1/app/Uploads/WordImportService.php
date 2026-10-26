@@ -202,7 +202,8 @@ class WordImportService
         }
     }
 
-    private function cleanHtml(string $html, string $directory, array $listIndents = []): string
+    // Shared by office imports/exports; image paths must resolve inside the conversion directory.
+    public function cleanHtml(string $html, string $directory, array $listIndents = []): string
     {
         $doc = new DOMDocument();
         $previous = libxml_use_internal_errors(true);
@@ -261,7 +262,7 @@ class WordImportService
             if ($tag === 'img') {
                 $image = realpath($directory . '/' . rawurldecode($src));
                 if (!$image || strpos($image, $directory . '/') !== 0 || !is_file($image)) {
-                    throw new RuntimeException('Ảnh trong tài liệu không được nhúng hoặc không đọc được. Hãy nhúng ảnh vào Word rồi thử lại.');
+                    throw new RuntimeException('Ảnh trong tài liệu không được nhúng hoặc không đọc được. Hãy nhúng ảnh vào tài liệu rồi thử lại.');
                 }
                 $mime = (new \finfo(FILEINFO_MIME_TYPE))->file($image);
                 $imageBytes += filesize($image);
