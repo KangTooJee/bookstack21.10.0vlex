@@ -1,10 +1,12 @@
 # Nhập/xuất Excel trên BookStack 21.11.1
 
-Luồng sử dụng giống Word: ở menu hành động của sách, chương hoặc trang, chọn **Nhập Excel (.xls/.xlsx)**. Tải bảng tính tối đa 20 MB, kiểm tra/chỉnh sửa bản nháp rồi lưu trang. Sau khi lưu, chọn **Kết xuất → Bảng tính Excel (.xlsx)** để tải nội dung hiện tại.
+Luồng sử dụng giống Word: ở menu hành động của sách, chương hoặc trang, chọn **Nhập Excel (.xls/.xlsx)**. Tải bảng tính tối đa **2.048 KB (2.097.152 byte) và 5 sheet**, tính cả sheet ẩn; kiểm tra/chỉnh sửa bản nháp rồi lưu trang. Sau khi lưu, chọn **Kết xuất → Bảng tính Excel (.xlsx)** để tải nội dung hiện tại.
 
 ## Phạm vi chuyển đổi
 
 Trang Excel dùng hết chiều rộng vùng nội dung (bỏ giới hạn 840/940px), giữ các cột bảng và cho cuộn ngang bên trong bằng chuột/bàn phím; không làm tràn toàn trang. Các trang nhập mới có anchor `bookstack-excel-content`; trang Calc cũ được nhận diện bằng thuộc tính bảng và colgroup. Trang Word thông thường giữ bố cục cũ.
+
+Giữ chuột trái trên bảng và kéo để cuộn ngang; ngưỡng kéo 5px tránh nhầm thao tác click. Giữ Shift để chọn/copy chữ, liên kết và điều khiển vẫn click bình thường. Khi thả chuột, hủy pointer hoặc cửa sổ mất focus, chế độ kéo kết thúc. Thiết bị cảm ứng tiếp tục dùng thao tác vuốt tự nhiên.
 
 - Nhập `.xls` Excel 97–2003 và `.xlsx`; nhiều sheet trở thành các bảng kèm tên sheet trong cùng một trang. Giữ chữ tiếng Việt, giá trị hiển thị, ô gộp, màu nền, định dạng chữ cơ bản và ảnh nhúng. Chỉ những sheet/nội dung Calc xuất được thành HTML mới được nhập; cần kiểm tra bản nháp.
 - Công thức nhập trở thành giá trị hiển thị do Calc tính/đọc; không giữ công thức, macro, pivot, bộ lọc, validation, biểu đồ gốc hoặc cấu hình in. Không hỗ trợ file đặt mật khẩu, `.xlsm`, `.xlsb`, CSV. Macro trong XLS không được phép chạy; XLSX có `vbaProject.bin` bị từ chối.
@@ -13,7 +15,15 @@ Trang Excel dùng hết chiều rộng vùng nội dung (bỏ giới hạn 840/9
 - Giữ colspan/rowspan, font/cỡ chữ px/pt và thẻ font cũ, in đậm/nghiêng/gạch chân, màu chữ/nền, căn chỉnh, xuống dòng và viền cơ bản/từng cạnh. CSS phức tạp, chiều rộng cột gốc và vị trí đối tượng nổi có thể khác. Cột xuất có chiều rộng cố định; font trên máy mở file có thể bị thay nếu thiếu font.
 - Ảnh trong kho BookStack hoặc data URI được nhúng thành PNG; không tải ảnh từ URL tùy ý. Ảnh được thu vừa cột, giữ tỷ lệ. Nhiều ảnh cùng một ô có thể chồng lên nhau; nên bố trí mỗi ảnh vào một ô riêng khi chỉnh sửa web.
 - Giới hạn xuất: 30 MB, 10.000 hàng, 256 cột, 100.000 ô có nội dung, 200 ảnh, 32.767 ký tự/ô. Bảng vượt giới hạn hoặc ô gộp chồng lấn trả thông báo lỗi. Không sửa file gốc hoặc HTML đã lưu.
-- Giới hạn nhập bổ sung cho khả năng chỉnh sửa trên một trang: tối đa 10 MB HTML do Calc tạo và 100.000 phần tử HTML trước khi đưa vào editor. File dưới 20 MB vẫn có thể vượt giới hạn sau chuyển đổi. Không tăng timeout hoặc bộ nhớ để ép nhập workbook bất kỳ.
+- Giới hạn nhập bổ sung cho khả năng chỉnh sửa trên một trang: tối đa 10 MB HTML do Calc tạo và 100.000 phần tử HTML trước khi đưa vào editor. File dưới 2.048 KB vẫn có thể vượt giới hạn sau chuyển đổi. Không tăng timeout hoặc bộ nhớ để ép nhập workbook bất kỳ.
+
+## Chặn sớm và sửa lỗi Excel repair
+
+`ExcelImportPolicy` là nơi đặt giới hạn `MAX_KB = 2048`, `MAX_SHEETS = 5`. Trình duyệt chặn file quá dung lượng khi chọn, server kiểm tra lại khi nhận upload. Server đọc metadata trước khi tạo thư mục chuyển đổi/gọi Calc: XLSX đếm sheet từ `xl/workbook.xml`, XLS đọc directory/FAT/MiniFAT của container OLE và các record BIFF BOUNDSHEET. Tính cả sheet ẩn và các tab đặc biệt. Nếu không đọc được metadata XLS, từ chối và yêu cầu lưu lại thành XLSX; không gọi Calc để đoán số tab.
+
+File export được báo lỗi có một inline string chứa lẫn `<t/>` và các rich-text run `<r>`, đồng thời có nhiều `<t>` trực tiếp trong cùng `<is>`. XML vẫn well-formed nhưng vi phạm cấu trúc SpreadsheetML, khiến Excel thay thế `sheet1.xml`. Đã sửa để bookmark/span/ảnh rỗng không chèn `<t/>` vào giữa các rich-text run; chỉ ô hoàn toàn rỗng mới dùng một `<t/>`. Test hồi quy kiểm tra cả cấu trúc inline-string thay vì chỉ parse XML/đọc lại bằng Calc.
+
+Xuất lại trang gây lỗi: 359 ô, toàn bộ giá trị text khớp với file cũ, 0 inline string trộn cấu trúc. Đã kiểm tra bằng phân tích XML và mở thành công bằng Microsoft Excel 16.0 qua `Workbooks.Open` ở chế độ đọc, tải bình thường (không yêu cầu repair/recovery), rồi đóng không lưu. Macro bị tắt, không cập nhật liên kết ngoài. Bản xuất mới cần tải lại, file tải trước bản sửa không tự thay đổi. [Microsoft mô tả chế độ mở qua object model](https://learn.microsoft.com/en-us/office/vba/api/excel.workbooks.open).
 
 ## Điều tra lỗi nhiều sheet/file lớn ngày 26/10/2026
 
@@ -37,11 +47,14 @@ Gốc ứng dụng: `source/BookStack-21.11.1/`.
 | --- | --- |
 | `app/Http/Controllers/ExcelImportController.php` | Quyền tạo trang/ảnh, form, upload, tạo bản nháp trong transaction |
 | `app/Uploads/ExcelImportService.php` | Kiểm tra định dạng/ZIP, gọi Calc, chuẩn hóa màu nền, lọc HTML |
+| `app/Uploads/ExcelImportPolicy.php` | Kiểm tra 2.048 KB/5 sheet của XLSX và XLS trước chuyển đổi, không gọi LibreOffice |
 | `app/Uploads/ExcelConversion.php` | Profile LibreOffice riêng, tắt macro/cập nhật liên kết, timeout 60 giây |
 | `app/Uploads/ExcelExportService.php` | Render trang đã lưu, lấy ảnh qua ImageService, lọc HTML và xuất XLSX |
 | `app/Uploads/ExcelWorkbookWriter.php` | Ghi gói OOXML bằng DOM/ZipArchive sẵn có: text, rich text, style, ô gộp và ảnh nhúng |
 | `app/Uploads/ExcelPageLayout.php` | Nhận diện trang Excel mới/cũ để áp dụng bố cục rộng |
 | `public/dist/excel-content.css` | CSS riêng cho Excel: bỏ max-width, giữ bảng rộng, cuộn ngang trong nội dung; không cần npm build |
+| `public/dist/excel-content.js` | Giữ chuột kéo ngang, xử lý capture/thả chuột; script có CSP nonce |
+| `public/dist/excel-import.js` | Chặn file quá dung lượng ngay khi chọn trên form |
 | `app/Uploads/WordImportService.php` | Mở `cleanHtml()` thành public để Excel dùng chung bộ lọc; thông báo ảnh dùng từ “tài liệu” |
 | `app/Http/Controllers/PageExportController.php` | Action `excel()`, MIME XLSX, xử lý lỗi, middleware `content-export` sẵn có |
 | `routes/web.php` | GET/POST nhập theo sách/chương; GET xuất từng trang; throttle 10 lần/phút |
@@ -73,3 +86,5 @@ Fixture đều là dữ liệu tổng hợp do kiểm thử sinh ra, không ch�
 `check-service.php`: XLS/XLSX, nhiều sheet, giá trị công thức, Unicode, ô gộp, font/màu, ảnh nhúng, kiểu text, dữ liệu lỗi, từ chối ảnh không hợp lệ, dọn thư mục tạm. `check-permissions.php`: chặn thiếu quyền tạo trang/ảnh, thiếu quyền xuất hoặc không được xem trang. `check-http.ps1`: menu/form, upload vào sách/chương, nháp → sửa → lưu → tải XLSX, ảnh kho nội bộ, HTTP 422 và chặn người chưa đăng nhập.
 
 `check-html-scale.php`: đúng một mẫu HTML tổng hợp hai sheet/20.000 ô, hạn chạy 15 giây; kiểm tra ngân sách phần tử HTML và nhận diện bố cục Excel cũ/mới. Kiểm tra trình duyệt trên trang đã có: vùng nội dung rộng 778px, bảng rộng 5.645px, `overflow-x:auto`, không tràn chiều ngang document và cuộn bằng bàn phím được.
+
+`check-preflight.php`: chấp nhận 5 sheet, từ chối 6 sheet gồm sheet ẩn cho cả XLSX và XLS thực sinh bởi Calc; từ chối file quá 2.048 KB, xác minh không tạo thư mục chuyển đổi. Test HTTP bổ sung kiểm tra 422 cho file quá dung lượng/quá tab. Kiểm tra chuột trên trình duyệt: kéo 400px cuộn đúng 400px, không chọn chữ thừa và kết thúc trạng thái kéo khi thả chuột.

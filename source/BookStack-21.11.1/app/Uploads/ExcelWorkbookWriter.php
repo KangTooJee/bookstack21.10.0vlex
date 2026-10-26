@@ -147,6 +147,9 @@ class ExcelWorkbookWriter
         $index = $this->styles[$key]['index'];
         // Inline strings retain zeros/date text and cannot execute as spreadsheet formulas.
         $content = $node instanceof DOMElement ? $this->richText($node) : '<t xml:space="preserve">' . $this->xml($text) . '</t>';
+        // CT_Rst permits either one plain <t> or a sequence of <r> runs.
+        // Empty anchors/images must not insert plain <t/> between rich runs.
+        $content = $content ?: '<t/>';
         $this->rows[$this->row][] = '<c r="' . $this->column($column) . $this->row . '" s="' . $index . '" t="inlineStr"><is>' . $content . '</is></c>';
         $this->heights[$this->row] = max($this->heights[$this->row] ?? 22, min(409, 15 * max(1, ceil(mb_strlen($text) / 24), substr_count($text, "\n") + 1)));
         $images = $node instanceof DOMElement ? iterator_to_array($node->getElementsByTagName('img')) : [];
@@ -180,7 +183,7 @@ class ExcelWorkbookWriter
             $result .= $this->richText($child);
             if (in_array($child->nodeName, ['p','div','tr','li'], true)) { $result .= '<r><t xml:space="preserve">&#10;</t></r>'; }
         }
-        return $result ?: '<t/>';
+        return $result;
     }
 
     private function color(string $value, string $default): string

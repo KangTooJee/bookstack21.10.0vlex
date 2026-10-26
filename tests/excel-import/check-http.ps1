@@ -56,12 +56,34 @@ try {
         Write-Output "$($case.File): upload -> draft -> edit -> save -> XLSX download PASS"
     }
     $form = Invoke-WebRequest "$bookUrl/import-excel" -WebSession $testSession
+    if (!$form.Content.Contains('2048 KB') -or !$form.Content.Contains('5 sheet') -or !$form.Content.Contains('data-max-bytes="2097152"')) { throw 'Import form limits missing' }
     $invalidPath = Join-Path ([IO.Path]::GetTempPath()) ('invalid-excel-' + [guid]::NewGuid().ToString('N') + '.xlsx')
     try {
         [IO.File]::WriteAllText($invalidPath, 'not an Excel file')
         $bad = Invoke-WebRequest "$bookUrl/import-excel" -Method Post -WebSession $testSession -Headers @{Accept='application/json'} -Form @{_token=(Get-Token $form.Content); document=(Get-Item -LiteralPath $invalidPath)} -SkipHttpErrorCheck
         if ($bad.StatusCode -ne 422) { throw 'Invalid Excel did not return 422' }
     } finally { Remove-Item -LiteralPath $invalidPath }
+    $oversizePath = Join-Path ([IO.Path]::GetTempPath()) ('oversize-excel-' + [guid]::NewGuid().ToString('N') + '.xlsx')
+    $sixSheetsPath = Join-Path ([IO.Path]::GetTempPath()) ('six-sheets-excel-' + [guid]::NewGuid().ToString('N') + '.xlsx')
+    try {
+        $stream = [IO.File]::Create($oversizePath)
+        $stream.SetLength(2097153); $stream.Dispose()
+        $bad = Invoke-WebRequest "$bookUrl/import-excel" -Method Post -WebSession $testSession -Headers @{Accept='application/json'} -Form @{_token=(Get-Token $form.Content); document=(Get-Item -LiteralPath $oversizePath)} -SkipHttpErrorCheck
+        if ($bad.StatusCode -ne 422 -or !$bad.Content.Contains('2048 KB')) { throw 'Oversize Excel was not rejected with clear HTTP 422' }
+        $zip = [IO.Compression.ZipFile]::Open($sixSheetsPath, [IO.Compression.ZipArchiveMode]::Create)
+        try {
+            $entry = $zip.CreateEntry('xl/workbook.xml')
+            $writer = [IO.StreamWriter]::new($entry.Open())
+            $sheets = '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheets>'
+            foreach ($index in 1..6) { $sheets += '<sheet name="Tab ' + $index + '" sheetId="' + $index + '" state="hidden"/>' }
+            $writer.Write($sheets + '</sheets></workbook>'); $writer.Dispose()
+        } finally { $zip.Dispose() }
+        $bad = Invoke-WebRequest "$bookUrl/import-excel" -Method Post -WebSession $testSession -Headers @{Accept='application/json'} -Form @{_token=(Get-Token $form.Content); document=(Get-Item -LiteralPath $sixSheetsPath)} -SkipHttpErrorCheck
+        if ($bad.StatusCode -ne 422 -or !$bad.Content.Contains('6 sheet')) { throw 'Six-sheet Excel was not rejected before conversion' }
+    } finally {
+        foreach ($path in @($oversizePath, $sixSheetsPath)) { if (Test-Path -LiteralPath $path) { Remove-Item -LiteralPath $path } }
+    }
+    Write-Output 'File >2048 KB and workbook >5 sheets rejected with HTTP 422 PASS'
     $anonymous = Invoke-WebRequest "$bookUrl/import-excel"
     if ($anonymous.BaseResponse.RequestMessage.RequestUri.AbsolutePath -ne '/login') { throw 'Anonymous import allowed' }
     Write-Output 'Invalid file HTTP 422; anonymous import/export blocked PASS'

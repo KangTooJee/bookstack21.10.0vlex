@@ -80,11 +80,11 @@ Font được tính theo kế thừa HTML, định dạng trực tiếp và th�
 
 ## Nhập và xuất Excel
 
-Chọn **Nhập Excel (.xls/.xlsx)** trong menu sách/chương/trang để nhập bảng tính tối đa 20 MB vào bản nháp, sửa rồi lưu trang. Chọn **Kết xuất → Bảng tính Excel (.xlsx)** để tải nội dung đã lưu, gồm văn bản, bảng/ô gộp, font/màu/viền cơ bản và ảnh nhúng. Nhiều sheet nhập trở thành các bảng trong một trang; xuất thành một sheet `Nội dung`. Công thức được nhập dưới dạng giá trị hiển thị; các ô xuất là text để giữ `00123`, ngày tháng và chuỗi giống công thức. Không giữ macro, pivot và cấu hình workbook gốc.
+Chọn **Nhập Excel (.xls/.xlsx)** trong menu sách/chương/trang để nhập bảng tính tối đa **2.048 KB và 5 sheet (kể cả sheet ẩn)** vào bản nháp, sửa rồi lưu trang. Các giới hạn được kiểm tra trước khi gọi bộ chuyển đổi. Chọn **Kết xuất → Bảng tính Excel (.xlsx)** để tải nội dung đã lưu, gồm văn bản, bảng/ô gộp, font/màu/viền cơ bản và ảnh nhúng. Nhiều sheet nhập trở thành các bảng trong một trang; xuất thành một sheet `Nội dung`. Công thức được nhập dưới dạng giá trị hiển thị; các ô xuất là text để giữ `00123`, ngày tháng và chuỗi giống công thức. Không giữ macro, pivot và cấu hình workbook gốc.
 
 Docker bổ sung LibreOffice Calc cho import; export ghi XLSX trực tiếp bằng extension PHP sẵn có, không đổi Composer lock hay phiên bản ứng dụng. Build lại image bằng `docker compose up -d --build`. Xem [phạm vi, file thay đổi và cách kiểm tra Excel](docs/excel-import-export-changes.md).
 
-Trang Excel hiển thị hết chiều rộng vùng nội dung và cuộn ngang khi bảng rộng. Đã tối ưu bước lọc HTML gây timeout với bảng lớn; giới hạn nhập một trang là 10 MB HTML/100.000 phần tử HTML. Workbook lớn hơn cần tách sheet/vùng dữ liệu; không bảo đảm chuyển mọi workbook thành một Page đồng bộ.
+Trang Excel hiển thị hết chiều rộng vùng nội dung và cuộn ngang khi bảng rộng. Giữ chuột trái trên bảng rồi kéo để cuộn; giữ Shift để chọn chữ. Đã tối ưu bước lọc HTML gây timeout với bảng lớn; giới hạn nhập một trang là 10 MB HTML/100.000 phần tử HTML. Workbook lớn hơn cần tách sheet/vùng dữ liệu; không bảo đảm chuyển mọi workbook thành một Page đồng bộ.
 
 ## Kiểm tra môi trường và import
 

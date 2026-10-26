@@ -5,6 +5,7 @@ namespace BookStack\Http\Controllers;
 use BookStack\Entities\Repos\PageRepo;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Uploads\ExcelImportService;
+use BookStack\Uploads\ExcelImportPolicy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -28,8 +29,10 @@ class ExcelImportController extends Controller
         $parent = $pages->getParentFromSlugs($bookSlug, $chapterSlug);
         $this->checkOwnablePermission('page-create', $parent);
         $this->validate($request, [
-            'document' => 'required|file|max:20480',
+            'document' => 'required|file|max:' . ExcelImportPolicy::MAX_KB,
             'name' => 'nullable|string|max:255',
+        ], [
+            'document.max' => 'File Excel vượt quá ' . ExcelImportPolicy::MAX_KB . ' KB. Hãy tách file trước khi nhập.',
         ]);
 
         try {

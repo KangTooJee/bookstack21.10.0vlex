@@ -1,7 +1,7 @@
 {
   "date": "2026-10-26",
   "branch": "files-curl",
-  "baseCommit": "a0e75912142f7141bf3274416452eba3de20f644",
+  "baseCommit": "12e2a7c028737a3e9c5627ce255721a323879826",
   "description": "Excel feature snapshot; SHA256 is for working-tree bytes before Git LF normalization",
   "files": [
     {
@@ -10,15 +10,15 @@
     },
     {
       "path": "docs/excel-import-export-changes.md",
-      "sha256": "7EBBB6AC4D8D7C9D80815F8F1E2C4D49D7745F272D765C2642BC16330EB0ACA4"
+      "sha256": "A18596B96AE658DC240BFDFAB976A564B140EBAC85771517FF29DBBF0953AB39"
     },
     {
       "path": "README.md",
-      "sha256": "B56FC012798C4621D797ED1FEE0831603A575AC8003ECAFF097AC865108B1C13"
+      "sha256": "A228FBAEAE64E824ED70376A7F93FBD75AA05C4C73BC8477CF080314FE81ED7A"
     },
     {
       "path": "source/BookStack-21.11.1/app/Http/Controllers/ExcelImportController.php",
-      "sha256": "FBF9644B3FD58F03619ECABDBFD53BC90F9C9594F2FEEDDF67173793B8835736"
+      "sha256": "12B4A9A118213E81DDEE166CA22E7EF9AA91499B814E4D82E759A646A41BC633"
     },
     {
       "path": "source/BookStack-21.11.1/app/Http/Controllers/PageExportController.php",
@@ -33,8 +33,12 @@
       "sha256": "20CE90E679120AB64416FB1928B5D79C49613717B8C19E9BC7AFE2F7838E19D4"
     },
     {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelImportPolicy.php",
+      "sha256": "82E7D32D04380DE3F39DAF39CB0B19449F585FFA0D78B67EE9FB9AC0B45C1DD6"
+    },
+    {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelImportService.php",
-      "sha256": "0B8893ADAEB782A8456B03DF2F02CBE12AE497D13AC55EC531C1435F92CB8B26"
+      "sha256": "877C34DA544BFE6DC0507F7575CC2F0FB829A6F1B0E617E9BC94748147EEC6FE"
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelPageLayout.php",
@@ -42,7 +46,7 @@
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelWorkbookWriter.php",
-      "sha256": "CC807522DD54E05E5C91BFE12F813A4938ECC4A662BAD195BE3E384C7161047F"
+      "sha256": "A154AFE358DA3D8CB0F71FE419D005471579D34123A51F39580C9D8C53CE3177"
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/WordImportService.php",
@@ -50,7 +54,15 @@
     },
     {
       "path": "source/BookStack-21.11.1/public/dist/excel-content.css",
-      "sha256": "CFC0786803E080D537CB249BDCADC8F1FBB77A71498E575C113EA2AF41CB348B"
+      "sha256": "A96D68A287C157393540DC8B0BD55B98CEC7F48486899E16A02E6CF350F11CF7"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/excel-content.js",
+      "sha256": "E5CD42D6FCA4C8D1FDE806D534DA7EC75084D3D85E0D7450568C600584FB21FB"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/excel-import.js",
+      "sha256": "6642954BFAE02635F46CF61FEAD227F44FC73614CC461D759F37F8B8E3F13A6B"
     },
     {
       "path": "source/BookStack-21.11.1/resources/lang/en/entities.php",
@@ -74,7 +86,7 @@
     },
     {
       "path": "source/BookStack-21.11.1/resources/views/pages/import-excel.blade.php",
-      "sha256": "106CDDB5B8C3D6BEA38B5FA0E298D0D3B956CABA0759684500E2DD2992D796DA"
+      "sha256": "4CD21518EC8FAA73A2E2856EB15C8BCCF04A96AE45C17A7952E0869A829E0E3D"
     },
     {
       "path": "source/BookStack-21.11.1/resources/views/pages/parts/excel-import-action.blade.php",
@@ -82,7 +94,7 @@
     },
     {
       "path": "source/BookStack-21.11.1/resources/views/pages/show.blade.php",
-      "sha256": "005130662737C574A189355E99E583854B7D45DD89AEB45B6878F9E4F0C80351"
+      "sha256": "880D57E33A1090AE5C542260CA7DB905FE2903738B64C6631F3E5138AA0A8AC8"
     },
     {
       "path": "source/BookStack-21.11.1/routes/web.php",
@@ -94,15 +106,19 @@
     },
     {
       "path": "tests/excel-import/check-http.ps1",
-      "sha256": "94AE01870133AE5400328B31A6994630FE773AABC731F05683839DFFB6B8B5FE"
+      "sha256": "60A923FA21851ADD9D07C4455EF4B851E82D500F0FB77B75BD47EFC48746A229"
     },
     {
       "path": "tests/excel-import/check-permissions.php",
       "sha256": "2188CAE8FE533690E48EC00653D89A827ED7AE7C84BCEB9B082A6AFDBD9513C2"
     },
     {
+      "path": "tests/excel-import/check-preflight.php",
+      "sha256": "B187AF37327113E66DAD6E56ECA88F7FB87A68DAF91D4F4B10A82A4E7DBF0916"
+    },
+    {
       "path": "tests/excel-import/check-service.php",
-      "sha256": "A45A96CE2A9C4160E8AB01EB7EFB94B8B84498D840D4D9AB2B68340F4A2EB480"
+      "sha256": "F2BEDA80DA7CC160072A8DAA361C98EA41DE07ADC5F07088C60EA2DDD69953B8"
     }
   ]
 }

@@ -16,8 +16,8 @@
                     @if($errors->has('name'))<p class="text-neg">{{ $errors->first('name') }}</p>@endif
                 </div>
                 <div class="form-group">
-                    <label for="excel-document">Tài liệu .xls hoặc .xlsx (tối đa 20 MB)</label>
-                    <input id="excel-document" type="file" name="document" accept=".xls,.xlsx" required>
+                    <label for="excel-document">Tài liệu .xls hoặc .xlsx (tối đa {{ \BookStack\Uploads\ExcelImportPolicy::MAX_KB }} KB, {{ \BookStack\Uploads\ExcelImportPolicy::MAX_SHEETS }} sheet tính cả sheet ẩn)</label>
+                    <input id="excel-document" type="file" name="document" accept=".xls,.xlsx" data-max-bytes="{{ \BookStack\Uploads\ExcelImportPolicy::MAX_KB * 1024 }}" required>
                     @if($errors->has('document'))<p class="text-neg" role="alert">{{ $errors->first('document') }}</p>@endif
                 </div>
                 <p class="text-muted">Các sheet được chuyển thành bảng có thể chỉnh sửa. Công thức trở thành giá trị hiển thị; không giữ macro, pivot, bộ lọc hoặc bố cục in. File đặt mật khẩu không được hỗ trợ. Bảng tính quá lớn cần tách theo sheet hoặc vùng dữ liệu trước khi nhập.</p>
@@ -28,4 +28,8 @@
             </form>
         </main>
     </div>
+@stop
+
+@section('scripts')
+    <script src="{{ versioned_asset('dist/excel-import.js') }}" nonce="{{ $cspNonce }}"></script>
 @stop

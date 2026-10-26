@@ -11,12 +11,7 @@ class ExcelImportService
     public function convert(UploadedFile $upload): string
     {
         $extension = strtolower($upload->getClientOriginalExtension());
-        if (!in_array($extension, ['xls', 'xlsx'], true)) {
-            throw new RuntimeException('Chỉ hỗ trợ bảng tính .xls và .xlsx.');
-        }
-        if ($upload->getSize() > 20 * 1024 * 1024) {
-            throw new RuntimeException('File Excel vượt quá 20 MB.');
-        }
+        (new ExcelImportPolicy())->validate($upload);
         $directory = sys_get_temp_dir() . '/bookstack-excel-import-' . bin2hex(random_bytes(16));
         if (!mkdir($directory, 0700)) {
             throw new RuntimeException('Không tạo được thư mục nhập Excel.');
@@ -26,7 +21,6 @@ class ExcelImportService
             if (!copy($upload->getRealPath(), $input)) {
                 throw new RuntimeException('Không đọc được bảng tính đã tải lên.');
             }
-            $this->validateFormat($input, $extension);
             $output = (new ExcelConversion())->run($directory, $input, 'html:HTML (StarCalc)');
             $html = file_get_contents($output);
             // DOM normalization and the editor retain multiple copies. A small
@@ -61,35 +55,4 @@ class ExcelImportService
         }
     }
 
-    private function validateFormat(string $path, string $extension): void
-    {
-        if ($extension === 'xls') {
-            $handle = fopen($path, 'rb');
-            $signature = fread($handle, 8);
-            fclose($handle);
-            if ($signature !== hex2bin('d0cf11e0a1b11ae1')) {
-                throw new RuntimeException('File .xls không đúng định dạng Excel 97–2003. Hãy lưu lại thành .xlsx.');
-            }
-            return;
-        }
-        $zip = new \ZipArchive();
-        if ($zip->open($path) !== true) {
-            throw new RuntimeException('File .xlsx không hợp lệ hoặc đã hỏng.');
-        }
-        try {
-            $expanded = 0;
-            for ($index = 0; $index < $zip->numFiles; $index++) {
-                $expanded += $zip->statIndex($index)['size'];
-            }
-            if ($zip->locateName('xl/workbook.xml') === false || $zip->numFiles > 5000 || $expanded > 100 * 1024 * 1024) {
-                throw new RuntimeException('Bảng tính .xlsx không hợp lệ hoặc quá lớn sau giải nén.');
-            }
-            // Never pass a macro-enabled workbook disguised as .xlsx to Calc.
-            if ($zip->locateName('xl/vbaProject.bin') !== false) {
-                throw new RuntimeException('Không hỗ trợ bảng tính có macro. Hãy lưu bản .xlsx không có macro.');
-            }
-        } finally {
-            $zip->close();
-        }
-    }
 }

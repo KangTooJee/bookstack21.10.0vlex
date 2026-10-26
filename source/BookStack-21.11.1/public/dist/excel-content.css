@@ -11,11 +11,17 @@
         scrollbar-gutter: stable;
     }
     .excel-page .page-content table {
+        cursor: grab;
         table-layout: auto;
         width: max-content !important;
         min-width: 100%;
         max-width: none;
         float: none !important;
+    }
+    .excel-page .page-content.excel-dragging,
+    .excel-page .page-content.excel-dragging * {
+        cursor: grabbing;
+        user-select: none;
     }
     .excel-page .page-content td,
     .excel-page .page-content th {

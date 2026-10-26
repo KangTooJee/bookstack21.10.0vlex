@@ -20,6 +20,7 @@ $page->html = '<h2>Dữ liệu đã sửa trên web</h2><table><tr><th colspan="
     '<tr><td>Ảnh nhúng</td><td><img src="data:image/png;base64,' . base64_encode($png) . '" width="24" height="24"></td></tr>' .
     '<tr><td rowspan="2">Ô dọc</td><td><strong>Bold run</strong> and <em>Italic run</em></td></tr><tr><td style="border-left:none;border-right:3px dashed #00ff00">Dưới</td></tr></table>' .
     '<h2>Sheet thứ hai</h2><table><tr><td>Sheet hai</td><td>GIỮ NỘI DUNG</td></tr></table>' .
+    '<p><a name="empty-bookmark"></a><strong>Rich &amp; text</strong><span></span> after bookmark <a name="empty-end"></a></p>' .
     '<script>EVIL_SCRIPT</script><p onclick="EVIL_EVENT()" style="background-image:url(http://invalid.example/track)">KẾT THÚC</p>';
 $original = $page->html;
 $before = glob('/tmp/bookstack-excel-*');
@@ -29,6 +30,10 @@ file_put_contents($directory . '/fixture.xlsx', $bytes);
 $zip = new ZipArchive(); ensure($zip->open($directory . '/fixture.xlsx') === true, 'Not XLSX');
 $strings = $zip->getFromName('xl/worksheets/sheet1.xml');
 $doc = new DOMDocument(); $doc->loadXML($strings);
+$xpath = new DOMXPath($doc); $xpath->registerNamespace('s', 'http://schemas.openxmlformats.org/spreadsheetml/2006/main');
+// Excel rejects this CT_Rst schema violation even though the XML parses and Calc tolerates it.
+ensure($xpath->query('//s:is[s:t and s:r] | //s:is[count(s:t)>1] | //s:is[not(s:t) and not(s:r)] | //s:r[count(s:t)!=1]')->length === 0, 'Invalid inline-string structure triggers Excel repair');
+ensure(strpos($doc->textContent, 'Rich & text after bookmark') !== false, 'Empty anchors lost surrounding rich text');
 foreach (['Bảng tính tiếng Việt', 'Dữ liệu đã sửa trên web', 'Ô gộp', '00123', '26/10/2026', '=1+2', 'GIỮ NỘI DUNG', 'KẾT THÚC'] as $expected) {
     ensure(strpos($doc->textContent, $expected) !== false, 'Export lost text/type: ' . $expected);
 }

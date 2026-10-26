@@ -6,6 +6,7 @@
 @if($excelContent)
     @push('head')
         <link rel="stylesheet" href="{{ versioned_asset('dist/excel-content.css') }}">
+        <script src="{{ versioned_asset('dist/excel-content.js') }}" nonce="{{ $cspNonce }}" defer></script>
     @endpush
 @endif
 
@@ -23,8 +24,12 @@
         ]])
     </div>
 
+    @if($excelContent)
+        <p class="text-muted text-small print-hidden">Giữ chuột trái và kéo bảng để cuộn ngang. Giữ Shift để chọn chữ.</p>
+    @endif
+
     <main class="content-wrap card">
-        <div class="page-content clearfix" page-display="{{ $page->id }}" @if($excelContent) tabindex="0" role="region" aria-label="Bảng tính Excel, cuộn ngang để xem thêm cột" @endif>
+        <div class="page-content clearfix" page-display="{{ $page->id }}" @if($excelContent) tabindex="0" role="region" aria-label="Bảng tính Excel, giữ chuột trái và kéo để cuộn ngang; giữ Shift để chọn chữ" @endif>
             @include('pages.parts.pointer', ['page' => $page])
             @include('pages.parts.page-display')
         </div>
