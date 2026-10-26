@@ -1,0 +1,290 @@
+app/
+├── Actions/
+│   ├── Activity.php
+│   ├── ActivityService.php
+│   ├── ActivityType.php
+│   ├── Comment.php
+│   ├── CommentRepo.php
+│   ├── Favourite.php
+│   ├── Tag.php
+│   ├── TagRepo.php
+│   └── View.php
+├── Api/
+│   ├── ApiDocGenerator.php
+│   ├── ApiToken.php
+│   ├── ApiTokenGuard.php
+│   └── ListingResponseBuilder.php
+├── Auth/
+│   ├── Access/
+│   ├── Guards/
+│   │   ├── ApiTokenAuthenticationGuard.php
+│   │   ├── ExternalBaseSessionGuard.php
+│   │   └── LdapSessionGuard.php
+│   ├── Mfa/
+│   │   ├── BackupCodeService.php
+│   │   ├── MfaSession.php
+│   │   ├── MfaView.php
+│   │   ├── TotpService.php
+│   │   └── TotpValidationRule.php
+│   ├── Old/
+│   │   ├── OldAccessToken.php
+│   │   ├── OldToken.php
+│   │   ├── OldEmail… (tên bị mờ)
+│   │   ├── Old… (một số mục bị mờ)
+│   │   └── OldService.php
+│   ├── EmailConfirmationService.php
+│   ├── ExternalBaseUserProvider.php
+│   ├── GroupSyncService.php
+│   ├── LdapService.php
+│   ├── LoginService.php
+│   ├── RegistrationService.php
+│   ├── Saml2Service.php
+│   ├── SocialAuthService.php
+│   ├── UserInviteService.php
+│   └── UserTokenService.php
+├── Permissions/
+│   ├── EntityPermission.php
+│   ├── JointPermission.php
+│   ├── PermissionService.php
+│   ├── PermissionRepo.php
+│   ├── RolePermission.php
+│   ├── Role.php
+│   ├── SocialAccount.php
+│   ├── User.php
+│   └── UserRepo.php
+├── Config/
+│   ├── app.php
+│   ├── auth.php
+│   ├── broadcasting.php
+│   ├── cache.php
+│   ├── clockwork.php
+│   ├── database.php
+│   ├── debugbar.php
+│   ├── dompdf.php
+│   ├── filesystems.php
+│   ├── hashing.php
+│   ├── logging.php
+│   ├── mail.php
+│   ├── modules.php
+│   ├── oidc.php
+│   ├── queue.php
+│   ├── saml2.php
+│   ├── services.php
+│   ├── session.php
+│   ├── setting-defaults.php
+│   ├── snappy.php
+│   └── view.php
+├── Console/
+│   ├── Commands/
+│   │   ├── CleanupImages.php
+│   │   ├── ClearActivity.php
+│   │   ├── ClearRevisions.php
+│   │   ├── ClearViews.php
+│   │   ├── CopyShelfPermissions.php
+│   │   ├── CreateAdmin.php
+│   │   ├── DeleteUsers.php
+│   │   ├── RegenerateCommentContent.php
+│   │   ├── RegeneratePermissions.php
+│   │   ├── RegenerateSearch.php
+│   │   ├── ResetMfa.php
+│   │   ├── UpdateLdap.php
+│   │   └── UpgradeDatabaseEncoding.php
+│   └── Kernel.php
+├── Entities/
+│   ├── Models/
+│   │   ├── AttachedFile.php
+│   │   ├── Book.php
+│   │   ├── BookChild.php
+│   │   ├── Bookshelf.php
+│   │   ├── Chapter.php
+│   │   ├── Deletion.php
+│   │   ├── Entity.php
+│   │   ├── Group.php
+│   │   ├── HasCoverImage.php
+│   │   ├── Page.php
+│   │   ├── PageRevision.php
+│   │   ├── PermissionGroup.php
+│   │   ├── PermissionUser.php
+│   │   └── SearchTerm.php
+│   ├── Queries/
+│   │   ├── EntityQuery.php
+│   │   ├── Popular.php
+│   │   ├── RecentlyViewed.php
+│   │   └── TopFavourites.php
+│   ├── Repos/
+│   │   ├── AttachedFileRepo.php
+│   │   ├── BaseRepo.php
+│   │   ├── BookRepo.php
+│   │   ├── BookshelfRepo.php
+│   │   ├── ChapterRepo.php
+│   │   ├── GroupPermissionRepo.php
+│   │   ├── GroupRepo.php
+│   │   ├── PageRepo.php
+│   │   └── PermissionRepo.php
+│   └── Tools/
+│       ├── Markdown/
+│       │   ├── CustomListItemRenderer.php
+│       │   ├── CustomParagraphConverter.php
+│       │   ├── CustomStrikeThroughExtension.php
+│       │   ├── CustomStrikeThroughRenderer.php
+│       │   └── HtmlToMarkdown.php
+│       ├── BookContents.php
+│       ├── ExportFormatter.php
+│       ├── NextPreviousContentLocator.php
+│       ├── PageContent.php
+│       ├── PageEditActivity.php
+│       ├── PermissionsUpdate.php
+│       ├── SearchIndex.php
+│       ├── SearchOptions.php
+│       ├── SearchResultsFormatter.php
+│       ├── SearchRunner.php
+│       ├── ShelfContext.php
+│       ├── SiblingFinder.php
+│       ├── SlugGenerator.php
+│       ├── TrashCan.php
+│       ├── BreadcrumbsViewComposer.php
+│       └── EntityProvider.php
+├── Exceptions/
+│   ├── AuthException.php
+│   ├── ConfirmationEmailException.php
+│   ├── FileUploadException.php
+│   ├── Handler.php
+│   ├── HttpFetchException.php
+│   ├── ImageUploadException.php
+│   ├── JsonDebugException.php
+│   ├── LdapException.php
+│   ├── LoginAttemptEmailNeededException.php
+│   ├── LoginAttemptException.php
+│   ├── MoveOperationException.php
+│   ├── NotFoundException.php
+│   ├── NotifyException.php
+│   ├── OpenIdConnectException.php
+│   ├── PermissionException.php
+│   ├── PrettyException.php
+│   ├── SamlException.php
+│   ├── SocialDriverNotConfigured.php
+│   ├── SocialSignInAccountNotUsed.php
+│   ├── SocialSignInException.php
+│   ├── SortOperationException.php
+│   ├── StoppedAuthenticationException.php
+│   ├── UnauthorizedException.php
+│   ├── UserRegistrationException.php
+│   ├── UserTokenExpiredException.php
+│   ├── UserTokenNotFoundException.php
+│   ├── UserUpdateException.php
+│   └── WhoopsBookStackPrettyHandler.php
+├── Facades/
+│   ├── Activity.php
+│   ├── Permissions.php
+│   └── Theme.php
+├── Http/
+│   ├── Controllers/
+│   │   ├── Api/
+│   │   │   ├── ImporterV2Controller.php
+│   │   │   ├── PageApiController.php
+│   │   │   ├── PageExportApiController.php
+│   │   │   └── SearchApiController.php
+│   │   ├── Auth/
+│   │   │   ├── ConfirmEmailController.php
+│   │   │   ├── ForgotPasswordController.php
+│   │   │   ├── HandlesPartialLogins.php
+│   │   │   ├── LoginController.php
+│   │   │   ├── MfaBackupCodesController.php
+│   │   │   ├── MfaController.php
+│   │   │   ├── MfaTotpController.php
+│   │   │   ├── OidcController.php
+│   │   │   ├── RegisterController.php
+│   │   │   ├── ResetPasswordController.php
+│   │   │   ├── Saml2Controller.php
+│   │   │   ├── SocialController.php
+│   │   │   └── UserInviteController.php
+│   │   ├── Images/
+│   │   │   ├── DrawImageController.php
+│   │   │   ├── GalleryImageController.php
+│   │   │   └── ImageController.php
+│   │   ├── AttachmentController.php
+│   │   ├── AuditLogController.php
+│   │   ├── BookController.php
+│   │   ├── BookExportController.php
+│   │   ├── BookshelfController.php
+│   │   ├── BookshelfSortController.php
+│   │   ├── ChapterController.php
+│   │   ├── ChapterExportController.php
+│   │   ├── CommentController.php
+│   │   ├── Controller.php
+│   │   ├── FavouriteController.php
+│   │   ├── FileAttachedController.php
+│   │   ├── GroupController.php
+│   │   ├── HomeController.php
+│   │   ├── ImportLibraryController.php
+│   │   ├── MaintenanceController.php
+│   │   ├── PageController.php
+│   │   ├── PageExportController.php
+│   │   ├── PageRevisionController.php
+│   │   ├── PageTemplateController.php
+│   │   ├── PermissionsAdminController.php
+│   │   ├── RecycleBinController.php
+│   │   ├── RoleController.php
+│   │   ├── SearchController.php
+│   │   ├── SettingController.php
+│   │   ├── StatusController.php
+│   │   ├── TagController.php
+│   │   ├── UserApiTokenController.php
+│   │   ├── UserController.php
+│   │   ├── UserProfileController.php
+│   │   └── UserSearchController.php
+│   ├── Middleware/
+│   ├── Requests/
+│   └── Kernel.php
+├── Notifications/
+│   ├── ConfirmEmail.php
+│   ├── MailNotification.php
+│   ├── ResetPassword.php
+│   ├── TestEmail.php
+│   └── UserInvite.php
+├── Providers/
+│   ├── AppServiceProvider.php
+│   ├── AuthServiceProvider.php
+│   ├── BroadcastServiceProvider.php
+│   ├── CustomFacadeServiceProvider.php
+│   ├── CustomMarkdownServiceProvider.php
+│   ├── EventServiceProvider.php
+│   ├── PaginationServiceProvider.php
+│   ├── RouteServiceProvider.php
+│   ├── ThemeServiceProvider.php
+│   └── TranslationServiceProvider.php
+├── Settings/
+│   ├── Setting.php
+│   └── SettingService.php
+├── Theming/
+│   ├── CustomHtmlHeadContentProvider.php
+│   ├── ThemeEvents.php
+│   └── ThemeService.php
+├── Traits/
+│   ├── HasCreatorAndUpdater.php
+│   └── HasHtml.php
+├── Translation/
+│   └── FileLoader.php
+├── Uploads/
+│   ├── Attachment.php
+│   ├── AttachmentService.php
+│   ├── HttpFetcher.php
+│   ├── Image.php
+│   ├── ImageHash.php
+│   ├── ImageService.php
+│   └── UrlFetcher.php
+├── Util/
+│   ├── CsvEscape.php
+│   ├── HtmlContentFilter.php
+│   ├── HtmlNonceApplicator.php
+│   └── WebSafeMimeSniffer.php
+├── ViewComponents/
+│   └── HierarchyFolder.php
+├── View/
+│   ├── Helpers.php
+│   ├── LibraryMap.php
+│   ├── SaveModule… (tên bị mờ)
+│   └── ZipFolder.php
+├── Application.php
+├── helpers.php
+└── Model.php

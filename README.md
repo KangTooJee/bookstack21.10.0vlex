@@ -1,5 +1,7 @@
 # BookStack v21.11.1 — mô phỏng VLEX
 
+**Hướng phát triển đã chốt:** cải biên trực tiếp BookStack 21.11.1, không cập nhật phiên bản hay thêm thư viện ứng dụng. Đã bổ sung đường dẫn mã nguồn theo cây VLEX để tiếp nhận từng file thật; chức năng chính tiếp tục chạy bằng BookStack. Đọc [hướng dẫn chép mã VLEX](docs/vlex-local-development.md), [bảng đối chiếu](docs/vlex-file-map.md) và [cây đường dẫn](docs/vlex-source-tree.txt). Prototype Workspace riêng đã được lưu tại `archive/workspace-prototype`, không còn route xử lý; `/vlex` chuyển về `/books`. Dữ liệu prototype được giữ nguyên trong volume và database.
+
 Môi trường được dựng mới từ `C:\Vlex\BookStack-21.11.1.zip`, giữ chức năng nhập Word đã bổ sung. Dữ liệu và ba volumes của bản 21.10.1 đã được xóa theo yêu cầu. Mã nguồn 21.10.1 vẫn có trong lịch sử Git.
 
 ## Cấu hình cố định

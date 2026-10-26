@@ -1,0 +1,17 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+
+/** VLEX SCAFFOLD: date/name normalized from transcription; verify original. */
+class AddNewColumnInUserTable extends Migration
+{
+    public function up()
+    {
+        throw new \LogicException('Copy original VLEX schema before enabling 2022_02_25_070035_add_new_column_in_user_table.');
+    }
+
+    public function down()
+    {
+        throw new \LogicException('VLEX rollback schema has not been supplied.');
+    }
+}

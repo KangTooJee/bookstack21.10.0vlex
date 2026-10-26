@@ -1,0 +1,17 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+
+/** VLEX SCAFFOLD: date/name normalized from transcription; verify original. */
+class CreateEntityPermissionTable extends Migration
+{
+    public function up()
+    {
+        throw new \LogicException('Copy original VLEX schema before enabling 2022_01_15_034813_create_entity_permission_table.');
+    }
+
+    public function down()
+    {
+        throw new \LogicException('VLEX rollback schema has not been supplied.');
+    }
+}

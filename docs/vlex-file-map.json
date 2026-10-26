@@ -1,0 +1,2007 @@
+[
+  {
+    "path": "app/Actions/Activity.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Actions/ActivityService.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Actions/ActivityType.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Actions/Comment.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Actions/CommentRepo.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Actions/Favourite.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Actions/Tag.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Actions/TagRepo.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Actions/View.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Api/ApiDocGenerator.php",
+    "status": "scaffold",
+    "note": "Chờ mã VLEX gốc; không được nối vào luồng chạy."
+  },
+  {
+    "path": "app/Api/ApiToken.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Api/ApiTokenGuard.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Api/ListingResponseBuilder.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Auth/Guards/ApiTokenAuthenticationGuard.php",
+    "status": "compatibility-alias",
+    "note": "app/Api/ApiTokenGuard.php"
+  },
+  {
+    "path": "app/Auth/Guards/ExternalBaseSessionGuard.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/Guards/ExternalBaseSessionGuard.php"
+  },
+  {
+    "path": "app/Auth/Guards/LdapSessionGuard.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/Guards/LdapSessionGuard.php"
+  },
+  {
+    "path": "app/Auth/Mfa/BackupCodeService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/Mfa/BackupCodeService.php"
+  },
+  {
+    "path": "app/Auth/Mfa/MfaSession.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/Mfa/MfaSession.php"
+  },
+  {
+    "path": "app/Auth/Mfa/MfaView.php",
+    "status": "scaffold",
+    "note": "Chờ mã VLEX gốc; không được nối vào luồng chạy."
+  },
+  {
+    "path": "app/Auth/Mfa/TotpService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/Mfa/TotpService.php"
+  },
+  {
+    "path": "app/Auth/Mfa/TotpValidationRule.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/Mfa/TotpValidationRule.php"
+  },
+  {
+    "path": "app/Auth/Old/OldAccessToken.php",
+    "status": "scaffold",
+    "note": "Chờ mã VLEX gốc; không được nối vào luồng chạy."
+  },
+  {
+    "path": "app/Auth/Old/OldToken.php",
+    "status": "scaffold",
+    "note": "Chờ mã VLEX gốc; không được nối vào luồng chạy."
+  },
+  {
+    "path": "app/Auth/Old/OldEmail… (tên bị mờ)",
+    "status": "unresolved",
+    "note": "Tên không đọc rõ; không tự đoán tên file."
+  },
+  {
+    "path": "app/Auth/Old/Old… (một số mục bị mờ)",
+    "status": "unresolved",
+    "note": "Tên không đọc rõ; không tự đoán tên file."
+  },
+  {
+    "path": "app/Auth/Old/OldService.php",
+    "status": "scaffold",
+    "note": "Chờ mã VLEX gốc; không được nối vào luồng chạy."
+  },
+  {
+    "path": "app/Auth/EmailConfirmationService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/EmailConfirmationService.php"
+  },
+  {
+    "path": "app/Auth/ExternalBaseUserProvider.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/ExternalBaseUserProvider.php"
+  },
+  {
+    "path": "app/Auth/GroupSyncService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/GroupSyncService.php"
+  },
+  {
+    "path": "app/Auth/LdapService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/LdapService.php"
+  },
+  {
+    "path": "app/Auth/LoginService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/LoginService.php"
+  },
+  {
+    "path": "app/Auth/RegistrationService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/RegistrationService.php"
+  },
+  {
+    "path": "app/Auth/Saml2Service.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/Saml2Service.php"
+  },
+  {
+    "path": "app/Auth/SocialAuthService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/SocialAuthService.php"
+  },
+  {
+    "path": "app/Auth/UserInviteService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/UserInviteService.php"
+  },
+  {
+    "path": "app/Auth/UserTokenService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Access/UserTokenService.php"
+  },
+  {
+    "path": "app/Permissions/EntityPermission.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Permissions/EntityPermission.php"
+  },
+  {
+    "path": "app/Permissions/JointPermission.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Permissions/JointPermission.php"
+  },
+  {
+    "path": "app/Permissions/PermissionService.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Permissions/PermissionService.php"
+  },
+  {
+    "path": "app/Permissions/PermissionRepo.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Permissions/PermissionsRepo.php"
+  },
+  {
+    "path": "app/Permissions/RolePermission.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Permissions/RolePermission.php"
+  },
+  {
+    "path": "app/Permissions/Role.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/Role.php"
+  },
+  {
+    "path": "app/Permissions/SocialAccount.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/SocialAccount.php"
+  },
+  {
+    "path": "app/Permissions/User.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/User.php"
+  },
+  {
+    "path": "app/Permissions/UserRepo.php",
+    "status": "compatibility-alias",
+    "note": "app/Auth/UserRepo.php"
+  },
+  {
+    "path": "app/Config/app.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/auth.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/broadcasting.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/cache.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/clockwork.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/database.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/debugbar.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/dompdf.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/filesystems.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/hashing.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/logging.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/mail.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/modules.php",
+    "status": "scaffold",
+    "note": "Chờ mã VLEX gốc; không được nối vào luồng chạy."
+  },
+  {
+    "path": "app/Config/oidc.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/queue.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/saml2.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/services.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/session.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/setting-defaults.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/snappy.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Config/view.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/CleanupImages.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/ClearActivity.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/ClearRevisions.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/ClearViews.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/CopyShelfPermissions.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/CreateAdmin.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/DeleteUsers.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/RegenerateCommentContent.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/RegeneratePermissions.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/RegenerateSearch.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/ResetMfa.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Commands/UpdateLdap.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Console/Commands/UpgradeDatabaseEncoding.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Console/Kernel.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/AttachedFile.php",
+    "status": "scaffold",
+    "note": "Tài liệu gắn với thực thể VLEX; chờ schema và quan hệ gốc."
+  },
+  {
+    "path": "app/Entities/Models/Book.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/BookChild.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/Bookshelf.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/Chapter.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/Deletion.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/Entity.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/Group.php",
+    "status": "scaffold",
+    "note": "Nhóm người dùng do admin quản lý; chờ schema và quyền gốc."
+  },
+  {
+    "path": "app/Entities/Models/HasCoverImage.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/Page.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/PageRevision.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Models/PermissionGroup.php",
+    "status": "scaffold",
+    "note": "Liên kết quyền với nhóm; chờ schema gốc."
+  },
+  {
+    "path": "app/Entities/Models/PermissionUser.php",
+    "status": "scaffold",
+    "note": "Quyền theo người dùng; chờ schema gốc."
+  },
+  {
+    "path": "app/Entities/Models/SearchTerm.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Queries/EntityQuery.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Queries/Popular.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Queries/RecentlyViewed.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Queries/TopFavourites.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Repos/AttachedFileRepo.php",
+    "status": "scaffold",
+    "note": "Upload/download/move tài liệu; chờ API của mã VLEX gốc."
+  },
+  {
+    "path": "app/Entities/Repos/BaseRepo.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Repos/BookRepo.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Repos/BookshelfRepo.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Repos/ChapterRepo.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Repos/GroupPermissionRepo.php",
+    "status": "scaffold",
+    "note": "Quản lý quyền xem/thêm/sửa/xóa cho nhóm."
+  },
+  {
+    "path": "app/Entities/Repos/GroupRepo.php",
+    "status": "scaffold",
+    "note": "Quản lý nhóm người dùng; chưa nối vào quyền BookStack."
+  },
+  {
+    "path": "app/Entities/Repos/PageRepo.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Repos/PermissionRepo.php",
+    "status": "scaffold",
+    "note": "Phân quyền VLEX theo thực thể/người dùng/nhóm."
+  },
+  {
+    "path": "app/Entities/Tools/Markdown/CustomListItemRenderer.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/Markdown/CustomParagraphConverter.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/Markdown/CustomStrikeThroughExtension.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/Markdown/CustomStrikeThroughRenderer.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/Markdown/HtmlToMarkdown.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/BookContents.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/ExportFormatter.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/NextPreviousContentLocator.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/PageContent.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/PageEditActivity.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/PermissionsUpdate.php",
+    "status": "compatibility-alias",
+    "note": "app/Entities/Tools/PermissionsUpdater.php"
+  },
+  {
+    "path": "app/Entities/Tools/SearchIndex.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/SearchOptions.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/SearchResultsFormatter.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/SearchRunner.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/ShelfContext.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/SiblingFinder.php",
+    "status": "compatibility-alias",
+    "note": "app/Entities/Tools/SiblingFetcher.php"
+  },
+  {
+    "path": "app/Entities/Tools/SlugGenerator.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/TrashCan.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Entities/Tools/BreadcrumbsViewComposer.php",
+    "status": "compatibility-alias",
+    "note": "app/Entities/BreadcrumbsViewComposer.php"
+  },
+  {
+    "path": "app/Entities/Tools/EntityProvider.php",
+    "status": "compatibility-alias",
+    "note": "app/Entities/EntityProvider.php"
+  },
+  {
+    "path": "app/Exceptions/AuthException.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Exceptions/ConfirmationEmailException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/FileUploadException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/Handler.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/HttpFetchException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/ImageUploadException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/JsonDebugException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/LdapException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/LoginAttemptEmailNeededException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/LoginAttemptException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/MoveOperationException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/NotFoundException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/NotifyException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/OpenIdConnectException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/PermissionException.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Exceptions/PrettyException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/SamlException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/SocialDriverNotConfigured.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/SocialSignInAccountNotUsed.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/SocialSignInException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/SortOperationException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/StoppedAuthenticationException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/UnauthorizedException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/UserRegistrationException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/UserTokenExpiredException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/UserTokenNotFoundException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/UserUpdateException.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Exceptions/WhoopsBookStackPrettyHandler.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Facades/Activity.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Facades/Permissions.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Facades/Theme.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Api/ImporterV2Controller.php",
+    "status": "scaffold",
+    "note": "API nhập tài liệu VLEX; chờ định dạng request gốc."
+  },
+  {
+    "path": "app/Http/Controllers/Api/PageApiController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Api/PageExportApiController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Api/SearchApiController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/ConfirmEmailController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/ForgotPasswordController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/HandlesPartialLogins.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/LoginController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/MfaBackupCodesController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/MfaController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/MfaTotpController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/OidcController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/RegisterController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/ResetPasswordController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/Saml2Controller.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/SocialController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Auth/UserInviteController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Images/DrawImageController.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Http/Controllers/Images/GalleryImageController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Images/ImageController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/AttachmentController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/AuditLogController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/BookController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/BookExportController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/BookshelfController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/BookshelfSortController.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Http/Controllers/ChapterController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/ChapterExportController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/CommentController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/Controller.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/FavouriteController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/FileAttachedController.php",
+    "status": "scaffold",
+    "note": "Thao tác tệp trực tiếp trong sách/chương/trang BookStack."
+  },
+  {
+    "path": "app/Http/Controllers/GroupController.php",
+    "status": "scaffold",
+    "note": "Admin quản lý nhóm; chưa đăng ký route."
+  },
+  {
+    "path": "app/Http/Controllers/HomeController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/ImportLibraryController.php",
+    "status": "scaffold",
+    "note": "Nhập thư viện tài liệu vào cấu trúc BookStack."
+  },
+  {
+    "path": "app/Http/Controllers/MaintenanceController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/PageController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/PageExportController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/PageRevisionController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/PageTemplateController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/PermissionsAdminController.php",
+    "status": "scaffold",
+    "note": "Admin cấp quyền người dùng và nhóm; chưa đăng ký route."
+  },
+  {
+    "path": "app/Http/Controllers/RecycleBinController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/RoleController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/SearchController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/SettingController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/StatusController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/TagController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/UserApiTokenController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/UserController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/UserProfileController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Controllers/UserSearchController.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Http/Kernel.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Notifications/ConfirmEmail.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Notifications/MailNotification.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Notifications/ResetPassword.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Notifications/TestEmail.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Notifications/UserInvite.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Providers/AppServiceProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Providers/AuthServiceProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Providers/BroadcastServiceProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Providers/CustomFacadeServiceProvider.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Providers/CustomMarkdownServiceProvider.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Providers/EventServiceProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Providers/PaginationServiceProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Providers/RouteServiceProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Providers/ThemeServiceProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Providers/TranslationServiceProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Settings/Setting.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Settings/SettingService.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Theming/CustomHtmlHeadContentProvider.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Theming/ThemeEvents.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Theming/ThemeService.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Traits/HasCreatorAndUpdater.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Traits/HasHtml.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Translation/FileLoader.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Uploads/Attachment.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Uploads/AttachmentService.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Uploads/HttpFetcher.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Uploads/Image.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Uploads/ImageHash.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Uploads/ImageService.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Uploads/UrlFetcher.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Util/CsvEscape.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/Util/HtmlContentFilter.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Util/HtmlNonceApplicator.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Util/WebSafeMimeSniffer.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/ViewComponents/HierarchyFolder.php",
+    "status": "scaffold",
+    "note": "Hiển thị cây thư mục cha/con trong giao diện BookStack."
+  },
+  {
+    "path": "app/View/Helpers.php",
+    "status": "scaffold",
+    "note": "Chờ nội dung file VLEX gốc; chưa suy đoán hành vi."
+  },
+  {
+    "path": "app/View/LibraryMap.php",
+    "status": "scaffold",
+    "note": "Ánh xạ cây thư viện VLEX với thực thể BookStack."
+  },
+  {
+    "path": "app/View/SaveModule… (tên bị mờ)",
+    "status": "unresolved",
+    "note": "Tên không đọc rõ; không tự đoán tên file."
+  },
+  {
+    "path": "app/View/ZipFolder.php",
+    "status": "scaffold",
+    "note": "Xuất cây thư mục thành ZIP; chỉ dùng thư viện sẵn có."
+  },
+  {
+    "path": "app/Application.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/helpers.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "app/Model.php",
+    "status": "existing",
+    "note": "Giữ nguyên mã BookStack đang có."
+  },
+  {
+    "path": "database/seeds/DatabaseSeeder.php",
+    "status": "compatibility-loader",
+    "note": "database/seeders/DatabaseSeeder.php"
+  },
+  {
+    "path": "database/seeds/DummyContentSeeder.php",
+    "status": "compatibility-loader",
+    "note": "database/seeders/DummyContentSeeder.php"
+  },
+  {
+    "path": "database/seeds/LegacyContentSeeder.php",
+    "status": "scaffold",
+    "note": "Chờ mã seeder VLEX; không tạo dữ liệu giả."
+  },
+  {
+    "path": "database/migrations/2021_12_02_143028_create_attached_file.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2021_12_29_064429_add_new_role_chapter_file.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_01_15_034813_create_entity_permission_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_01_15_034920_create_entity_permission_role_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_01_15_035901_create_entity_permission_user_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_02_25_070035_add_new_column_in_user_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_02_25_070946_create_groups_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_02_25_071406_create_permissions_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_02_27_112844_create_group_user_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_03_02_132433_create_permission_user_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_03_11_071345_create_group_permission_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_03_16_234953_add_type_to_users_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2022_03_16_235625_insert_data_to_permissions_table.php.stub",
+    "status": "inactive-migration",
+    "note": "Tên chuẩn hóa từ bản chép; chưa biết schema. Đuôi .stub ngăn migrate tự chạy."
+  },
+  {
+    "path": "database/migrations/2014_10_12_000000_create_users_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2014_10_12_100000_create_password_resets_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_07_12_114933_create_books_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_07_12_190027_create_pages_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_07_13_172121_create_images_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_07_27_172342_create_chapters_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_08_08_200447_add_users_to_entities.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_08_09_093534_create_page_revisions_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_08_16_142133_create_activities_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_08_29_105422_add_roles_and_permissions.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_08_30_125859_create_settings_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_08_31_175240_add_search_indexes.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_09_04_165821_create_social_accounts_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_09_05_164707_add_email_confirmation_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_11_21_145609_create_views_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_11_26_221857_add_entity_indexes.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_12_05_145049_fulltext_weighting.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_12_07_195238_add_image_upload_types.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2015_12_09_195748_add_user_avatars.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_01_11_210908_add_external_auth_to_users.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_02_25_184030_add_slug_to_revisions.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_02_27_120329_update_permissions_and_roles.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_02_28_084200_add_entity_access_controls.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_03_09_203143_add_page_revision_types.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_03_13_082138_add_page_drafts.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_03_25_123157_add_markdown_support.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_04_09_100730_add_view_permissions_to_roles.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_04_20_192649_create_joint_permissions_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_05_06_185215_create_tags_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_07_07_181521_add_summary_to_page_revisions.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_09_29_101449_remove_hidden_roles.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2016_10_09_142037_create_attachments_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2017_01_21_163556_create_cache_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2017_01_21_163602_create_sessions_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2017_03_19_091553_create_search_index_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2017_04_20_185112_add_revision_counts.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2017_07_02_152834_update_db_encoding_to_ut8mb4.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2017_08_01_130541_create_comments_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2017_08_29_102650_add_cover_image_display.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2018_07_15_173514_add_role_external_auth_id.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2018_08_04_115700_create_bookshelves_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2019_07_07_112515_add_template_support.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2019_08_17_140214_add_user_invites_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2019_12_29_120917_add_api_auth.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2020_08_04_111754_drop_joint_permissions_id.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2020_08_04_131052_remove_role_name_field.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2020_09_19_094251_add_activity_indexes.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2020_09_27_210059_add_entity_soft_deletes.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2020_09_27_210528_create_deletions_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2020_11_07_232321_simplify_activities_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2020_12_30_173528_add_owned_by_field_to_entities.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2021_01_30_225441_add_settings_type_column.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2021_03_08_215138_add_user_slug.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2021_05_15_173110_create_favourites_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2021_06_30_173111_create_mfa_values_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2021_07_03_085038_add_mfa_enforced_to_roles_table.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2021_08_28_161743_add_export_role_permission.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2021_09_26_044614_add_activities_ip_column.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "database/migrations/2026_10_22_000001_create_vlex_workspace.php",
+    "status": "existing",
+    "note": "Giữ lịch sử migration hiện có; không tạo bản trùng từ tên OCR sai."
+  },
+  {
+    "path": "api/requests/attachments-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/attachments-create.json"
+  },
+  {
+    "path": "api/requests/attachments-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/attachments-update.json"
+  },
+  {
+    "path": "api/requests/books-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/books-create.json"
+  },
+  {
+    "path": "api/requests/books-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/books-update.json"
+  },
+  {
+    "path": "api/requests/chapters-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/chapters-create.json"
+  },
+  {
+    "path": "api/requests/chapters-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/chapters-update.json"
+  },
+  {
+    "path": "api/requests/pages-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/pages-create.json"
+  },
+  {
+    "path": "api/requests/pages-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/pages-update.json"
+  },
+  {
+    "path": "api/requests/shelves-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/shelves-create.json"
+  },
+  {
+    "path": "api/requests/shelves-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/requests/shelves-update.json"
+  },
+  {
+    "path": "api/responses/attachments-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/attachments-create.json"
+  },
+  {
+    "path": "api/responses/attachments-list.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/attachments-list.json"
+  },
+  {
+    "path": "api/responses/attachments-read.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/attachments-read.json"
+  },
+  {
+    "path": "api/responses/attachments-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/attachments-update.json"
+  },
+  {
+    "path": "api/responses/books-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/books-create.json"
+  },
+  {
+    "path": "api/responses/books-list.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/books-list.json"
+  },
+  {
+    "path": "api/responses/books-read.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/books-read.json"
+  },
+  {
+    "path": "api/responses/books-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/books-update.json"
+  },
+  {
+    "path": "api/responses/chapters-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/chapters-create.json"
+  },
+  {
+    "path": "api/responses/chapters-list.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/chapters-list.json"
+  },
+  {
+    "path": "api/responses/chapters-read.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/chapters-read.json"
+  },
+  {
+    "path": "api/responses/chapters-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/chapters-update.json"
+  },
+  {
+    "path": "api/responses/pages-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/pages-create.json"
+  },
+  {
+    "path": "api/responses/pages-list.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/pages-list.json"
+  },
+  {
+    "path": "api/responses/pages-read.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/pages-read.json"
+  },
+  {
+    "path": "api/responses/pages-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/pages-update.json"
+  },
+  {
+    "path": "api/responses/search-all.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/search-all.json"
+  },
+  {
+    "path": "api/responses/shelves-create.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/shelves-create.json"
+  },
+  {
+    "path": "api/responses/shelves-list.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/shelves-list.json"
+  },
+  {
+    "path": "api/responses/shelves-read.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/shelves-read.json"
+  },
+  {
+    "path": "api/responses/shelves-update.json",
+    "status": "reference-copy",
+    "note": "dev/api/responses/shelves-update.json"
+  },
+  {
+    "path": "api/requests/attachments-group.json",
+    "status": "scaffold",
+    "note": "Chưa có payload VLEX gốc; {} là chỗ giữ, không phải request đã hỗ trợ."
+  },
+  {
+    "path": "api/requests/search-all.json",
+    "status": "scaffold",
+    "note": "Chưa có payload VLEX gốc; {} là chỗ giữ, không phải request đã hỗ trợ."
+  },
+  {
+    "path": "docs/components.md",
+    "status": "reference-copy",
+    "note": "Tài liệu BookStack gốc: dev/docs/components.md; tên legal cần đối chiếu VLEX."
+  },
+  {
+    "path": "docs/legal-theme-system.md",
+    "status": "reference-copy",
+    "note": "Tài liệu BookStack gốc: dev/docs/logical-theme-system.md; tên legal cần đối chiếu VLEX."
+  },
+  {
+    "path": "docs/visual-theme-system.md",
+    "status": "reference-copy",
+    "note": "Tài liệu BookStack gốc: dev/docs/visual-theme-system.md; tên legal cần đối chiếu VLEX."
+  },
+  {
+    "path": "docker/initdb/.gitkeep",
+    "status": "directory",
+    "note": "Giữ đường dẫn từ cây VLEX."
+  },
+  {
+    "path": "public/images/.gitkeep",
+    "status": "directory",
+    "note": "Giữ đường dẫn từ cây VLEX."
+  },
+  {
+    "path": "public/js/.gitkeep",
+    "status": "directory",
+    "note": "Giữ đường dẫn từ cây VLEX."
+  },
+  {
+    "path": "public/public/.gitkeep",
+    "status": "directory",
+    "note": "Giữ đường dẫn từ cây VLEX."
+  },
+  {
+    "path": "app/Auth/Old/.gitkeep",
+    "status": "directory",
+    "note": "Giữ đường dẫn từ cây VLEX."
+  },
+  {
+    "path": "docker/Dockerfile.stub",
+    "status": "inactive-runtime",
+    "note": "Không thay đổi môi trường Docker đang chạy."
+  },
+  {
+    "path": "docker/entrypoint.sh.stub",
+    "status": "inactive-runtime",
+    "note": "Không thay đổi môi trường Docker đang chạy."
+  },
+  {
+    "path": "docker/entrypoint.redhat.sh.stub",
+    "status": "inactive-runtime",
+    "note": "Không thay đổi môi trường Docker đang chạy."
+  },
+  {
+    "path": "public/images/date-error.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/document.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/icons-add.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/icons-reduce.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/icons-microsoft-excel-24.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/img-add-border.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/img-add-history.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/img-add-library.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/img-add-resize.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/images/sheet.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/public/btn_search_group.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/public/error.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/public/error_2x.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/public/error_3x.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/public/Hide_show_pass.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/public/logo2.png",
+    "status": "asset-placeholder",
+    "note": "PNG 1 pixel giữ đường dẫn; cần ảnh VLEX gốc, chưa gắn vào UI."
+  },
+  {
+    "path": "public/public/favicon.ico",
+    "status": "reference-copy",
+    "note": "Bản sao public/favicon.ico; public/public không phải document root."
+  },
+  {
+    "path": "public/public/loading.gif",
+    "status": "reference-copy",
+    "note": "Bản sao public/loading.gif; public/public không phải document root."
+  },
+  {
+    "path": "public/public/logo.png",
+    "status": "reference-copy",
+    "note": "Bản sao public/logo.png; public/public không phải document root."
+  },
+  {
+    "path": "public/public/user_avatar.png",
+    "status": "reference-copy",
+    "note": "Bản sao public/user_avatar.png; public/public không phải document root."
+  },
+  {
+    "path": "public/public/web.config",
+    "status": "reference-copy",
+    "note": "Bản sao public/web.config; public/public không phải document root."
+  },
+  {
+    "path": "public/public/index.php",
+    "status": "scaffold",
+    "note": "Không tạo entry point thứ hai cho ứng dụng."
+  },
+  {
+    "path": ".editorconfig",
+    "status": "scaffold",
+    "note": "Thiết lập soạn thảo cục bộ."
+  },
+  {
+    "path": "modules_statuses.json",
+    "status": "scaffold",
+    "note": "Không có module ngoài được cài hoặc kích hoạt."
+  },
+  {
+    "path": "requirements.txt",
+    "status": "scaffold",
+    "note": "Không cài thêm thư viện."
+  },
+  {
+    "path": "cache.sh",
+    "status": "scaffold",
+    "note": "Dùng các lệnh artisan đã có, chạy thủ công trong container."
+  },
+  {
+    "path": ".styleci.yml",
+    "status": "scaffold",
+    "note": "Chưa tích hợp CI ngoài."
+  },
+  {
+    "path": "public/images/Group … .png; public/public/Mark Group … .png; public/public/logo.gif",
+    "status": "unresolved",
+    "note": "Tên ảnh nhóm và ảnh logo GIF chưa có nguồn gốc đầy đủ; không tự tạo thương hiệu giả."
+  },
+  {
+    "path": "public/dist/*",
+    "status": "existing",
+    "note": "Giữ assets BookStack có sẵn; không thay JS/CSS hay cài npm để mô phỏng tên file khác phiên bản."
+  }
+]

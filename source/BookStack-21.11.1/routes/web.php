@@ -38,6 +38,9 @@ Route::get('/robots.txt', [HomeController::class, 'robots']);
 // Authenticated routes...
 Route::middleware('auth')->group(function () {
 
+    // Retired standalone prototype: existing bookmarks return to native BookStack.
+    Route::redirect('/vlex', '/books');
+
     // Secure images routing
     Route::get('/uploads/images/{path}', [Images\ImageController::class, 'showImage'])
         ->where('path', '.*$');

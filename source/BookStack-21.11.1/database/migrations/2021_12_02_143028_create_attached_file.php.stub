@@ -1,0 +1,17 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+
+/** VLEX SCAFFOLD: date/name normalized from transcription; verify original. */
+class CreateAttachedFile extends Migration
+{
+    public function up()
+    {
+        throw new \LogicException('Copy original VLEX schema before enabling 2021_12_02_143028_create_attached_file.');
+    }
+
+    public function down()
+    {
+        throw new \LogicException('VLEX rollback schema has not been supplied.');
+    }
+}
