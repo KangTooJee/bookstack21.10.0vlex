@@ -1,0 +1,353 @@
+{
+  "date": "2026-10-27",
+  "branch": "files-curl",
+  "source_commit": "cd9c636fb82afa7a1ef22eecc191b7e6286a2809",
+  "application_root": "source/BookStack-21.11.1",
+  "compatibility": "Verified on local BookStack lab only; Vlex target compatibility not verified",
+  "hash_note": "SHA256 uses local working-tree bytes; CRLF/LF may differ. git_blob identifies canonical Git content at source_commit. Documentation and fixtures are referenced by the accompanying file map, not deployable source entries.",
+  "files": [
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/WordImportController.php",
+      "scope": "Word",
+      "purpose": "Form/upload DOC/DOCX, kiểm tra quyền trang/ảnh và tạo bản nháp trong transaction.",
+      "sha256": "69C7096A7CF16937D23F9B357DECE1A84B51871D9FA6A3AD4AAACEFED20F4F0C",
+      "git_blob": "bcd5aa5ae0d4729a092638de9641d0979ea53d4a"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/WordImportService.php",
+      "scope": "Chung",
+      "purpose": "LibreOffice Writer → HTML; lọc nội dung, ảnh, OLE, đối tượng nổi và thụt lề. Excel dùng chung `cleanHtml`; tối ưu duyệt DOM cho bảng lớn và giữ thuộc tính `span` của nhóm cột.",
+      "sha256": "5D5EEC3812B6D3E0B0BB2F0C4F809F41B2E89B09D94A70C2EDE3AC2E72880676",
+      "git_blob": "27dc49b46082b1bfd0c08456b876e0b09339cc63"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/WordExportService.php",
+      "scope": "Word",
+      "purpose": "Đọc nội dung đã lưu, chuẩn bị HTML/ảnh, chuyển DOCX và đóng gói ảnh, dọn thư mục tạm.",
+      "sha256": "8CB641DABB5D7C00AEBAC30BE5C7E7DA35CF7A1B85827805309EED0320013825",
+      "git_blob": "e660931224471c3735b1e26b2b337684b1e86d62"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/WordExportLayout.php",
+      "scope": "Word",
+      "purpose": "Bố cục A4, lưới bảng/ô gộp, bảng lồng, thu ảnh, bỏ chiều cao cố định gây cắt nội dung.",
+      "sha256": "7DF32D6AA3B5C29AF8CB2FC8CD8181A4C570D94FD56AF4286B7EC66178EAE2DA",
+      "git_blob": "25dba9ca0e2cb5c54567bdbb1677c623cc66cb95"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/WordExportAppearance.php",
+      "scope": "Word",
+      "purpose": "Tính font kế thừa và ghi font/cỡ chữ/viền từng cạnh vào DOCX.",
+      "sha256": "69A5B75B16C13BB499E08AAF105D62EE4F975E15DCA3C174D4A25CF9A00568A3",
+      "git_blob": "185fcd61a46692de89a70578273fc2b92cb7f1e7"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/ExcelImportController.php",
+      "scope": "Excel",
+      "purpose": "Form/upload XLS/XLSX, kiểm tra quyền và tạo bản nháp; trả lỗi khi vượt giới hạn.",
+      "sha256": "12B4A9A118213E81DDEE166CA22E7EF9AA91499B814E4D82E759A646A41BC633",
+      "git_blob": "0dc907124908a74aab60a6401c299ae360c0ebc7"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelImportPolicy.php",
+      "scope": "Excel",
+      "purpose": "Chặn trước chuyển đổi: 2.048 KB, 5 sheet kể cả sheet ẩn; đọc metadata OOXML và OLE/BIFF.",
+      "sha256": "82E7D32D04380DE3F39DAF39CB0B19449F585FFA0D78B67EE9FB9AC0B45C1DD6",
+      "git_blob": "b5816ded477d4acf102f4de77ae5e6220b455892"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelConversion.php",
+      "scope": "Excel",
+      "purpose": "Chạy Calc headless với profile riêng, tắt macro/cập nhật liên kết, timeout và kiểm tra đầu ra.",
+      "sha256": "52B0B8A4E5D5CBEE3EF6C26D07D38597BB8500F0F604150E3BE719A07B531830",
+      "git_blob": "d9574ff572365f2656f8e18da0d1f47678da3626"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelImportService.php",
+      "scope": "Excel",
+      "purpose": "Kiểm tra file, Calc → HTML, màu/ảnh/bộ lọc dùng chung, ngân sách HTML, marker Excel và chuẩn hóa lưới.",
+      "sha256": "D1BE2DED642192B4F752A1A24C799F2E11B18AF4DD555CF3C12B3D06DF3E5D99",
+      "git_blob": "4864ad8e92d9241f6e6ce2e0a5de0c17ec46aea4"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelHtmlLayout.php",
+      "scope": "Excel",
+      "purpose": "Giữ/phục hồi hàng trống bị ô gộp phủ hết để dòng sau không tràn lưới; giữ nhóm cột/độ rộng nguồn, fixed table layout; ghi chú Calc thành tooltip khi nhập.",
+      "sha256": "14965A4306F923CBA64D7ED595FB85C4E75CA56D58CDADE5559667A4210EDF2E",
+      "git_blob": "fc5322dd82a0c81f17303ab371d788f033b9bc3f"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelPageLayout.php",
+      "scope": "Excel",
+      "purpose": "Nhận diện trang Excel mới/cũ và URL asset kèm hash để xóa ảnh hưởng cache trình duyệt.",
+      "sha256": "EE6A80E3A852E8DF88803014F3100FEAB3EAE7069F74194261EAB3C3D8A8A79E",
+      "git_blob": "2895f44bfcbc45450f3e93e11487f30324e0b1ed"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelExportService.php",
+      "scope": "Excel",
+      "purpose": "Đọc nội dung đã lưu, chuẩn hóa lưới cũ và ảnh, gọi writer XLSX, dọn file tạm.",
+      "sha256": "E5BACB297EC55224D402EAC9C0221E0B86D504B566109C0CE99FAB5259EB11C6",
+      "git_blob": "a667628f9fb7ca91bcbb1e17b024401426a74db5"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelWorkbookWriter.php",
+      "scope": "Excel",
+      "purpose": "Ghi gói OOXML trực tiếp: text/rich text, ô gộp, font/màu/viền và ảnh. Sửa cấu trúc inline string gây Excel repair; bỏ chiều cao cố định theo số ký tự cho hàng chữ, chỉ dành chỗ cho hàng ảnh.",
+      "sha256": "8BD207F4C81EE8D9644843FF74587520731E8183F442FC982E2BE237BFFF251C",
+      "git_blob": "24cfa4802cd7122f080d7b7f70238898c95f4082"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/PageExportController.php",
+      "scope": "Chung",
+      "purpose": "Action xuất Word/Excel, quyền xem và `content-export`, MIME/tên tải xuống/thông báo lỗi.",
+      "sha256": "4AD51493D60124B7A0A9DE6082111107D251E362E0B16E6FAD0209D0C729F904",
+      "git_blob": "d83a447b478e3109c4a62f301b6dae6667dbd15a"
+    },
+    {
+      "path": "source/BookStack-21.11.1/routes/web.php",
+      "scope": "Chung",
+      "purpose": "Route GET/POST import theo sách/chương, GET export Word/Excel theo trang, middleware/throttle.",
+      "sha256": "1246B27A9222627B998AD2D011F0A2FC87A153E0D0922DB629F2C4D9D7CD7000",
+      "git_blob": "e7c633c10e4b949f6b8efc68c839f7bf3fbf308a"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/import-word.blade.php",
+      "scope": "Word",
+      "purpose": "Form import Word, CSRF, tên trang, file và lỗi upload.",
+      "sha256": "50FFD9945A80FBD130D43EA77CA543A40FA90C56F927E642B1F426D887C06DDF",
+      "git_blob": "88b934bc86edb99d9c55327d9c02977962b40b90"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/parts/word-import-action.blade.php",
+      "scope": "Word",
+      "purpose": "Nút import Word có kiểm tra quyền.",
+      "sha256": "FFBD222C70A4D3AB0CC7889362F0B60674652899767343BD3832D5CB496B8484",
+      "git_blob": "e86b64deb11ff68de89bb4e0e6d767c4d24b3622"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/import-excel.blade.php",
+      "scope": "Excel",
+      "purpose": "Form import Excel, thông báo giới hạn và nạp script chặn dung lượng.",
+      "sha256": "4CD21518EC8FAA73A2E2856EB15C8BCCF04A96AE45C17A7952E0869A829E0E3D",
+      "git_blob": "27b6450a555537d7e79561b51c47fe7ceb216a45"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/parts/excel-import-action.blade.php",
+      "scope": "Excel",
+      "purpose": "Nút import Excel có kiểm tra quyền.",
+      "sha256": "DAA8DCB58D09A4945BCFAFA04F27E9B4F972C307954DDEEDF65BD0026254D26C",
+      "git_blob": "37f0fecc9b1ce04cecceaad4ed9b716532e619ec"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/books/show.blade.php",
+      "scope": "Chung",
+      "purpose": "Gắn hành động import tại trang sách.",
+      "sha256": "D4004C42058A3D9B5028953224961E090B146123DDC36CA7C91296E0B6826812",
+      "git_blob": "2508c0372b74e1a9cb4ef8fee86dc72378ff07c2"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/chapters/show.blade.php",
+      "scope": "Chung",
+      "purpose": "Gắn hành động import tại trang chương.",
+      "sha256": "CD6757E829B720E2CB35696CDD98DC5089201CE5CED510BC86B19FCE34FE72B1",
+      "git_blob": "afc687748e8f4de45f5b238a75834433564f4126"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/show.blade.php",
+      "scope": "Chung",
+      "purpose": "Hành động import/export tại trang; nhận diện Excel, nạp CSS/JS bố cục rộng và kéo ngang.",
+      "sha256": "4EC6D1CBEF5FE8B52EB4C8121A23E2BF14DBED112F778353E506040566A06904",
+      "git_blob": "6dacff773abad53314154a820d53589893bf4afd"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/entities/export-menu.blade.php",
+      "scope": "Chung",
+      "purpose": "Mục tải DOCX/XLSX cho Page, theo quyền export hiện có.",
+      "sha256": "5D79EC688742A422FC4850FF5A3A56B9D472F40C7B999D6FCA305D0A832C0776",
+      "git_blob": "b28a30b70d8b95c9a82316c50ed5018315b0eee4"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/edit.blade.php",
+      "scope": "Excel",
+      "purpose": "Nhận diện trang/bản nháp Excel; nạp CSS/JS editor riêng và CSP nonce.",
+      "sha256": "E229B55A126E5A5AB6ADFDDA4CDEAA7102038EEC20EA27610D58D5279F4BD1BC",
+      "git_blob": "621e9340077654ca6932a6bfb92a13f8b0e834ea"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/parts/wysiwyg-editor.blade.php",
+      "scope": "Excel",
+      "purpose": "Chuẩn hóa lưới trước khi đưa HTML vào TinyMCE, phục hồi hàng thiếu của trang Excel cũ.",
+      "sha256": "66D7753AC9976348DF7812ABF89ADB6C8BBC15F0EEF0664BAAEB9B2597F6E490",
+      "git_blob": "ce12fa007df5b22df5a4355b117b065762123e34"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/parts/page-display.blade.php",
+      "scope": "Excel",
+      "purpose": "Chuẩn hóa lưới khi hiển thị nội dung đã lưu; không tự ghi lại database.",
+      "sha256": "9DAD94EABA417A0D436A1F2FFC60D85D92410836FB054308C0ECBB16194026F5",
+      "git_blob": "27988cf8ba8d77413a596763e65f03605ac161cc"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/excel-content.css",
+      "scope": "Excel",
+      "purpose": "Nội dung rộng, cuộn ngang trong vùng trang, giữ độ rộng cột nguồn.",
+      "sha256": "AE14E6ACE268FEEC3BC3D3B0AAAB884685C291413FD31E6F5210BB3EBB3E6DB9",
+      "git_blob": "b600c5b8020455ad0926a70fc196d3568ef91a35"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/excel-content.js",
+      "scope": "Excel",
+      "purpose": "Giữ chuột kéo ngang ở màn xem; Shift chọn chữ, dọn trạng thái kéo khi thả/mất focus.",
+      "sha256": "E5CD42D6FCA4C8D1FDE806D534DA7EC75084D3D85E0D7450568C600584FB21FB",
+      "git_blob": "414a74ecc8b344da1bfd842a7248426d2846d2fc"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/excel-editor.css",
+      "scope": "Excel",
+      "purpose": "Bỏ max-width 840px trong editor/iframe và tên trang, cuộn ngang và giữ lưới nguồn.",
+      "sha256": "3528DBF5467DD48F710A1B6D1AEE23D041C007A31430609CD286F1473F3D7EBD",
+      "git_blob": "bcd72a5023e4c7ded9189b585e2d03ec236d3f43"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/excel-editor.js",
+      "scope": "Excel",
+      "purpose": "Hook TinyMCE pre-init/setup để gắn CSS/class và kéo ngang trong iframe, dọn listener.",
+      "sha256": "C8410BFB0D433EF59F8150C27B6DCC3C341FEACE9FC86510B3CA34B30BA76AD0",
+      "git_blob": "d1124be91c8a0e0b1806be94d00db2093dd6a0bb"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/excel-import.js",
+      "scope": "Excel",
+      "purpose": "Chặn file quá 2.048 KB ngay khi chọn; server vẫn kiểm tra lại.",
+      "sha256": "6642954BFAE02635F46CF61FEAD227F44FC73614CC461D759F37F8B8E3F13A6B",
+      "git_blob": "19a70745a5cb9213693ec7d47d55a18b29596076"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/lang/en/entities.php",
+      "scope": "Chung",
+      "purpose": "Nhãn menu export Word/Excel tiếng Anh.",
+      "sha256": "4EF576E697612C76EA78093C92982AA53DF2E9528239D17FDB7AE20FB67B1A64",
+      "git_blob": "0f10acc3d61c97caef014fcb7c51e3a96b91b86a"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/lang/vi/entities.php",
+      "scope": "Chung",
+      "purpose": "Nhãn menu export Word/Excel tiếng Việt.",
+      "sha256": "F4DEAEA9708523F8B5C4F57BF5EB3B59C87707BD3BCA294411EBDD6898346CE9",
+      "git_blob": "161952f8c7558735908665a8c8f6c9543e12b45b"
+    },
+    {
+      "path": "Dockerfile",
+      "scope": "Môi trường",
+      "purpose": "PHP/extensions/font và LibreOffice Writer + Calc. Khi chuyển sang Vlex cần đối chiếu runtime thực tế, không nhất thiết dùng image lab.",
+      "sha256": "61038D43311121465F53CB32C968F374F42B4A56EE9C1A2B32434E626F54C9FC",
+      "git_blob": "2cd7438ca82fcf1a4304ff6b68cd4391324825b5"
+    },
+    {
+      "path": "compose.yaml",
+      "scope": "Tham chiếu lab",
+      "purpose": "App, MySQL, URL/port và volume lab; không phải cấu hình triển khai production Vlex.",
+      "sha256": "D5BF7AF3DEA3523009747A05347FF489CB6BEFE4B55B688E08C12EEFDF1E1B6F",
+      "git_blob": "26bbb110fee2cc45a7e7cf404b80e3df8a5f1b04"
+    },
+    {
+      "path": "docker/entrypoint.sh",
+      "scope": "Tham chiếu lab",
+      "purpose": "Chuẩn bị môi trường và khởi động container; đối chiếu cách khởi động/config/cache trên máy đích.",
+      "sha256": "2FDEA5F217EE4B84F3429BB8CF16CA17E3BA863C45596E4A7AE179D192C2B417",
+      "git_blob": "3653e0379425f021401ed3da778989e5f4ed0f94"
+    },
+    {
+      "path": "tests/word-import/check-service.php",
+      "scope": "Test Word",
+      "purpose": "DOC/DOCX, tiếng Việt, ảnh, danh sách/thụt lề, OLE/đối tượng nổi và HTML an toàn.",
+      "sha256": "82254C383252B797F01418EECBA13EB036EA0823A36C34B6698FCF9A1BF84670",
+      "git_blob": "db9ba9e9a8142ebd89c7b3fd62d74d8c23e44d65"
+    },
+    {
+      "path": "tests/word-import/check-docx-layout.php",
+      "scope": "Test Word",
+      "purpose": "Kiểm tra bố cục/numbering trong nguồn DOCX và import.",
+      "sha256": "57D27097225D8B23EA3111FE952BC7930DC18FA6CC63736DF2C4AD18FEEB85E7",
+      "git_blob": "0624a7d6f2a79a82a8d4b77bea2ac3f83f20b4a5"
+    },
+    {
+      "path": "tests/word-import/check-export.php",
+      "scope": "Test Word",
+      "purpose": "DOCX từ nội dung đã sửa, bảng/ô gộp, ảnh nhúng và danh sách.",
+      "sha256": "A6B72A790E11123C51AFF36DC7727675FBA4951501610A6B65497E6984B128E0",
+      "git_blob": "09ba7f526533597f693f1e2b81a9a3890ea1e85f"
+    },
+    {
+      "path": "tests/word-import/check-export-layout.php",
+      "scope": "Test Word",
+      "purpose": "Lưới cột/bảng lồng, ảnh lớn, ngắt nội dung dài và vùng in.",
+      "sha256": "70819C80D75D84F7BDE80701799ED94B2248762AF0EE2551547988479C203673",
+      "git_blob": "51fc6cb281f65ac47114c3751b7a06420520e1d7"
+    },
+    {
+      "path": "tests/word-import/check-export-appearance.php",
+      "scope": "Test Word",
+      "purpose": "Font và viền từng cạnh từ XML DOCX.",
+      "sha256": "B4B867ABEF8952782462042080A750E111C6046A3E1A424DE661B493E8A46204",
+      "git_blob": "bddc6f1d224cb0017a0db0f10b61b067a0ae0744"
+    },
+    {
+      "path": "tests/word-import/check-http.ps1",
+      "scope": "Test Word",
+      "purpose": "Web upload → nháp → lưu → tải DOCX/ảnh, chặn chưa đăng nhập.",
+      "sha256": "5DAFDA6CC15D72B698457992F7D314E85053F0B7DB3978F378DB1AD20B684281",
+      "git_blob": "2e58664194086f339698a626719e95e4e4001170"
+    },
+    {
+      "path": "tests/excel-import/check-service.php",
+      "scope": "Test Excel",
+      "purpose": "XLS/XLSX nhiều sheet, text/giá trị công thức, ô gộp, font/viền/ảnh; cấu trúc inline string, file lỗi và dọn tạm.",
+      "sha256": "F2BEDA80DA7CC160072A8DAA361C98EA41DE07ADC5F07088C60EA2DDD69953B8",
+      "git_blob": "3679b7920f3552092e6be0ebbd1c62fd0f402b91"
+    },
+    {
+      "path": "tests/excel-import/check-permissions.php",
+      "scope": "Test Excel",
+      "purpose": "Quyền tạo trang/ảnh, xem trang và xuất nội dung.",
+      "sha256": "2188CAE8FE533690E48EC00653D89A827ED7AE7C84BCEB9B082A6AFDBD9513C2",
+      "git_blob": "199db1b9f907e31962c74a53763a96d0ae651d75"
+    },
+    {
+      "path": "tests/excel-import/check-preflight.php",
+      "scope": "Test Excel",
+      "purpose": "Chặn dung lượng/số sheet kể cả tab ẩn trước chuyển đổi cho XLS và XLSX.",
+      "sha256": "B187AF37327113E66DAD6E56ECA88F7FB87A68DAF91D4F4B10A82A4E7DBF0916",
+      "git_blob": "4f504b240f34d4ec49baf666df8cb472f739b422"
+    },
+    {
+      "path": "tests/excel-import/check-html-scale.php",
+      "scope": "Test Excel",
+      "purpose": "Tốc độ bộ lọc với bảng tổng hợp lớn, ngân sách phần tử và nhận diện Excel.",
+      "sha256": "02F0F5C29EF1C2D5EACD9A7D8D57701D64C14E93FE23337989BAADD0287625D4",
+      "git_blob": "3629c758638316f68d85cc9ccef8251ce679ef0f"
+    },
+    {
+      "path": "tests/excel-import/check-table-layout.php",
+      "scope": "Test Excel",
+      "purpose": "Hàng trống dưới ô gộp, phục hồi hàng thiếu, span/độ rộng cột, ghi chú và không đổi HTML Word.",
+      "sha256": "8474B21AB157CDD683DB418FE88E2AC699BBB494A40E40CE60E1C4FBC007F0E6",
+      "git_blob": "fa79119c391c144505daae10c1221c5a8bf55cf0"
+    },
+    {
+      "path": "tests/excel-import/check-row-heights.php",
+      "scope": "Test Excel",
+      "purpose": "Hàng chữ không có ht/customHeight; giữ wrap, ô gộp và khoảng dành cho ảnh.",
+      "sha256": "AB13A6F51CBF69165DEC42AF9133C59CE0601733587CF454975E1EC43F390998",
+      "git_blob": "206a045a575157ab72ae022b020ced3d6165f26b"
+    },
+    {
+      "path": "tests/excel-import/check-http.ps1",
+      "scope": "Test Excel",
+      "purpose": "Web upload → nháp → sửa → lưu → tải XLSX; HTTP 422, giới hạn và đăng nhập.",
+      "sha256": "60A923FA21851ADD9D07C4455EF4B851E82D500F0FB77B75BD47EFC48746A229",
+      "git_blob": "34ae55431e940f16c26473da034a6cf032a1c6f1"
+    }
+  ]
+}

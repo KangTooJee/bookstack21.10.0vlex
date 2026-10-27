@@ -1,7 +1,7 @@
 {
   "date": "2026-10-27",
   "branch": "files-curl",
-  "baseCommit": "93bbb5fd74d02e3e6f8476d91af4d61cb0511c83",
+  "baseCommit": "cd9c636fb82afa7a1ef22eecc191b7e6286a2809",
   "description": "Excel feature snapshot; SHA256 is for working-tree bytes before Git LF normalization",
   "files": [
     {
@@ -14,7 +14,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "991702615BA0887E9CCC9D785CF90EB78D95755296480B996AA9366B56527124"
+      "sha256": "D12F1EDED32D273196459AD829A0F2BB782AAC877FB7A33AC248FE88F3C82C5B"
     },
     {
       "path": "source/BookStack-21.11.1/app/Http/Controllers/ExcelImportController.php",

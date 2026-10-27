@@ -100,4 +100,6 @@ Kết quả kiểm tra ngày 22/10/2026: PHP 8.0.30, Laravel 8.70.2, BookStack v
 
 ## Đối chiếu khi áp dụng lên Vlex thật
 
+Tra cứu [bảng kê tổng hợp Word/Excel: từng file, tác dụng, mốc commit và điểm kiểm tra tương thích](docs/vlex-integration-file-map.md), kèm [manifest đường dẫn và SHA256 hiện tại](docs/vlex-integration-manifest.json). Mốc mã nguồn tính năng: `cd9c636` trên nhánh `files-curl`.
+
 Xem [bảng kê file import/export Word và hướng dẫn kiểm tra tương thích](docs/word-import-export-changes.md). Snapshot trạng thái Git và SHA256 từng file được lưu trong [manifest](docs/word-import-export-manifest.json).
