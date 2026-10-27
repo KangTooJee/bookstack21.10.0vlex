@@ -20,7 +20,7 @@ html.excel-editor-root {
 }
 body.excel-editor-content table {
     table-layout: auto;
-    width: max-content !important;
+    width: max-content;
     min-width: 100%;
     max-width: none;
     float: none !important;
@@ -36,4 +36,12 @@ body.excel-editor-content.excel-dragging,
 body.excel-editor-content.excel-dragging * {
     cursor: grabbing !important;
     user-select: none !important;
+}
+body.excel-editor-content table.excel-source-grid {
+    min-width: 0;
+}
+body.excel-editor-content table.excel-source-grid td,
+body.excel-editor-content table.excel-source-grid th {
+    min-width: 0;
+    overflow-wrap: break-word;
 }

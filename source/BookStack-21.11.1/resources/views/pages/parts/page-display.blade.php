@@ -7,6 +7,6 @@
     @if (isset($diff) && $diff)
         {!! $diff !!}
     @else
-        {!! isset($page->renderedHTML) ? $page->renderedHTML : $page->html !!}
+        {!! \BookStack\Uploads\ExcelHtmlLayout::prepare(isset($page->renderedHTML) ? $page->renderedHTML : $page->html) !!}
     @endif
 </div>

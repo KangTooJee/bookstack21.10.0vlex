@@ -1,7 +1,7 @@
 {
   "date": "2026-10-27",
   "branch": "files-curl",
-  "baseCommit": "7d49d776ec07b56c63836c7c29b63d349a3afd93",
+  "baseCommit": "776c08877ce8b19f4c5d50235083772695979c65",
   "description": "Excel feature snapshot; SHA256 is for working-tree bytes before Git LF normalization",
   "files": [
     {
@@ -10,11 +10,11 @@
     },
     {
       "path": "docs/excel-import-export-changes.md",
-      "sha256": "9C51076F85B427D15EEDA18F0199B3A812DDF60ADD58053AB314AB8B20D2D90B"
+      "sha256": "3A54BB1AC4CD9C084D35B8D56B8A9CBEBE220C90B0298DC1FE3CE355BB8E1C83"
     },
     {
       "path": "README.md",
-      "sha256": "A6617A61816F56BCB5B836F622EA654C38CB30DA177C1ABE0B438D77BF5A650C"
+      "sha256": "99FCDC66623D6538867AB6A8D8EEC68F1BD62384986CA59E3A93454D5C088643"
     },
     {
       "path": "source/BookStack-21.11.1/app/Http/Controllers/ExcelImportController.php",
@@ -30,7 +30,7 @@
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelExportService.php",
-      "sha256": "20CE90E679120AB64416FB1928B5D79C49613717B8C19E9BC7AFE2F7838E19D4"
+      "sha256": "E5BACB297EC55224D402EAC9C0221E0B86D504B566109C0CE99FAB5259EB11C6"
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelImportPolicy.php",
@@ -38,11 +38,11 @@
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelImportService.php",
-      "sha256": "877C34DA544BFE6DC0507F7575CC2F0FB829A6F1B0E617E9BC94748147EEC6FE"
+      "sha256": "D1BE2DED642192B4F752A1A24C799F2E11B18AF4DD555CF3C12B3D06DF3E5D99"
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelPageLayout.php",
-      "sha256": "3D92A46887F9DE89F6CA7BDE98D52884C134105ADBCDEF32AB4FC5934BBFCEB6"
+      "sha256": "EE6A80E3A852E8DF88803014F3100FEAB3EAE7069F74194261EAB3C3D8A8A79E"
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelWorkbookWriter.php",
@@ -50,11 +50,11 @@
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/WordImportService.php",
-      "sha256": "FF18517E9732C35F39A522742E11B7988A057F278C422116CFE03380D2600703"
+      "sha256": "5D5EEC3812B6D3E0B0BB2F0C4F809F41B2E89B09D94A70C2EDE3AC2E72880676"
     },
     {
       "path": "source/BookStack-21.11.1/public/dist/excel-content.css",
-      "sha256": "A96D68A287C157393540DC8B0BD55B98CEC7F48486899E16A02E6CF350F11CF7"
+      "sha256": "AE14E6ACE268FEEC3BC3D3B0AAAB884685C291413FD31E6F5210BB3EBB3E6DB9"
     },
     {
       "path": "source/BookStack-21.11.1/public/dist/excel-content.js",
@@ -62,7 +62,7 @@
     },
     {
       "path": "source/BookStack-21.11.1/public/dist/excel-editor.css",
-      "sha256": "D2DA58A73C3C1FB2EE5ED2961CEAC0D950004ED75AEAA31E060FA8A720689E2A"
+      "sha256": "3528DBF5467DD48F710A1B6D1AEE23D041C007A31430609CD286F1473F3D7EBD"
     },
     {
       "path": "source/BookStack-21.11.1/public/dist/excel-editor.js",
@@ -94,7 +94,7 @@
     },
     {
       "path": "source/BookStack-21.11.1/resources/views/pages/edit.blade.php",
-      "sha256": "4072FA33AF601D632F18C7708E7D71A6BABA1F8864A634E6DA0BEC55812FCE57"
+      "sha256": "E229B55A126E5A5AB6ADFDDA4CDEAA7102038EEC20EA27610D58D5279F4BD1BC"
     },
     {
       "path": "source/BookStack-21.11.1/resources/views/pages/import-excel.blade.php",
@@ -106,7 +106,7 @@
     },
     {
       "path": "source/BookStack-21.11.1/resources/views/pages/show.blade.php",
-      "sha256": "880D57E33A1090AE5C542260CA7DB905FE2903738B64C6631F3E5138AA0A8AC8"
+      "sha256": "4EC6D1CBEF5FE8B52EB4C8121A23E2BF14DBED112F778353E506040566A06904"
     },
     {
       "path": "source/BookStack-21.11.1/routes/web.php",
@@ -131,6 +131,22 @@
     {
       "path": "tests/excel-import/check-service.php",
       "sha256": "F2BEDA80DA7CC160072A8DAA361C98EA41DE07ADC5F07088C60EA2DDD69953B8"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/ExcelHtmlLayout.php",
+      "sha256": "14965A4306F923CBA64D7ED595FB85C4E75CA56D58CDADE5559667A4210EDF2E"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/parts/page-display.blade.php",
+      "sha256": "9DAD94EABA417A0D436A1F2FFC60D85D92410836FB054308C0ECBB16194026F5"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/parts/wysiwyg-editor.blade.php",
+      "sha256": "66D7753AC9976348DF7812ABF89ADB6C8BBC15F0EEF0664BAAEB9B2597F6E490"
+    },
+    {
+      "path": "tests/excel-import/check-table-layout.php",
+      "sha256": "8474B21AB157CDD683DB418FE88E2AC699BBB494A40E40CE60E1C4FBC007F0E6"
     }
   ]
 }

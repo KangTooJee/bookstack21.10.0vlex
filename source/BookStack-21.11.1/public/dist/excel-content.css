@@ -13,7 +13,7 @@
     .excel-page .page-content table {
         cursor: grab;
         table-layout: auto;
-        width: max-content !important;
+        width: max-content;
         min-width: 100%;
         max-width: none;
         float: none !important;
@@ -28,5 +28,13 @@
         min-width: 120px;
         overflow-wrap: normal;
         word-break: normal;
+    }
+    .excel-page .page-content table.excel-source-grid {
+        min-width: 0;
+    }
+    .excel-page .page-content table.excel-source-grid td,
+    .excel-page .page-content table.excel-source-grid th {
+        min-width: 0;
+        overflow-wrap: break-word;
     }
 }

@@ -5,8 +5,8 @@
 
 @if($excelContent)
     @push('head')
-        <link rel="stylesheet" href="{{ versioned_asset('dist/excel-content.css') }}">
-        <script src="{{ versioned_asset('dist/excel-content.js') }}" nonce="{{ $cspNonce }}" defer></script>
+        <link rel="stylesheet" href="{{ \BookStack\Uploads\ExcelPageLayout::assetUrl('excel-content.css') }}">
+        <script src="{{ \BookStack\Uploads\ExcelPageLayout::assetUrl('excel-content.js') }}" nonce="{{ $cspNonce }}" defer></script>
     @endpush
 @endif
 

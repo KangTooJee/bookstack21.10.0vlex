@@ -36,6 +36,7 @@ class ExcelImportService
             } finally {
                 libxml_clear_errors(); libxml_use_internal_errors($previous);
             }
+            ExcelHtmlLayout::moveCommentsToTitles($document);
             foreach ((new \DOMXPath($document))->query('//*[@bgcolor]') as $element) {
                 if ($element->hasAttribute('bgcolor')) {
                     $color = $element->getAttribute('bgcolor');
@@ -49,7 +50,7 @@ class ExcelImportService
             $normalized = $document->saveHTML($body);
             unset($body, $element, $document);
             $clean = (new WordImportService())->cleanHtml($normalized, $directory, [], 100000);
-            return '<a name="bookstack-excel-content"></a>' . $clean;
+            return ExcelHtmlLayout::prepare('<a name="bookstack-excel-content"></a>' . $clean);
         } finally {
             File::deleteDirectory($directory);
         }

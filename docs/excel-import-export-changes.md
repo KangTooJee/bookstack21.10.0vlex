@@ -43,6 +43,16 @@ Việc gom workbook lớn tùy ý thành một Page HTML đồng bộ không kh�
 
 ## File tích hợp
 
+### Sửa lệch hàng sau ô gộp (27/10/2026)
+
+TinyMCE 4 xóa `<tr></tr>` không có ID. Khi tiêu đề gộp dọc phủ toàn bộ cột, xóa hàng này nhưng vẫn giữ `rowspan` khiến dòng kế tiếp bị đẩy sang ngoài lưới. `ExcelHtmlLayout` gắn ID cho hàng trống, phục hồi hàng bị mất trong nội dung Excel cũ dựa trên metadata cột và vùng rowspan, không thêm ô giả. Chuẩn hóa được áp dụng khi nhập, xem, mở editor và xuất; không tự ghi đè nội dung trang đã lưu.
+
+Giữ `colgroup span`, độ rộng cột và dùng bố cục bảng cố định theo tổng độ rộng nguồn, thay vì để nội dung tự kéo giãn cột. Độ rộng inline mà người dùng đã sửa vẫn được giữ. Ghi chú `<comment>` từ Calc được chuyển thành thuộc tính `title` khi nhập mới để không trộn metadata vào giá trị hiển thị. CSS/JS Excel có hash nội dung trong URL để trình duyệt nhận bản cập nhật dù phiên bản BookStack không đổi.
+
+Đối chiếu với workbook người dùng cung cấp: hai bảng, 40 hàng, 350 ô; hàng “0” nằm đúng cột A–J. Sau thao tác Edit → Lưu trên sách kiểm thử riêng, cả 350 giá trị ô không đổi và độ rộng 10 cột giữ theo metadata nguồn. Không ghi đè trang người dùng đang sửa và không đưa workbook vào repository. Đây là kiểm tra lưới bảng của file này, không mở rộng cam kết sang macro/pivot hay toàn bộ đối tượng Excel.
+
+`tests/excel-import/check-table-layout.php` kiểm tra hàng gộp phủ toàn lưới, phục hồi hàng thiếu, rowspan một phần, span/độ rộng cột, tính lặp không đổi, chú thích và HTML Word không bị sửa. Kiểm tra HTTP XLS/XLSX nhập → sửa → lưu → xuất và kiểm tra service Word đều qua.
+
 Gốc ứng dụng: `source/BookStack-21.11.1/`.
 
 | File | Vai trò |

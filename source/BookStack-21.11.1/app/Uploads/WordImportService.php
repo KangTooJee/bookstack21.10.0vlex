@@ -249,7 +249,7 @@ class WordImportService
             foreach (iterator_to_array($node->attributes) as $attribute) {
                 $name = strtolower($attribute->name);
                 $value = $attribute->value;
-                $keep = in_array($name, ['title', 'alt', 'colspan', 'rowspan', 'width', 'height', 'start', 'type', 'align', 'valign', 'border', 'cellpadding', 'cellspacing', 'color', 'face', 'size'], true);
+                $keep = in_array($name, ['title', 'alt', 'span', 'colspan', 'rowspan', 'width', 'height', 'start', 'type', 'align', 'valign', 'border', 'cellpadding', 'cellspacing', 'color', 'face', 'size'], true);
                 if ($name === 'style') {
                     $node->setAttribute('style', $this->cleanStyle($value));
                     $keep = true;

@@ -25,6 +25,7 @@ class ExcelExportService
         }
         try {
             $html = (new PageContent($page))->render();
+            $html = ExcelHtmlLayout::prepare($html);
             if (strlen($html) > 20 * 1024 * 1024) {
                 throw new RuntimeException('Nội dung quá lớn để xuất Excel. Hãy chia nhỏ trang.');
             }
