@@ -1,10 +1,16 @@
 @extends('layouts.base')
 
+@php($excelContent = \BookStack\Uploads\ExcelPageLayout::matches($page->html))
+
 @section('head')
     <script src="{{ url('/libs/tinymce/tinymce.min.js?ver=4.9.4') }}" nonce="{{ $cspNonce }}"></script>
+    @if($excelContent)
+        <link rel="stylesheet" href="{{ versioned_asset('dist/excel-editor.css') }}">
+        <script src="{{ versioned_asset('dist/excel-editor.js') }}" data-content-css="{{ versioned_asset('dist/excel-editor.css') }}" nonce="{{ $cspNonce }}"></script>
+    @endif
 @stop
 
-@section('body-class', 'flexbox')
+@section('body-class', $excelContent ? 'flexbox excel-edit-page' : 'flexbox')
 
 @section('content')
 

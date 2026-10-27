@@ -8,6 +8,8 @@ Trang Excel dùng hết chiều rộng vùng nội dung (bỏ giới hạn 840/9
 
 Giữ chuột trái trên bảng và kéo để cuộn ngang; ngưỡng kéo 5px tránh nhầm thao tác click. Giữ Shift để chọn/copy chữ, liên kết và điều khiển vẫn click bình thường. Khi thả chuột, hủy pointer hoặc cửa sổ mất focus, chế độ kéo kết thúc. Thiết bị cảm ứng tiếp tục dùng thao tác vuốt tự nhiên.
 
+Từ 27/10/2026, màn **Edit** của Excel cũng dùng hết chiều rộng vùng soạn thảo và cuộn ngang ngay trong iframe TinyMCE. Dùng hook `editor-tinymce::pre-init` để nạp CSS riêng và class cho body iframe, hook `editor-tinymce::setup` để gắn xử lý kéo khi editor khởi tạo. Bỏ giới hạn 840px ở cả body nội dung và ô tên trang. Kéo chuột ngang không ghi lại wrapper/style vào HTML tài liệu, không đổi dữ liệu; click vẫn đặt được con trỏ sửa ô, giữ Shift để chọn chữ. Chỉ tải các asset này cho trang được nhận diện là Excel, áp dụng cả bản nháp. Không sửa CSS hoặc cấu hình chung của editor Word.
+
 - Nhập `.xls` Excel 97–2003 và `.xlsx`; nhiều sheet trở thành các bảng kèm tên sheet trong cùng một trang. Giữ chữ tiếng Việt, giá trị hiển thị, ô gộp, màu nền, định dạng chữ cơ bản và ảnh nhúng. Chỉ những sheet/nội dung Calc xuất được thành HTML mới được nhập; cần kiểm tra bản nháp.
 - Công thức nhập trở thành giá trị hiển thị do Calc tính/đọc; không giữ công thức, macro, pivot, bộ lọc, validation, biểu đồ gốc hoặc cấu hình in. Không hỗ trợ file đặt mật khẩu, `.xlsm`, `.xlsb`, CSV. Macro trong XLS không được phép chạy; XLSX có `vbaProject.bin` bị từ chối.
 - Xuất từng trang đã lưu thành **một sheet `Nội dung`**, lần lượt gồm tên trang, văn bản và các bảng. Không khôi phục các tab sheet gốc. Bảng lồng trong ô được chuyển thành chữ trong ô cha. Các liên kết được xuất dưới dạng chữ hiển thị.
@@ -55,6 +57,9 @@ Gốc ứng dụng: `source/BookStack-21.11.1/`.
 | `public/dist/excel-content.css` | CSS riêng cho Excel: bỏ max-width, giữ bảng rộng, cuộn ngang trong nội dung; không cần npm build |
 | `public/dist/excel-content.js` | Giữ chuột kéo ngang, xử lý capture/thả chuột; script có CSP nonce |
 | `public/dist/excel-import.js` | Chặn file quá dung lượng ngay khi chọn trên form |
+| `resources/views/pages/edit.blade.php` | Nhận diện Excel và nạp CSS/JS riêng cho màn sửa |
+| `public/dist/excel-editor.css` | Bỏ max-width trong iframe, giữ bảng rộng và thanh cuộn ngang; title dùng hết chiều rộng |
+| `public/dist/excel-editor.js` | Tích hợp qua hook TinyMCE có sẵn; giữ chuột kéo ngang trong iframe và dọn listener khi editor đóng |
 | `app/Uploads/WordImportService.php` | Mở `cleanHtml()` thành public để Excel dùng chung bộ lọc; thông báo ảnh dùng từ “tài liệu” |
 | `app/Http/Controllers/PageExportController.php` | Action `excel()`, MIME XLSX, xử lý lỗi, middleware `content-export` sẵn có |
 | `routes/web.php` | GET/POST nhập theo sách/chương; GET xuất từng trang; throttle 10 lần/phút |
@@ -88,3 +93,5 @@ Fixture đều là dữ liệu tổng hợp do kiểm thử sinh ra, không ch�
 `check-html-scale.php`: đúng một mẫu HTML tổng hợp hai sheet/20.000 ô, hạn chạy 15 giây; kiểm tra ngân sách phần tử HTML và nhận diện bố cục Excel cũ/mới. Kiểm tra trình duyệt trên trang đã có: vùng nội dung rộng 778px, bảng rộng 5.645px, `overflow-x:auto`, không tràn chiều ngang document và cuộn bằng bàn phím được.
 
 `check-preflight.php`: chấp nhận 5 sheet, từ chối 6 sheet gồm sheet ẩn cho cả XLSX và XLS thực sinh bởi Calc; từ chối file quá 2.048 KB, xác minh không tạo thư mục chuyển đổi. Test HTTP bổ sung kiểm tra 422 cho file quá dung lượng/quá tab. Kiểm tra chuột trên trình duyệt: kéo 400px cuộn đúng 400px, không chọn chữ thừa và kết thúc trạng thái kéo khi thả chuột.
+
+Kiểm tra màn sửa trong trình duyệt ngày 27/10/2026: body iframe có `max-width:none`, rộng 1.217px theo viewport soạn thảo; nội dung cuộn rộng 5.660px. Kéo ngang 400px đổi scrollLeft từ 0 thành 400, thả chuột kết thúc trạng thái kéo, giữ đủ 350 ô của bản nháp đang mở và toàn bộ text không đổi. Click sau khi kéo vẫn đặt con trỏ `Caret` trong editor. Không lưu/publish thay đổi vào nội dung người dùng trong quá trình kiểm tra.

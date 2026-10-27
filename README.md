@@ -86,6 +86,8 @@ Docker bổ sung LibreOffice Calc cho import; export ghi XLSX trực tiếp bằ
 
 Trang Excel hiển thị hết chiều rộng vùng nội dung và cuộn ngang khi bảng rộng. Giữ chuột trái trên bảng rồi kéo để cuộn; giữ Shift để chọn chữ. Đã tối ưu bước lọc HTML gây timeout với bảng lớn; giới hạn nhập một trang là 10 MB HTML/100.000 phần tử HTML. Workbook lớn hơn cần tách sheet/vùng dữ liệu; không bảo đảm chuyển mọi workbook thành một Page đồng bộ.
 
+Màn sửa Excel áp dụng cùng bố cục rộng bên trong TinyMCE: bỏ max-width 840px, có thanh cuộn ngang và giữ chuột kéo ngang. Click để sửa ô; giữ Shift để chọn chữ.
+
 ## Kiểm tra môi trường và import
 
 `tests/check-runtime.php` xác minh phiên bản, toàn bộ thư viện production khớp lockfile, kết nối MySQL và việc không có Composer ở runtime. `tests/word-import/` chứa kiểm tra chuyển Word, lọc HTML, file lỗi và luồng tải lên → bản nháp → xuất bản → tải ảnh/giữ điểm neo mục lục. Bài kiểm tra HTTP tạo sách thử riêng rồi đưa vào thùng rác.

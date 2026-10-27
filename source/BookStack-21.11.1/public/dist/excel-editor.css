@@ -1,0 +1,39 @@
+/* Loaded both in the Excel edit screen and in its TinyMCE iframe. */
+.excel-edit-page .title-input.page-title input[type="text"] {
+    max-width: none;
+}
+.excel-edit-page .page-editor,
+.excel-edit-page .edit-area,
+.excel-edit-page .edit-area > div {
+    min-width: 0;
+}
+body.excel-editor-content.page-content {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    overflow-wrap: normal;
+}
+html.excel-editor-root {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+}
+body.excel-editor-content table {
+    table-layout: auto;
+    width: max-content !important;
+    min-width: 100%;
+    max-width: none;
+    float: none !important;
+    cursor: grab;
+}
+body.excel-editor-content td,
+body.excel-editor-content th {
+    min-width: 120px;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+body.excel-editor-content.excel-dragging,
+body.excel-editor-content.excel-dragging * {
+    cursor: grabbing !important;
+    user-select: none !important;
+}
