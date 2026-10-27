@@ -1,7 +1,7 @@
 {
   "date": "2026-10-27",
   "branch": "files-curl",
-  "baseCommit": "776c08877ce8b19f4c5d50235083772695979c65",
+  "baseCommit": "93bbb5fd74d02e3e6f8476d91af4d61cb0511c83",
   "description": "Excel feature snapshot; SHA256 is for working-tree bytes before Git LF normalization",
   "files": [
     {
@@ -10,11 +10,11 @@
     },
     {
       "path": "docs/excel-import-export-changes.md",
-      "sha256": "3A54BB1AC4CD9C084D35B8D56B8A9CBEBE220C90B0298DC1FE3CE355BB8E1C83"
+      "sha256": "87C90544727C3EA46743735B8FA1C6ADA8F268E1748A3D8B5FC1B0FD1218B763"
     },
     {
       "path": "README.md",
-      "sha256": "99FCDC66623D6538867AB6A8D8EEC68F1BD62384986CA59E3A93454D5C088643"
+      "sha256": "991702615BA0887E9CCC9D785CF90EB78D95755296480B996AA9366B56527124"
     },
     {
       "path": "source/BookStack-21.11.1/app/Http/Controllers/ExcelImportController.php",
@@ -46,7 +46,7 @@
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/ExcelWorkbookWriter.php",
-      "sha256": "A154AFE358DA3D8CB0F71FE419D005471579D34123A51F39580C9D8C53CE3177"
+      "sha256": "8BD207F4C81EE8D9644843FF74587520731E8183F442FC982E2BE237BFFF251C"
     },
     {
       "path": "source/BookStack-21.11.1/app/Uploads/WordImportService.php",
@@ -147,6 +147,10 @@
     {
       "path": "tests/excel-import/check-table-layout.php",
       "sha256": "8474B21AB157CDD683DB418FE88E2AC699BBB494A40E40CE60E1C4FBC007F0E6"
+    },
+    {
+      "path": "tests/excel-import/check-row-heights.php",
+      "sha256": "AB13A6F51CBF69165DEC42AF9133C59CE0601733587CF454975E1EC43F390998"
     }
   ]
 }

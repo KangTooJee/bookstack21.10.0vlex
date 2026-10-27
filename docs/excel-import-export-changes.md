@@ -43,6 +43,12 @@ Việc gom workbook lớn tùy ý thành một Page HTML đồng bộ không kh�
 
 ## File tích hợp
 
+### Chiều cao hàng khi xuất XLSX (27/10/2026)
+
+Bỏ ước lượng `15 * ceil(số ký tự / 24)` và `customHeight="1"` cho tất cả hàng chữ. Cách cũ không tính chiều rộng ô gộp/font, khiến nội dung dài tạo hàng cố định tới 409pt. Hàng chữ mới không ghi `ht`/`customHeight`, vẫn giữ `wrapText="1"`; không lấy chiều cao cố định từ HTML. Chỉ hàng có drawing ảnh dành chiều cao theo ảnh vì drawing không tham gia AutoFit. Không thay đổi HTML đã lưu.
+
+`check-row-heights.php` kiểm tra text dài gộp ngang, gộp dọc, xuống dòng, HTML có height lớn, giữ wrap/ảnh, cấu trúc inline string và tái sử dụng writer không rò chiều cao ảnh. Kiểm tra service XLS/XLSX nhập/xuất cũng qua. Chiều cao tự động khi mở, đặc biệt AutoFit của ô gộp, do ứng dụng bảng tính quyết định; XLSX không có CSS `max-content` tương đương trình duyệt.
+
 ### Sửa lệch hàng sau ô gộp (27/10/2026)
 
 TinyMCE 4 xóa `<tr></tr>` không có ID. Khi tiêu đề gộp dọc phủ toàn bộ cột, xóa hàng này nhưng vẫn giữ `rowspan` khiến dòng kế tiếp bị đẩy sang ngoài lưới. `ExcelHtmlLayout` gắn ID cho hàng trống, phục hồi hàng bị mất trong nội dung Excel cũ dựa trên metadata cột và vùng rowspan, không thêm ô giả. Chuẩn hóa được áp dụng khi nhập, xem, mở editor và xuất; không tự ghi đè nội dung trang đã lưu.

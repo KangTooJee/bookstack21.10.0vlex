@@ -90,6 +90,8 @@ Màn sửa Excel áp dụng cùng bố cục rộng bên trong TinyMCE: bỏ max
 
 Giữ hàng trống bị phủ hoàn toàn bởi ô gộp để TinyMCE không xóa hàng và đẩy dòng kế tiếp ra ngoài bảng. Bảng nhập giữ độ rộng cột từ Calc, gồm `colgroup span`; trang Excel đã nhập được phục hồi hàng thiếu khi xem, sửa và xuất. Ghi chú ô của Calc được đưa vào tooltip khi nhập để không làm giãn nội dung ô.
 
+Khi xuất XLSX, hàng văn bản không bị ép chiều cao theo số ký tự; giữ wrap và để ứng dụng bảng tính xử lý chiều cao tự động. Chỉ hàng chứa ảnh dành chiều cao cho ảnh. AutoFit cho ô gộp tùy ứng dụng mở file, không tương đương cơ chế bố cục nội dung của trình duyệt.
+
 ## Kiểm tra môi trường và import
 
 `tests/check-runtime.php` xác minh phiên bản, toàn bộ thư viện production khớp lockfile, kết nối MySQL và việc không có Composer ở runtime. `tests/word-import/` chứa kiểm tra chuyển Word, lọc HTML, file lỗi và luồng tải lên → bản nháp → xuất bản → tải ảnh/giữ điểm neo mục lục. Bài kiểm tra HTTP tạo sách thử riêng rồi đưa vào thùng rác.

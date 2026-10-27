@@ -54,7 +54,11 @@ class ExcelWorkbookWriter
             $sheet = '<worksheet xmlns="' . $ns . '" xmlns:r="' . $rels . '"><sheetFormatPr defaultColWidth="24" defaultRowHeight="22"/><sheetData>';
             ksort($this->rows);
             foreach ($this->rows as $number => $cells) {
-                $sheet .= '<row r="' . $number . '" ht="' . ($this->heights[$number] ?? 22) . '" customHeight="1">' . implode('', $cells) . '</row>';
+                // Text rows must remain automatic. Character-count estimates ignore
+                // merged cells, font metrics and wrapping, producing huge fixed rows.
+                // Drawings cannot drive Excel AutoFit, so only image rows reserve space.
+                $height = isset($this->heights[$number]) ? ' ht="' . $this->heights[$number] . '" customHeight="1"' : '';
+                $sheet .= '<row r="' . $number . '"' . $height . '>' . implode('', $cells) . '</row>';
             }
             $sheet .= '</sheetData>';
             if ($this->merges) { $sheet .= '<mergeCells count="' . count($this->merges) . '">' . implode('', $this->merges) . '</mergeCells>'; }
@@ -151,7 +155,6 @@ class ExcelWorkbookWriter
         // Empty anchors/images must not insert plain <t/> between rich runs.
         $content = $content ?: '<t/>';
         $this->rows[$this->row][] = '<c r="' . $this->column($column) . $this->row . '" s="' . $index . '" t="inlineStr"><is>' . $content . '</is></c>';
-        $this->heights[$this->row] = max($this->heights[$this->row] ?? 22, min(409, 15 * max(1, ceil(mb_strlen($text) / 24), substr_count($text, "\n") + 1)));
         $images = $node instanceof DOMElement ? iterator_to_array($node->getElementsByTagName('img')) : [];
         if ($node->nodeName === 'img') { $images[] = $node; }
         foreach ($images as $image) {
@@ -167,7 +170,7 @@ class ExcelWorkbookWriter
             imagesavealpha($bitmap, true);
             ob_start(); imagepng($bitmap); $png = ob_get_clean(); imagedestroy($bitmap);
             $this->images[] = ['bytes' => $png, 'column' => $column - 1, 'row' => $this->row - 1, 'width' => (int) round($displayWidth * $scale * 9525), 'height' => (int) round($displayHeight * $scale * 9525)];
-            $this->heights[$this->row] = max($this->heights[$this->row], (int) ceil(($displayHeight * $scale + 26) * 0.75));
+            $this->heights[$this->row] = max($this->heights[$this->row] ?? 0, (int) ceil(($displayHeight * $scale + 26) * 0.75));
         }
     }
 
