@@ -17,6 +17,8 @@ use BookStack\Http\Controllers\Images;
 use BookStack\Http\Controllers\MaintenanceController;
 use BookStack\Http\Controllers\PageController;
 use BookStack\Http\Controllers\WordImportController;
+use BookStack\Http\Controllers\WordPasteController;
+use BookStack\Http\Controllers\PdfImportController;
 use BookStack\Http\Controllers\ExcelImportController;
 use BookStack\Http\Controllers\PageExportController;
 use BookStack\Http\Controllers\PageRevisionController;
@@ -38,6 +40,19 @@ Route::get('/robots.txt', [HomeController::class, 'robots']);
 
 // Authenticated routes...
 Route::middleware('auth')->group(function () {
+    Route::get('/books/{bookSlug}/upload-files', [\BookStack\Http\Controllers\FileAttachedController::class, 'create']);
+    Route::post('/books/{bookSlug}/upload-files', [\BookStack\Http\Controllers\FileAttachedController::class, 'store'])->middleware('throttle:60,1');
+    Route::get('/files/{id}/download', [\BookStack\Http\Controllers\FileAttachedController::class, 'download']);
+    Route::get('/files/{id}/move', [\BookStack\Http\Controllers\FileAttachedController::class, 'showMove']);
+    Route::get('/files/{id}/move/destinations', [\BookStack\Http\Controllers\FileAttachedController::class, 'moveDestinations']);
+    Route::post('/files/{id}/move', [\BookStack\Http\Controllers\FileAttachedController::class, 'move']);
+    Route::get('/files/{id}/delete', [\BookStack\Http\Controllers\FileAttachedController::class, 'showDelete']);
+    Route::delete('/files/{id}', [\BookStack\Http\Controllers\FileAttachedController::class, 'destroy']);
+    Route::get('/books/{bookSlug}/create-book', [BookController::class, 'createChild']);
+    Route::post('/books/{bookSlug}/create-book', [BookController::class, 'storeChild']);
+    Route::get('/books/{bookSlug}/move-folder', [BookController::class, 'showMoveFolder']);
+    Route::post('/books/{bookSlug}/move-folder', [BookController::class, 'moveFolder']);
+    Route::post('/clipboard/word-images', [WordPasteController::class, 'images'])->middleware('throttle:20,1');
 
     // Retired standalone prototype: existing bookmarks return to native BookStack.
     Route::redirect('/vlex', '/books');
@@ -98,12 +113,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/books/{bookSlug}/import-word', [WordImportController::class, 'store'])->middleware('throttle:10,1');
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/import-word', [WordImportController::class, 'create']);
     Route::post('/books/{bookSlug}/chapter/{chapterSlug}/import-word', [WordImportController::class, 'store'])->middleware('throttle:10,1');
+    Route::get('/books/{bookSlug}/import-pdf', [PdfImportController::class, 'create']);
+    Route::post('/books/{bookSlug}/import-pdf', [PdfImportController::class, 'store'])->middleware('throttle:10,1');
+    Route::get('/books/{bookSlug}/chapter/{chapterSlug}/import-pdf', [PdfImportController::class, 'create']);
+    Route::post('/books/{bookSlug}/chapter/{chapterSlug}/import-pdf', [PdfImportController::class, 'store'])->middleware('throttle:10,1');
     Route::get('/books/{bookSlug}/create-page', [PageController::class, 'create']);
     Route::post('/books/{bookSlug}/create-guest-page', [PageController::class, 'createAsGuest']);
     Route::get('/books/{bookSlug}/draft/{pageId}', [PageController::class, 'editDraft']);
     Route::post('/books/{bookSlug}/draft/{pageId}', [PageController::class, 'store']);
     Route::get('/books/{bookSlug}/page/{pageSlug}', [PageController::class, 'show']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/pdf', [PageExportController::class, 'pdf']);
+    Route::get('/books/{bookSlug}/page/{pageSlug}/pdf-preview', [PdfImportController::class, 'preview']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/html', [PageExportController::class, 'html']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/word', [PageExportController::class, 'word'])->middleware('throttle:10,1');
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/excel', [PageExportController::class, 'excel'])->middleware('throttle:10,1');

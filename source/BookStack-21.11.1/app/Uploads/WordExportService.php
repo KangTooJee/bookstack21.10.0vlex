@@ -13,6 +13,7 @@ use Symfony\Component\Process\Process;
 class WordExportService
 {
     private $images;
+    private $officePage = [];
 
     public function __construct(ImageService $images)
     {
@@ -21,6 +22,7 @@ class WordExportService
 
     public function export(Page $page): string
     {
+        $this->officePage = [];
         $directory = sys_get_temp_dir() . '/bookstack-word-export-' . bin2hex(random_bytes(16));
         if (!mkdir($directory, 0700)) {
             throw new RuntimeException('Không tạo được thư mục xuất Word.');
@@ -151,6 +153,15 @@ class WordExportService
             }
             $bookmark->parentNode->removeChild($bookmark);
         }
+        if (count($this->officePage) === 6) {
+            foreach ($xpath->query('//w:sectPr') as $section) {
+                foreach (['pgSz' => ['w' => 0, 'h' => 1], 'pgMar' => ['top' => 2, 'right' => 3, 'bottom' => 4, 'left' => 5]] as $element => $attributes) {
+                    $property = $xpath->query('w:' . $element, $section)->item(0);
+                    if (!$property) { $property = $document->createElementNS($word, 'w:' . $element); $section->appendChild($property); }
+                    foreach ($attributes as $name => $index) { $property->setAttributeNS($word, 'w:' . $name, (string) $this->officePage[$index]); }
+                }
+            }
+        }
         (new WordExportLayout())->fitDocument($document);
         (new WordExportAppearance())->applyDocument($document, $appearance);
         $zip->addFromString('word/document.xml', $document->saveXML());
@@ -177,6 +188,22 @@ class WordExportService
             libxml_use_internal_errors($previous);
         }
         $body = $document->getElementsByTagName('body')->item(0);
+        $office = (new \DOMXPath($document))->query('//*[@data-office-document]')->item(0);
+        if ($office) {
+            $geometry = array_map('intval', explode(',', $office->getAttribute('data-office-page')));
+            if (count($geometry) === 6 && $geometry[0] > 1000 && $geometry[1] > 1000 && min($geometry) >= 0 && max($geometry) < 50000) { $this->officePage = $geometry; }
+            // Writer promotes empty trailing HTML paragraphs to the body's
+            // font size; they can create an otherwise completely blank page.
+            while ($office->lastChild) {
+                $last = $office->lastChild;
+                if ($last instanceof \DOMText && trim($last->nodeValue) === '') { $office->removeChild($last); continue; }
+                if ($last instanceof \DOMElement && $last->tagName === 'p'
+                    && preg_replace('/[\s\x{00A0}]+/u', '', $last->textContent) === '' && $last->getElementsByTagName('img')->length === 0) {
+                    $office->removeChild($last); continue;
+                }
+                break;
+            }
+        }
         $allowed = explode(' ', 'p div span h1 h2 h3 h4 h5 h6 table thead tbody tfoot tr td th caption colgroup col ol ul li a img strong b em i u s strike sup sub br hr blockquote pre code font dl dt dd');
         // Eliminate active content and external resource loaders before conversion.
         foreach (array_reverse(iterator_to_array($body->getElementsByTagName('*'))) as $node) {
@@ -199,7 +226,7 @@ class WordExportService
                             continue;
                         }
                         [$property, $value] = array_map('trim', $parts);
-                        if (preg_match('/^(color|background-color|text-align|text-decoration|text-indent|font-(size|weight|style|family)|vertical-align|white-space|line-height|border(-[a-z-]+)?|padding(-[a-z]+)?|margin(-[a-z]+)?|(max-)?width|(max-)?height|list-style-type)$/i', $property)
+                        if (preg_match('/^(color|background-color|text-align|text-decoration|text-indent|font-(size|weight|style|family)|vertical-align|white-space|line-height|border(-[a-z-]+)?|padding(-[a-z]+)?|margin(-[a-z]+)?|(max-)?width|(max-)?height|list-style-type|page-break-before|page-break-after|display)$/i', $property)
                             && preg_match('/^[\p{L}\p{N}\s#.,%()\x27"-]+$/u', $value)
                             && !preg_match('/(?:url|expression|var)\s*\(/i', $value)) {
                             $styles[] = $property . ': ' . $value;
@@ -207,6 +234,8 @@ class WordExportService
                     }
                     $node->setAttribute('style', implode('; ', $styles));
                 } elseif ($name === 'href' && $tag === 'a' && preg_match('~^(https?://|mailto:|#)~i', trim($attribute->value))) {
+                    continue;
+                } elseif ($tag === 'div' && in_array($name, ['data-office-document', 'data-office-page'], true)) {
                     continue;
                 } elseif (!in_array($name, ['title', 'alt', 'id', 'name', 'span', 'colspan', 'rowspan', 'width', 'height', 'start', 'type', 'align', 'valign', 'border', 'cellpadding', 'cellspacing', 'color', 'face', 'size'], true)) {
                     $node->removeAttribute($attribute->name);
@@ -281,11 +310,15 @@ class WordExportService
         foreach ($body->childNodes as $child) {
             $content .= $document->saveHTML($child);
         }
+        $pageStyle = 'size: A4; margin: 0.8in';
+        if ($this->officePage) {
+            $pageStyle = 'size: ' . ($this->officePage[0] / 20) . 'pt ' . ($this->officePage[1] / 20) . 'pt; margin: ' . implode('pt ', array_map(function ($v) { return $v / 20; }, array_slice($this->officePage, 2))) . 'pt';
+        }
         return '<!doctype html><html><head><meta charset="utf-8"><title>' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</title>' .
-            '<style>@page { size: A4; margin: 0.8in } body { font-family: "Segoe UI", sans-serif; font-size: 10.5pt; color: #444 } ' .
+            '<style>@page { ' . $pageStyle . ' } body { font-family: "Segoe UI", sans-serif; font-size: 10.5pt; color: #444 } ' .
             'h1 { font-size: 3.425em } h2 { font-size: 2.8275em } h3 { font-size: 2.333em } h4 { font-size: 1.666em } h5 { font-size: 1.4em } h6 { font-size: 1.2em } h1,h2,h3,h4,h5,h6 { font-weight: normal } p { margin: 0 0 8pt } ' .
             'ul, ol { padding-left: 24pt } li p { margin-top: 0 } table { border-collapse: collapse } ' .
             'td, th { border: 1px solid #aaa; padding: 5pt } pre, code { font-family: monospace } a { color: #467886 }</style></head><body>' .
-            '<h1 style="font-family: Segoe UI; font-size: 36pt; font-weight: normal"><span style="font-family: Segoe UI; font-size: 36pt">' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</span></h1>' . $content . '</body></html>';
+            ($office ? '' : '<h1 style="font-family: Segoe UI; font-size: 36pt; font-weight: normal"><span style="font-family: Segoe UI; font-size: 36pt">' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</span></h1>') . $content . '</body></html>';
     }
 }

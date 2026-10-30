@@ -2,16 +2,24 @@
 
 namespace BookStack\ViewComponents;
 
-/**
- * VLEX SCAFFOLD — not an implemented feature.
- * Hiển thị cây thư mục cha/con trong giao diện BookStack.
- * Replace this entire file with VLEX source, then check imports/schema/permissions.
- * This file is not registered in routes, service providers or auth bindings.
- */
 class HierarchyFolder
 {
-    public function __construct()
+    public function contents(\BookStack\Entities\Models\Book $book): array
     {
-        throw new \LogicException('VLEX scaffold: app/ViewComponents/HierarchyFolder.php requires original implementation.');
+        return [
+            'books' => $book->childBooks()->scopes('visible')->orderBy('name')->get(),
+            'pages' => (new \BookStack\Entities\Tools\BookContents($book))->getTree(true),
+            'files' => $book->uploadedFiles()->orderBy('name')->get(),
+        ];
+    }
+
+    public function breadcrumbs(array $crumbs): array
+    {
+        return app(\BookStack\View\LibraryMap::class)->expandCrumbs($crumbs);
+    }
+
+    public function path(\BookStack\Entities\Models\Book $book): string
+    {
+        return app(\BookStack\View\LibraryMap::class)->path($book);
     }
 }

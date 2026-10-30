@@ -32,11 +32,13 @@ class SiblingFetcher
         // Book
         // Gets just the books in a shelf if shelf is in context
         if ($entity instanceof Book) {
-            $contextShelf = (new ShelfContext())->getContextualShelfForBook($entity);
-            if ($contextShelf) {
+            $contextShelf = $entity->shelves()->scopes('visible')->first();
+            if ($entity->parent_book_id) {
+                $entities = Book::visible()->where('parent_book_id', $entity->parent_book_id)->get();
+            } elseif ($contextShelf) {
                 $entities = $contextShelf->visibleBooks()->get();
             } else {
-                $entities = Book::visible()->get();
+                $entities = Book::visible()->whereNull('parent_book_id')->get();
             }
         }
 

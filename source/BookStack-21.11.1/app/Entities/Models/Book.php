@@ -29,6 +29,26 @@ class Book extends Entity implements HasCoverImage
     protected $fillable = ['name', 'description'];
     protected $hidden = ['restricted', 'pivot', 'image_id', 'deleted_at'];
 
+    public function parentBook(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_book_id');
+    }
+
+    public function childBooks(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_book_id');
+    }
+
+    public function uploadedFiles(): HasMany
+    {
+        return $this->hasMany(AttachedFile::class);
+    }
+
+    public function getParent(): ?Entity
+    {
+        return $this->parent_book_id ? $this->parentBook()->withTrashed()->first() : null;
+    }
+
     /**
      * Get the url for this book.
      */

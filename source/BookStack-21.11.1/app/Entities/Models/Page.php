@@ -42,6 +42,17 @@ class Page extends BookChild
         'template' => 'boolean',
     ];
 
+    public function isPdf(): bool
+    {
+        return $this->pdf_attachment_id !== null;
+    }
+
+    public function originalPdf(): Attachment
+    {
+        abort_unless($this->isPdf(), 404);
+        return $this->attachments()->where('id', $this->pdf_attachment_id)->where('external', false)->firstOrFail();
+    }
+
     /**
      * Get the entities that are visible to the current user.
      */

@@ -4,13 +4,19 @@
     <div class="container mt-xl" id="search-system">
 
         <div class="grid right-focus reverse-collapse gap-xl">
-            <div>
+            <div class="vlex-advanced-search">
                 <div>
                     <h5>{{ trans('entities.search_advanced') }}</h5>
 
                     <form method="get" action="{{ url('/search') }}">
+                        @if($errors->has('scope'))
+                            <p role="alert">{{ $errors->first('scope') }}</p>
+                        @endif
                         <h6>{{ trans('entities.search_terms') }}</h6>
-                        <input type="text" name="search" value="{{ implode(' ', $options->searches) }}">
+                        <input type="text" name="search" value="{{ $searchTerm }}" aria-label="{{ trans('entities.search_terms') }}">
+
+                        <h6>Phạm vi tìm kiếm</h6>
+                        @include('search.parts.scope-select', ['selectedScope' => $options->documentScope, 'expandedScope' => true])
 
                         <h6>{{ trans('entities.search_content_type') }}</h6>
                         <div class="form-group">
@@ -27,7 +33,7 @@
                         </div>
 
                         <h6>{{ trans('entities.search_exact_matches') }}</h6>
-                        @include('search.parts.term-list', ['type' => 'exact', 'currentList' => $options->exacts])
+                        @include('search.parts.term-list', ['type' => 'exact', 'currentList' => request('exact', [])])
 
                         <h6>{{ trans('entities.search_tags') }}</h6>
                         @include('search.parts.term-list', ['type' => 'tags', 'currentList' => $options->tags])
@@ -77,12 +83,19 @@
                 <div class="card content-wrap">
                     <h1 class="list-heading">{{ trans('entities.search_results') }}</h1>
 
-                    <form action="{{ url('/search') }}" method="GET"  class="search-box flexible hide-over-l">
-                        <input value="{{$searchTerm}}" type="text" name="term" placeholder="{{ trans('common.search') }}">
-                        <button type="submit">@icon('search')</button>
+                    <form action="{{ url('/search') }}" method="GET" class="hide-over-l">
+                        @include('search.parts.field', ['inputValue' => $searchTerm, 'selectedScope' => $options->documentScope])
                     </form>
 
-                    <h6 class="text-muted">{{ trans_choice('entities.search_total_results_found', $totalResults, ['count' => $totalResults]) }}</h6>
+                    @if($options->documentScope === null)
+                        <p>Nhập từ khóa để tìm kiếm. Phạm vi mặc định: Name.</p>
+                    @else
+                        <p>{{ \BookStack\Entities\Tools\SearchScope::LABELS[$options->documentScope] }}</p>
+                        @if($options->documentScope === 'pdf')
+                            <p role="note"><strong>Lưu ý:</strong> PDF chỉ hỗ trợ tìm theo tiêu đề, không tìm nội dung bên trong file.</p>
+                        @endif
+                        <h6 class="text-muted">{{ trans_choice('entities.search_total_results_found', $totalResults, ['count' => $totalResults]) }}</h6>
+                    @endif
                     <div class="book-contents">
                         @include('entities.list', ['entities' => $entities, 'showPath' => true, 'showTags' => true])
                     </div>

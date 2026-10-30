@@ -1,0 +1,18 @@
+.vlex-search-field{display:flex;align-items:center;box-sizing:border-box;min-width:0;width:100%;height:38px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#334155;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.vlex-search-field:focus-within{border-color:#528cc2;box-shadow:0 0 0 2px rgba(82,140,194,.15)}
+.vlex-search-field input[type=text]{flex:1 1 0;width:0;min-width:0;height:100%;margin:0;padding:0 8px 0 0;border:0;border-radius:0;outline:0;background:transparent;color:inherit;box-shadow:none;font-size:14px;max-width:none}
+.vlex-search-field input[type=text]:focus{border:0;outline:0;box-shadow:none}
+.vlex-search-field button{display:flex;align-items:center;justify-content:center;position:static;flex:0 0 34px;width:34px;height:100%;padding:0;margin:0;border:0;background:transparent;color:inherit;cursor:pointer}
+.vlex-search-field button svg{width:15px;height:15px;margin:0}
+.vlex-search-field select[name=scope]{flex:0 0 80px;width:80px;min-width:80px;max-width:80px;height:28px;margin:0;padding:0 6px;border:0;border-left:1px solid #dbe2ea;border-radius:0;outline-offset:-2px;background:transparent;background-image:none;color:inherit;box-shadow:none;font-size:13px;appearance:auto;cursor:pointer}
+.vlex-search-field select option{background:#fff;color:#334155}
+header .vlex-search-field{height:38px;border-radius:40px;background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.2);color:#eee}
+header .vlex-search-field:focus-within{border-color:rgba(255,255,255,.8);box-shadow:0 0 0 2px rgba(255,255,255,.1)}
+header .vlex-search-field input::placeholder{color:rgba(255,255,255,.8)}
+header .vlex-search-field select[name=scope]{border-left-color:rgba(255,255,255,.25)}
+.dark-mode .vlex-search-field{background:#252a30;border-color:#56606c;color:#eee}
+@media(min-width:1000px){header>.grid{grid-template-columns:minmax(max-content,1fr) minmax(280px,420px) minmax(max-content,1fr)}}
+header .vlex-header-search{align-items:center}
+header .vlex-header-search form{margin:0}
+.vlex-advanced-search{min-width:0}
+.vlex-advanced-search input[name=search],.vlex-advanced-search select[name=scope]{width:250px;max-width:100%;box-sizing:border-box}

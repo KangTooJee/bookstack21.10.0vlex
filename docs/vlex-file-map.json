@@ -401,8 +401,8 @@
   },
   {
     "path": "app/Entities/Models/AttachedFile.php",
-    "status": "scaffold",
-    "note": "Tài liệu gắn với thực thể VLEX; chờ schema và quan hệ gốc."
+    "status": "implemented-lab",
+    "note": "Đã triển khai theo cây VLEX và yêu cầu ngày 29/10/2026; chờ đối chiếu nội dung/schema VLEX gốc, xem docs/storage-files.md."
   },
   {
     "path": "app/Entities/Models/Book.php",
@@ -491,8 +491,8 @@
   },
   {
     "path": "app/Entities/Repos/AttachedFileRepo.php",
-    "status": "scaffold",
-    "note": "Upload/download/move tài liệu; chờ API của mã VLEX gốc."
+    "status": "implemented-lab",
+    "note": "Đã triển khai theo cây VLEX và yêu cầu ngày 29/10/2026; chờ đối chiếu nội dung/schema VLEX gốc, xem docs/storage-files.md."
   },
   {
     "path": "app/Entities/Repos/BaseRepo.php",
@@ -951,8 +951,8 @@
   },
   {
     "path": "app/Http/Controllers/FileAttachedController.php",
-    "status": "scaffold",
-    "note": "Thao tác tệp trực tiếp trong sách/chương/trang BookStack."
+    "status": "implemented-lab",
+    "note": "Đã triển khai theo cây VLEX và yêu cầu ngày 29/10/2026; chờ đối chiếu nội dung/schema VLEX gốc, xem docs/storage-files.md."
   },
   {
     "path": "app/Http/Controllers/GroupController.php",
@@ -1226,8 +1226,8 @@
   },
   {
     "path": "app/ViewComponents/HierarchyFolder.php",
-    "status": "scaffold",
-    "note": "Hiển thị cây thư mục cha/con trong giao diện BookStack."
+    "status": "implemented-lab",
+    "note": "Đã triển khai theo cây VLEX và yêu cầu ngày 29/10/2026; chờ đối chiếu nội dung/schema VLEX gốc, xem docs/storage-files.md."
   },
   {
     "path": "app/View/Helpers.php",
@@ -1236,8 +1236,8 @@
   },
   {
     "path": "app/View/LibraryMap.php",
-    "status": "scaffold",
-    "note": "Ánh xạ cây thư viện VLEX với thực thể BookStack."
+    "status": "implemented-lab",
+    "note": "Đã triển khai theo cây VLEX và yêu cầu ngày 29/10/2026; chờ đối chiếu nội dung/schema VLEX gốc, xem docs/storage-files.md."
   },
   {
     "path": "app/View/SaveModule… (tên bị mờ)",

@@ -1,6 +1,6 @@
 # Đối chiếu đường dẫn VLEX / BookStack 21.11.1
 
-Danh sách theo bản chép người dùng cung cấp. `existing`: giữ file hiện có; `compatibility-alias/loader`: dùng lại mã gốc; `scaffold`: chờ mã VLEX; `inactive-migration/runtime`: chưa kích hoạt; `reference-copy`: sao chép tài liệu/mẫu của BookStack; `asset-placeholder`: ảnh giữ chỗ; `unresolved`: chưa rõ tên/nội dung.
+Danh sách theo bản chép người dùng cung cấp. `existing`: giữ file hiện có; `compatibility-alias/loader`: dùng lại mã gốc; `scaffold`: chờ mã VLEX; `implemented-lab`: đã triển khai tại đúng vị trí theo hành vi người dùng xác nhận, chờ đối chiếu nội dung/schema gốc; `inactive-migration/runtime`: chưa kích hoạt; `reference-copy`: sao chép tài liệu/mẫu của BookStack; `asset-placeholder`: ảnh giữ chỗ; `unresolved`: chưa rõ tên/nội dung.
 
 | Đường dẫn trong source/BookStack-21.11.1 | Trạng thái | Ghi chú |
 | --- | --- | --- |
@@ -84,7 +84,7 @@ Danh sách theo bản chép người dùng cung cấp. `existing`: giữ file hi
 | `app/Console/Commands/UpdateLdap.php` | scaffold | Chờ nội dung file VLEX gốc; chưa suy đoán hành vi. |
 | `app/Console/Commands/UpgradeDatabaseEncoding.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Console/Kernel.php` | existing | Giữ nguyên mã BookStack đang có. |
-| `app/Entities/Models/AttachedFile.php` | scaffold | Tài liệu gắn với thực thể VLEX; chờ schema và quan hệ gốc. |
+| `app/Entities/Models/AttachedFile.php` | implemented-lab | Đã ghép upload và cây book theo yêu cầu VLEX; xem storage-files.md. |
 | `app/Entities/Models/Book.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Entities/Models/BookChild.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Entities/Models/Bookshelf.php` | existing | Giữ nguyên mã BookStack đang có. |
@@ -102,7 +102,7 @@ Danh sách theo bản chép người dùng cung cấp. `existing`: giữ file hi
 | `app/Entities/Queries/Popular.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Entities/Queries/RecentlyViewed.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Entities/Queries/TopFavourites.php` | existing | Giữ nguyên mã BookStack đang có. |
-| `app/Entities/Repos/AttachedFileRepo.php` | scaffold | Upload/download/move tài liệu; chờ API của mã VLEX gốc. |
+| `app/Entities/Repos/AttachedFileRepo.php` | implemented-lab | Đã ghép upload và cây book theo yêu cầu VLEX; xem storage-files.md. |
 | `app/Entities/Repos/BaseRepo.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Entities/Repos/BookRepo.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Entities/Repos/BookshelfRepo.php` | existing | Giữ nguyên mã BookStack đang có. |
@@ -194,7 +194,7 @@ Danh sách theo bản chép người dùng cung cấp. `existing`: giữ file hi
 | `app/Http/Controllers/CommentController.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Http/Controllers/Controller.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Http/Controllers/FavouriteController.php` | existing | Giữ nguyên mã BookStack đang có. |
-| `app/Http/Controllers/FileAttachedController.php` | scaffold | Thao tác tệp trực tiếp trong sách/chương/trang BookStack. |
+| `app/Http/Controllers/FileAttachedController.php` | implemented-lab | Đã ghép upload và cây book theo yêu cầu VLEX; xem storage-files.md. |
 | `app/Http/Controllers/GroupController.php` | scaffold | Admin quản lý nhóm; chưa đăng ký route. |
 | `app/Http/Controllers/HomeController.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Http/Controllers/ImportLibraryController.php` | scaffold | Nhập thư viện tài liệu vào cấu trúc BookStack. |
@@ -249,9 +249,9 @@ Danh sách theo bản chép người dùng cung cấp. `existing`: giữ file hi
 | `app/Util/HtmlContentFilter.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Util/HtmlNonceApplicator.php` | existing | Giữ nguyên mã BookStack đang có. |
 | `app/Util/WebSafeMimeSniffer.php` | existing | Giữ nguyên mã BookStack đang có. |
-| `app/ViewComponents/HierarchyFolder.php` | scaffold | Hiển thị cây thư mục cha/con trong giao diện BookStack. |
+| `app/ViewComponents/HierarchyFolder.php` | implemented-lab | Đã ghép upload và cây book theo yêu cầu VLEX; xem storage-files.md. |
 | `app/View/Helpers.php` | scaffold | Chờ nội dung file VLEX gốc; chưa suy đoán hành vi. |
-| `app/View/LibraryMap.php` | scaffold | Ánh xạ cây thư viện VLEX với thực thể BookStack. |
+| `app/View/LibraryMap.php` | implemented-lab | Đã ghép upload và cây book theo yêu cầu VLEX; xem storage-files.md. |
 | `app/View/SaveModule… (tên bị mờ)` | unresolved | Tên không đọc rõ; không tự đoán tên file. |
 | `app/View/ZipFolder.php` | scaffold | Xuất cây thư mục thành ZIP; chỉ dùng thư viện sẵn có. |
 | `app/Application.php` | existing | Giữ nguyên mã BookStack đang có. |

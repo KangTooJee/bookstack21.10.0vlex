@@ -17,13 +17,10 @@
                     class="mobile-menu-toggle hide-over-l">@icon('more')</button>
         </div>
 
-        <div class="flex-container-row justify-center hide-under-l">
+        <div class="flex-container-row justify-center hide-under-l vlex-header-search">
             @if (hasAppAccess())
-            <form action="{{ url('/search') }}" method="GET" class="search-box" role="search">
-                <button id="header-search-box-button" type="submit" aria-label="{{ trans('common.search') }}" tabindex="-1">@icon('search') </button>
-                <input id="header-search-box-input" type="text" name="term"
-                       aria-label="{{ trans('common.search') }}" placeholder="{{ trans('common.search') }}"
-                       value="{{ isset($searchTerm) ? $searchTerm : '' }}">
+            <form action="{{ url('/search') }}" method="GET" role="search" style="width:100%; max-width:420px;">
+                @include('search.parts.field', ['headerField' => true, 'inputValue' => $searchTerm ?? '', 'selectedScope' => request('scope', 'names')])
             </form>
             @endif
         </div>

@@ -93,6 +93,7 @@
         <h5>{{ trans('common.actions') }}</h5>
         <div class="icon-list text-primary">
             @include('pages.parts.word-import-action', ['importParent' => $chapter])
+            @include('pages.parts.pdf-import-action', ['importParent' => $chapter])
             @include('pages.parts.excel-import-action', ['importParent' => $chapter])
 
             @if(userCan('page-create', $chapter))

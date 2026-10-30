@@ -13,8 +13,18 @@ class WordImportService
 {
     public function convert(UploadedFile $upload): string
     {
+        return $this->convertDocument($upload, ['doc', 'docx']);
+    }
+
+    public function convertClipboard(UploadedFile $upload): string
+    {
+        return $this->convertDocument($upload, ['rtf']);
+    }
+
+    private function convertDocument(UploadedFile $upload, array $allowed): string
+    {
         $extension = strtolower($upload->getClientOriginalExtension());
-        if (!in_array($extension, ['doc', 'docx'], true)) {
+        if (!in_array($extension, $allowed, true)) {
             throw new RuntimeException('Chỉ hỗ trợ tài liệu .doc và .docx.');
         }
 
@@ -29,6 +39,7 @@ class WordImportService
                 throw new RuntimeException('Không đọc được tài liệu đã tải lên.');
             }
             $this->validateFormat($input, $extension);
+            $metadata = $extension === 'docx' ? (new OfficeHtmlStyles())->metadata($input) : [];
             $listIndents = $extension === 'docx' ? $this->prepareDocx($input) : [];
 
             // A separate profile prevents concurrent imports sharing a running office process.
@@ -57,7 +68,7 @@ class WordImportService
                 throw new RuntimeException('Nội dung HTML quá lớn. Hãy chia nhỏ tài liệu.');
             }
 
-            return $this->cleanHtml(file_get_contents($output), $directory, $listIndents);
+            return $this->cleanHtml(file_get_contents($output), $directory, $listIndents, 0, $extension === 'rtf', $metadata);
         } finally {
             File::deleteDirectory($directory);
         }
@@ -65,6 +76,15 @@ class WordImportService
 
     private function validateFormat(string $path, string $extension): void
     {
+        if ($extension === 'rtf') {
+            $rtf = file_get_contents($path);
+            // This endpoint only needs inline clipboard pictures. Never resolve
+            // RTF linked fields, embedded objects or external file tables.
+            if (strpos($rtf, '{\\rtf') !== 0 || preg_match('/\\\\(?:field|object|objdata|filetbl|datastore)\\b/i', $rtf)) {
+                throw new RuntimeException('Dữ liệu ảnh clipboard không hợp lệ.');
+            }
+            return;
+        }
         if ($extension === 'doc') {
             $handle = fopen($path, 'rb');
             $signature = fread($handle, 8);
@@ -206,7 +226,7 @@ class WordImportService
     }
 
     // Shared by office imports/exports; image paths must resolve inside the conversion directory.
-    public function cleanHtml(string $html, string $directory, array $listIndents = [], int $maxElements = 0): string
+    public function cleanHtml(string $html, string $directory, array $listIndents = [], int $maxElements = 0, bool $keepDrawingArtifacts = false, array $metadata = []): string
     {
         $doc = new DOMDocument();
         $previous = libxml_use_internal_errors(true);
@@ -220,8 +240,12 @@ class WordImportService
         if (!$body) {
             throw new RuntimeException('Không tìm thấy nội dung trong tài liệu.');
         }
+        (new OfficeHtmlStyles())->inline($doc);
+        (new OfficeHtmlStyles())->wrap($body, $metadata);
 
-        $this->removeFloatingDrawingArtifacts($body);
+        if (!$keepDrawingArtifacts) {
+            $this->removeFloatingDrawingArtifacts($body);
+        }
         $this->restoreListIndents($body, $listIndents);
 
         $allowed = explode(' ', 'p div span h1 h2 h3 h4 h5 h6 table thead tbody tfoot tr td th caption colgroup col ol ul li a img strong b em i u s strike sup sub br hr blockquote pre code font dl dt dd');
@@ -250,6 +274,7 @@ class WordImportService
                 $name = strtolower($attribute->name);
                 $value = $attribute->value;
                 $keep = in_array($name, ['title', 'alt', 'span', 'colspan', 'rowspan', 'width', 'height', 'start', 'type', 'align', 'valign', 'border', 'cellpadding', 'cellspacing', 'color', 'face', 'size'], true);
+                if ($tag === 'div' && in_array($name, ['class', 'data-office-document', 'data-office-page'], true)) { $keep = true; }
                 if ($name === 'style') {
                     $node->setAttribute('style', $this->cleanStyle($value));
                     $keep = true;
@@ -309,6 +334,19 @@ class WordImportService
                 && in_array(strtolower($node->getAttribute('align')), ['left', 'right'], true)
                 && !$node->hasAttribute('width') && !$node->hasAttribute('height');
 
+            // The customer's document uses ShapeN as thin rules inside its
+            // letterhead table. These are content, not stray floating overlays.
+            if ($drawingPlaceholder && $node->parentNode instanceof \DOMElement) {
+                for ($parent = $node->parentNode; $parent instanceof \DOMElement; $parent = $parent->parentNode) {
+                    if (in_array(strtolower($parent->tagName), ['td', 'th'], true)) {
+                        $drawingPlaceholder = false;
+                        $node->removeAttribute('align');
+                        $node->setAttribute('style', 'display: block; margin-left: auto; margin-right: auto');
+                        break;
+                    }
+                }
+            }
+
             if ($floatingFrame || $drawingPlaceholder) {
                 $node->parentNode->removeChild($node);
             }
@@ -324,7 +362,7 @@ class WordImportService
                 continue;
             }
             [$property, $value] = array_map('trim', $parts);
-            if (preg_match('/^(color|background-color|text-align|text-decoration|text-indent|font-(size|weight|style|family)|vertical-align|white-space|line-height|border(-[a-z-]+)?|padding(-[a-z]+)?|margin(-[a-z]+)?|width|height)$/i', $property)
+            if (preg_match('/^(color|background-color|text-align|text-decoration|text-indent|font-(size|weight|style|family|variant)|vertical-align|white-space|line-height|letter-spacing|word-spacing|list-style-type|table-layout|border(-[a-z-]+)?|padding(-[a-z]+)?|margin(-[a-z]+)?|width|height|max-width|max-height|display|page-break-before|page-break-after|break-before|break-after)$/i', $property)
                 && preg_match('/^[a-zA-Z0-9\s#.,%()\x27"-]+$/', $value)
                 && !preg_match('/url|expression|var\s*\(/i', $value)) {
                 $result[] = $property . ': ' . $value;

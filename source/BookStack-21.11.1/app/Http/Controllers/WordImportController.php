@@ -48,6 +48,7 @@ class WordImportController extends Controller
 
         $page = DB::transaction(function () use ($pages, $parent, $name, $html) {
             $draft = $pages->getNewDraftPage($parent);
+            $draft->document_type = 'word';
             $draft->name = mb_substr($name, 0, 255) ?: 'Tài liệu Word';
             (new PageContent($draft))->setNewHTML($html);
             $draft->save();

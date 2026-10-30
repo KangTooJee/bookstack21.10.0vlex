@@ -4,6 +4,10 @@
 
 Môi trường được dựng mới từ `C:\Vlex\BookStack-21.11.1.zip`, giữ chức năng nhập Word đã bổ sung. Dữ liệu và ba volumes của bản 21.10.1 đã được xóa theo yêu cầu. Mã nguồn 21.10.1 vẫn có trong lịch sử Git.
 
+**Cây VLEX và file upload (29/10/2026):** đã ghép theo `shelves → book → book … → page + file upload`, sử dụng các vị trí `AttachedFile`, `AttachedFileRepo`, `FileAttachedController`, `LibraryMap`, `HierarchyFolder` trong danh sách VLEX. Book có hành động tạo book con, chuyển book và upload file gốc; không có kho riêng. Xem [cách ghép, quy tắc kiểm tra file và kiểm thử](docs/storage-files.md).
+
+**Hồ sơ tra soát trước khi áp dụng VLEX thật:** [mục lục các nhóm tính năng](docs/vlex-handover-index.md), [bảng file upload/move/delete và điểm cần ghép](docs/file-upload-vlex-handover.md), [manifest hash từng file](docs/file-upload-vlex-manifest.json).
+
 ## Cấu hình cố định
 
 | Thành phần | Phiên bản |
@@ -56,6 +60,8 @@ PHP 8.0.30 và Laravel 8.70.2 khớp yêu cầu. MySQL 8.0.36 là phiên bản �
 
 ## Nhập Word
 
+Thử nghiệm **Ctrl+V từ Word vào New page**: giữ danh sách La Mã, đọc ảnh bitmap/RTF và chuyển icon vector trên máy chủ nội bộ; xem [hướng dẫn và phạm vi thử nghiệm](docs/word-paste-trial.md). Đây là luồng dán từng phần, độc lập với chức năng nhập cả file bên dưới.
+
 Tạo sách hoặc chương, sau đó chọn **Nhập Word (.doc/.docx)** ở menu hành động. File tối đa 20 MB. Nội dung được chuyển thành HTML trong trang nháp mới; kiểm tra rồi bấm **Lưu trang**.
 
 Hỗ trợ văn bản tiếng Việt, tiêu đề, danh sách, bảng/ô gộp, ảnh nhúng và liên kết mục lục. Ảnh được lưu vào kho BookStack. Mục lục Word là nội dung HTML tĩnh; không tự tính lại số trang in. Bố cục trang in, đầu/chân trang, kiểu chữ và đối tượng Word phức tạp có thể khác bản gốc. Ảnh bên ngoài phải nhúng vào Word trước khi nhập. Không hỗ trợ file có mật khẩu.
@@ -91,6 +97,14 @@ Màn sửa Excel áp dụng cùng bố cục rộng bên trong TinyMCE: bỏ max
 Giữ hàng trống bị phủ hoàn toàn bởi ô gộp để TinyMCE không xóa hàng và đẩy dòng kế tiếp ra ngoài bảng. Bảng nhập giữ độ rộng cột từ Calc, gồm `colgroup span`; trang Excel đã nhập được phục hồi hàng thiếu khi xem, sửa và xuất. Ghi chú ô của Calc được đưa vào tooltip khi nhập để không làm giãn nội dung ô.
 
 Khi xuất XLSX, hàng văn bản không bị ép chiều cao theo số ký tự; giữ wrap và để ứng dụng bảng tính xử lý chiều cao tự động. Chỉ hàng chứa ảnh dành chiều cao cho ảnh. AutoFit cho ô gộp tùy ứng dụng mở file, không tương đương cơ chế bố cục nội dung của trình duyệt.
+
+## Nhập và xuất PDF
+
+Chọn **Nhập PDF (.pdf)** trong menu sách/chương/trang để lưu file gốc tối đa **20 MB** và mở ngay ở chế độ **chỉ xem**. Trình duyệt xem trực tiếp PDF, giữ nguyên bố cục, ảnh, bảng và trang scan; không trích chữ sang HTML và không có trình sửa nội dung. PDF có mật khẩu được giữ nguyên, việc mở khóa/hiển thị tùy trình duyệt.
+
+Chọn **Tải PDF gốc** hoặc **Kết xuất → Tải PDF gốc** để nhận lại chính xác file đã nhập. Preview và download được kiểm tra SHA-256 trùng file nguồn. File được lưu vào kho attachment riêng, áp dụng quyền xem trang; tạo tài liệu cần quyền tạo trang và attachment. Đường sửa trang, lưu nháp, khôi phục nội dung và thay thế/xóa riêng attachment bị chặn ở máy chủ. Trang Word/Excel và trang HTML thông thường vẫn sửa như trước.
+
+Cần chạy migration bổ sung `pages.pdf_attachment_id` (Docker tự chạy khi khởi động). PDF đã nhập theo luồng cũ thành HTML cần **nhập lại file gốc**; không thể phục hồi PDF gốc từ chữ đã trích. Xem [bảng kê file và hướng dẫn tích hợp PDF](docs/pdf-import-export-changes.md), [lưu ý tương thích trình duyệt](docs/pdf-browser-compatibility-notes.md) và [manifest PDF kèm SHA-256](docs/pdf-import-export-manifest.json).
 
 ## Kiểm tra môi trường và import
 

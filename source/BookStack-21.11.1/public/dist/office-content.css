@@ -1,0 +1,26 @@
+/* Shared by the viewer and TinyMCE; source formatting lives inline in saved HTML. */
+.page-content { overflow-x: auto; }
+.page-content .office-document {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    color: #000;
+}
+.page-content .office-document p { margin-top: 0; }
+.page-content .office-document table {
+    table-layout: auto;
+    max-width: none;
+    border-collapse: collapse;
+}
+.page-content .office-document td,
+.page-content .office-document th {
+    padding: 0;
+    border: 0;
+    line-height: inherit;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+.page-content .office-document img { max-width: 100%; }
+@media print {
+    .page-content { overflow: visible; }
+}

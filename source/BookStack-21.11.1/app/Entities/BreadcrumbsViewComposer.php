@@ -27,14 +27,6 @@ class BreadcrumbsViewComposer
      */
     public function compose(View $view)
     {
-        $crumbs = $view->getData()['crumbs'];
-        $firstCrumb = $crumbs[0] ?? null;
-        if ($firstCrumb instanceof Book) {
-            $shelf = $this->entityContextManager->getContextualShelfForBook($firstCrumb);
-            if ($shelf) {
-                array_unshift($crumbs, $shelf);
-                $view->with('crumbs', $crumbs);
-            }
-        }
+        $view->with('crumbs', app(\BookStack\ViewComponents\HierarchyFolder::class)->breadcrumbs($view->getData()['crumbs']));
     }
 }

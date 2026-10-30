@@ -6,6 +6,7 @@ use BookStack\Entities\Queries\Popular;
 use BookStack\Entities\Tools\SearchOptions;
 use BookStack\Entities\Tools\SearchResultsFormatter;
 use BookStack\Entities\Tools\SearchRunner;
+use BookStack\Entities\Tools\SearchScope;
 use BookStack\Entities\Tools\SiblingFetcher;
 use Illuminate\Http\Request;
 
@@ -25,13 +26,23 @@ class SearchController extends Controller
     public function search(Request $request, SearchResultsFormatter $formatter)
     {
         $searchOpts = SearchOptions::fromRequest($request);
-        $fullSearchString = $searchOpts->toString();
+        $runSearch = $request->hasAny(['term', 'search', 'scope']);
+        if ($runSearch) {
+            $this->validate($request, ['scope' => SearchScope::rules()], [
+                'scope.required' => 'Vui lòng chọn phạm vi tìm kiếm.',
+                'scope.in' => 'Phạm vi tìm kiếm không hợp lệ.',
+            ]);
+            $searchOpts->documentScope = $request->input('scope');
+        }
+        $fullSearchString = $searchOpts->rawQuery;
         $this->setPageTitle(trans('entities.search_for_term', ['term' => $fullSearchString]));
 
         $page = intval($request->get('page', '0')) ?: 1;
-        $nextPageLink = url('/search?term=' . urlencode($fullSearchString) . '&page=' . ($page + 1));
+        $nextPageLink = url('/search?' . http_build_query(array_merge($request->query(), ['scope' => $searchOpts->documentScope, 'page' => $page + 1])));
 
-        $results = $this->searchRunner->searchEntities($searchOpts, 'all', $page, 20);
+        $results = $runSearch
+            ? $this->searchRunner->searchEntities($searchOpts, 'all', $page, 20)
+            : ['results' => collect(), 'total' => 0, 'has_more' => false];
         $formatter->format($results['results']->all(), $searchOpts);
 
         return view('search.all', [
@@ -49,8 +60,9 @@ class SearchController extends Controller
      */
     public function searchBook(Request $request, int $bookId)
     {
+        $this->validate($request, ['scope' => SearchScope::rules()]);
         $term = $request->get('term', '');
-        $results = $this->searchRunner->searchBook($bookId, $term);
+        $results = $this->searchRunner->searchBook($bookId, $term, $request->input('scope'));
 
         return view('entities.list', ['entities' => $results]);
     }
@@ -60,8 +72,9 @@ class SearchController extends Controller
      */
     public function searchChapter(Request $request, int $chapterId)
     {
+        $this->validate($request, ['scope' => SearchScope::rules()]);
         $term = $request->get('term', '');
-        $results = $this->searchRunner->searchChapter($chapterId, $term);
+        $results = $this->searchRunner->searchChapter($chapterId, $term, $request->input('scope'));
 
         return view('entities.list', ['entities' => $results]);
     }

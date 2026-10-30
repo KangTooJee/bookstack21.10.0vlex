@@ -1,0 +1,454 @@
+{
+  "snapshot_date": "2026-10-30",
+  "timezone": "Asia/Saigon",
+  "feature": "VLEX Book raw-file upload, validation, move/search/delete screens and lab hierarchy",
+  "application_root": "source/BookStack-21.11.1",
+  "branch": "files-curl",
+  "base_head": "b7f6a3a22c4e35b9da6a5ce818309889b9960af5",
+  "source_state": "Working-tree snapshot with uncommitted/new files; HEAD does not contain the whole feature.",
+  "hash_scope": "Whole current files, including unrelated changes in shared files. Hashes identify source bytes, not uploaded user documents.",
+  "compatibility_status": "Verified on local BookStack 21.11.1/PHP 8.0.30/Laravel 8.70.2/MySQL 8.0.36. Not yet verified against real VLEX source/schema/deployment or every Microsoft Office version.",
+  "generator": "scripts/write-file-upload-vlex-handover.ps1",
+  "file_count": 43,
+  "files": [
+    {
+      "path": "source/BookStack-21.11.1/app/Config/vlex-storage.php",
+      "group": "Tiếp nhận file",
+      "origin": "new-lab",
+      "purpose": "Danh sách DOC/DOCX/XLS/XLSX/PDF và giới hạn mặc định 20 MiB qua VLEX_STORAGE_MAX_MB.",
+      "production_integration": "Ghép vào cấu hình tiếp nhận hiện có; xác nhận giới hạn nghiệp vụ và PHP/proxy.",
+      "sha256": "C0FDB9622C3703C5D6A8165B767FA7035BAF59F5502C458ED0D7DD981AAF3575",
+      "bytes": 149,
+      "git_status": "?? source/BookStack-21.11.1/app/Config/vlex-storage.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/StorageFileInspector.php",
+      "group": "Tiếp nhận file",
+      "origin": "new-lab",
+      "purpose": "Kiểm upload/đuôi/dung lượng/rỗng; OLE, ZIP CRC/XML; mở thử Office; kiểm và dựng PDF; cảnh báo tương thích.",
+      "production_integration": "Ứng viên ghép phần kiểm tra; đối chiếu UploadedFile, ZipArchive, DOM, mbstring, Process, công cụ hệ điều hành và các ngân sách hardcode.",
+      "sha256": "77377FDDE2255A201E6C06CEC41EC9826E740704893781233EB5010A63130719",
+      "bytes": 10312,
+      "git_status": "?? source/BookStack-21.11.1/app/Uploads/StorageFileInspector.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Models/AttachedFile.php",
+      "group": "Tiếp nhận file",
+      "origin": "vlex-slot",
+      "purpose": "Dùng vị trí model VLEX, trỏ bảng lab vlex_book_files; book_id, metadata, warnings dạng mảng; ẩn path khi serialize.",
+      "production_integration": "VLEX đã có model/schema thật: map tên bảng/cột/quan hệ, không tạo model thứ hai hoặc chép đè.",
+      "sha256": "81C567C54FD90E6726A8EA6A044D502E20862E2D298A447EBB8A8AC256F30B06",
+      "bytes": 464,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/Models/AttachedFile.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Repos/AttachedFileRepo.php",
+      "group": "Tiếp nhận file",
+      "origin": "vlex-slot",
+      "purpose": "Lưu nguyên bytes trên disk private, hash SHA-256, dọn blob khi lỗi; move, xóa và truy vấn book đích có quyền.",
+      "production_integration": "Ghép vào repo VLEX; giữ backend storage, transaction và chính sách xóa hiện có.",
+      "sha256": "208210CED1CB6B118E45D0F4D126E381AD5B7A5987ED44983AF1420E2237C6D7",
+      "bytes": 2150,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/Repos/AttachedFileRepo.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/FileAttachedController.php",
+      "group": "Tiếp nhận file",
+      "origin": "vlex-slot",
+      "purpose": "Upload vào Book, kết quả từng file, download; GET màn move/tìm đích/xóa; POST move và DELETE có kiểm quyền.",
+      "production_integration": "Nối vào controller VLEX cùng vai trò; map route, ACL, request/response, CSRF và thông báo.",
+      "sha256": "D312A7C275A20CBFA0775B6C767E898792926F48FE91C7DE41190ABCD606B977",
+      "bytes": 6208,
+      "git_status": " M source/BookStack-21.11.1/app/Http/Controllers/FileAttachedController.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/View/LibraryMap.php",
+      "group": "Hierarchy lab",
+      "origin": "vlex-slot",
+      "purpose": "Ánh xạ shelf/book cha-con, breadcrumb/path; tìm tên shelf/book/ancestor; move đơn cha, gỡ pivot cũ và chặn vòng lặp.",
+      "production_integration": "VLEX đã có hierarchy: tái sử dụng quan hệ thật; chỉ ghép phần tìm đích/clear membership cần thiết.",
+      "sha256": "D2C0ECBDDF0B5D2620C1A72589B5C6831EE91187A0C1241D5498063CB1479CBD",
+      "bytes": 5173,
+      "git_status": " M source/BookStack-21.11.1/app/View/LibraryMap.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/ViewComponents/HierarchyFolder.php",
+      "group": "Hierarchy lab",
+      "origin": "vlex-slot",
+      "purpose": "Gom book con, page/chapter và file trong Book; cung cấp path/breadcrumb cho giao diện và kết quả tìm đích.",
+      "production_integration": "Ghép với cây thư mục VLEX đang chạy; không tạo cây folder song song.",
+      "sha256": "00DBA1F60A4C0CCC4B0EAD702097DC7CE37A18B22FD076E3CCC39167D1926E1C",
+      "bytes": 732,
+      "git_status": " M source/BookStack-21.11.1/app/ViewComponents/HierarchyFolder.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Models/Book.php",
+      "group": "Hierarchy lab",
+      "origin": "modified-existing",
+      "purpose": "Thêm parentBook, childBooks, uploadedFiles và getParent cho book lồng.",
+      "production_integration": "Chủ yếu để lab mô phỏng VLEX; đối chiếu tên quan hệ thật, tránh thêm quan hệ trùng.",
+      "sha256": "A73D786AA834A9656AE86E533394889BCED93286A4D92AA26864ECE73976BB03",
+      "bytes": 3800,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/Models/Book.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Models/Bookshelf.php",
+      "group": "Hierarchy lab",
+      "origin": "modified-existing",
+      "purpose": "visibleBooks chỉ lấy root; appendBook chuyển về một shelf qua LibraryMap.",
+      "production_integration": "Không thay quan hệ VLEX đã sửa đúng; đối chiếu việc gỡ mọi membership cũ khi move.",
+      "sha256": "A1543831D5F99991E83C19B4530F2A30D577E4B813A4BD0D2A4E81CED06DC866",
+      "bytes": 3031,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/Models/Bookshelf.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Repos/BookRepo.php",
+      "group": "Hierarchy lab",
+      "origin": "modified-existing",
+      "purpose": "Danh sách Books gốc chỉ lấy book không có parent_book_id.",
+      "production_integration": "Điểm mô phỏng lab; VLEX thật có thể đã lọc root bằng schema khác.",
+      "sha256": "E6EDBB5D041B898631E548CEE4942FB3C537F12C5F9E40A01C9D8107690DDCC6",
+      "bytes": 3559,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/Repos/BookRepo.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Repos/BookshelfRepo.php",
+      "group": "Hierarchy lab",
+      "origin": "modified-existing",
+      "purpose": "Cập nhật danh sách Book trong shelf bằng move, kiểm quyền và transaction; không nhân bản membership.",
+      "production_integration": "So sánh với luồng move/sắp xếp thư viện hiện có; không làm mất ACL hoặc quy tắc thứ tự VLEX.",
+      "sha256": "2276F90720E46C8CE72090C804DFE3CB713897D529B97E643C9F02FC67355EE7",
+      "bytes": 5821,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/Repos/BookshelfRepo.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/BookController.php",
+      "group": "Hierarchy lab",
+      "origin": "modified-existing",
+      "purpose": "Tạo book con, màn chuyển book; hiển thị book con/page/file trong Book; hành động upload/move.",
+      "production_integration": "Ghép điểm hiển thị file/action vào controller thật, giữ luồng hierarchy VLEX đang có.",
+      "sha256": "A9EF648F73CE3C72F8A97F482C6E5D8CF4B60D7DD0513F9153F33B11C18F210C",
+      "bytes": 10399,
+      "git_status": " M source/BookStack-21.11.1/app/Http/Controllers/BookController.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/BreadcrumbsViewComposer.php",
+      "group": "Hierarchy lab",
+      "origin": "modified-existing",
+      "purpose": "Dùng HierarchyFolder để dựng breadcrumb theo cha thực tế.",
+      "production_integration": "Đối chiếu composer/breadcrumb VLEX, đặc biệt sau move khác shelf.",
+      "sha256": "7282D41A84BF81DAA77E6DDA09A0D040BDFEBF1204E65E43DE2C8F3A2DFEED3C",
+      "bytes": 747,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/BreadcrumbsViewComposer.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/SiblingFetcher.php",
+      "group": "Hierarchy lab",
+      "origin": "modified-existing",
+      "purpose": "Dropdown sibling theo book cha hoặc shelf thật, không dùng shelf cũ trong session.",
+      "production_integration": "Đối chiếu SiblingFinder alias trong cây VLEX; không chép đè nếu VLEX đã xử lý đúng.",
+      "sha256": "7E5A9230404761185EFA97077718EF725DC53AF4CE20BB5409286B50316B156F",
+      "bytes": 1665,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/Tools/SiblingFetcher.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/TrashCan.php",
+      "group": "Hierarchy lab",
+      "origin": "modified-existing",
+      "purpose": "Trash/restore book con; không khôi phục book đã xóa riêng; purge đệ quy và xóa blob file.",
+      "production_integration": "Phải map theo semantics recycle bin/xóa VLEX thật; tránh thay bằng xóa vĩnh viễn ngoài ý muốn.",
+      "sha256": "E25317D537587DBD46CF3EB07111D319C802358760FC6F3E115A867C991F5C54",
+      "bytes": 10056,
+      "git_status": " M source/BookStack-21.11.1/app/Entities/Tools/TrashCan.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/routes/web.php",
+      "group": "Route và giao diện",
+      "origin": "shared-existing",
+      "purpose": "Route upload trong Book, download file, màn move/tìm đích/xóa riêng; route book con/move folder; gỡ route kho riêng.",
+      "production_integration": "File còn chứa thay đổi Word/Excel/PDF/dán Word; chỉ ghép các route tương ứng, giữ prefix và middleware thật.",
+      "sha256": "7BB4B9DD38037D910397CCB10BB2E5ED5B450A0FC46D74B21770FED829DE4E37",
+      "bytes": 23316,
+      "git_status": " M source/BookStack-21.11.1/routes/web.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/books/show.blade.php",
+      "group": "Route và giao diện",
+      "origin": "shared-existing",
+      "purpose": "Gom book con, Page và bảng file; thêm action upload/book con/move; nạp CSS file có hash.",
+      "production_integration": "File dùng chung với menu nhập Word/Excel/PDF; ghép từng vùng vào layout VLEX, không chép đè toàn bộ.",
+      "sha256": "71E78B3F98073287D52D113D9C943753EC64A0C806CFF9DBB9ACCA5DFA655F01",
+      "bytes": 7697,
+      "git_status": " M source/BookStack-21.11.1/resources/views/books/show.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/books/create-child.blade.php",
+      "group": "Route và giao diện",
+      "origin": "new-lab",
+      "purpose": "Form tạo Book con, dùng form Book hiện có và breadcrumb hierarchy.",
+      "production_integration": "Chỉ cần cho lab nếu VLEX đã có màn tạo folder/book con.",
+      "sha256": "FE89676DA5C6F32633B1B6A4A7D810362D0AA51AA62074954029E1C510434044",
+      "bytes": 500,
+      "git_status": "?? source/BookStack-21.11.1/resources/views/books/create-child.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/books/move-folder.blade.php",
+      "group": "Route và giao diện",
+      "origin": "new-lab",
+      "purpose": "Màn chuyển cả Book/subtree tới Book hoặc Shelf; không phải màn chuyển file.",
+      "production_integration": "Chủ yếu mô phỏng lab; giữ màn move Book có sẵn của VLEX thật.",
+      "sha256": "4311B4E01F4E44EBB2EF4D8CDACA46954DC5E960A8A272CBB57C1BD7ED5A0720",
+      "bytes": 1265,
+      "git_status": "?? source/BookStack-21.11.1/resources/views/books/move-folder.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/books/upload-files.blade.php",
+      "group": "Route và giao diện",
+      "origin": "new-lab",
+      "purpose": "Form nhiều file trong Book, CSRF, kết quả riêng từng file; nạp CSS/JS có hash.",
+      "production_integration": "Map vào form upload VLEX hiện có; giữ contract và giới hạn request phía server.",
+      "sha256": "23CE315B66BFDBB3C0D6D281D57F2F943EC347E8645E1F8CEB570EB50E146846",
+      "bytes": 2033,
+      "git_status": "?? source/BookStack-21.11.1/resources/views/books/upload-files.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/books/parts/upload-result.blade.php",
+      "group": "Route và giao diện",
+      "origin": "new-lab",
+      "purpose": "Kết quả fallback Blade: tên/loại file, dấu xanh/đỏ; chỉ thất bại mới hiện lý do.",
+      "production_integration": "Đồng bộ với renderer JS và quy tắc lỗi thật; mọi tên file/lý do đều escape.",
+      "sha256": "CBA1CC9598E619BEA63AA14776CAB376B24176F86C9FF706A0552B77CD17DA79",
+      "bytes": 1057,
+      "git_status": "?? source/BookStack-21.11.1/resources/views/books/parts/upload-result.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/books/parts/uploaded-files.blade.php",
+      "group": "Route và giao diện",
+      "origin": "new-lab",
+      "purpose": "Danh sách tên/loại/dung lượng/trạng thái; link download, màn chuyển và màn xóa; không có form dropdown.",
+      "production_integration": "Ghép vào danh sách file đang có của Book VLEX, giữ quyền từng action.",
+      "sha256": "1FE5ADC24BDCDF6F3F006A0D9E13A799262A2735782DCB5E14E7C4B159D47B9D",
+      "bytes": 1835,
+      "git_status": "?? source/BookStack-21.11.1/resources/views/books/parts/uploaded-files.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/files/move.blade.php",
+      "group": "Route và giao diện",
+      "origin": "new-lab",
+      "purpose": "Màn riêng chuyển file, vị trí hiện tại, tìm shelf/book, chọn book đích, Hủy/Chuyển.",
+      "production_integration": "Dùng bố cục và entities.selector hiện có; không coi đây là bản view VLEX gốc đã nhận.",
+      "sha256": "CDB62A72ED074FEC0BA68B301F296A5F3C41260667C3F459629658276BD1C315",
+      "bytes": 1520,
+      "git_status": "?? source/BookStack-21.11.1/resources/views/files/move.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/files/delete.blade.php",
+      "group": "Route và giao diện",
+      "origin": "new-lab",
+      "purpose": "Màn xác nhận xóa riêng: tên file, vị trí, Hủy/Xác nhận; GET không xóa.",
+      "production_integration": "Ghép vào màn xóa VLEX sẵn có, xác minh permanent delete hay recycle bin.",
+      "sha256": "5A91AADCB48CA9DB13E590FE12461770CF186E6BEB432C01581C07CAEE4186EE",
+      "bytes": 1024,
+      "git_status": "?? source/BookStack-21.11.1/resources/views/files/delete.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/files/parts/move-destinations.blade.php",
+      "group": "Route và giao diện",
+      "origin": "new-lab",
+      "purpose": "Kết quả tìm đích dùng list-item-basic native; hiện đủ đường dẫn shelf/book.",
+      "production_integration": "Giữ data-entity-type/id và entity-list-item-name cho bộ chọn; path lấy từ hierarchy thật.",
+      "sha256": "91502F7CFCF593473305011AC9C571AAA769451A557D3404DC5818AC8CB417D2",
+      "bytes": 453,
+      "git_status": "?? source/BookStack-21.11.1/resources/views/files/parts/move-destinations.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/entities/selector.blade.php",
+      "group": "Frontend dùng chung",
+      "origin": "modified-existing",
+      "purpose": "Bộ chọn hiện có nhận thêm selectorSearchUrl và nhãn tìm kiếm có aria-label.",
+      "production_integration": "Tham số tùy chọn; không làm đổi mặc định các màn chọn Page/Chapter khác.",
+      "sha256": "192B3F020A18C27AEBC9ABF226CBE1F187F76BFE8017BE99345BB7F3F0F579F0",
+      "bytes": 1183,
+      "git_status": " M source/BookStack-21.11.1/resources/views/entities/selector.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/js/components/entity-selector.js",
+      "group": "Frontend dùng chung",
+      "origin": "modified-existing",
+      "purpose": "Ưu tiên URL tìm kiếm tùy chọn; mặc định vẫn dùng ajax/search/entities.",
+      "production_integration": "Ghép thay đổi nhỏ vào component tương ứng, dùng toolchain/version frontend của VLEX thật.",
+      "sha256": "3992372C11170B533FCE958D1D87A0592600976C5073D48B0A8B4A5508B4EEFA",
+      "bytes": 5415,
+      "git_status": " M source/BookStack-21.11.1/resources/js/components/entity-selector.js"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/app.js",
+      "group": "Frontend dùng chung",
+      "origin": "shared-existing",
+      "purpose": "Bundle chạy thực tế, gồm thay đổi optional searchUrl cho entity-selector.",
+      "production_integration": "Còn chứa sửa tìm kiếm trước đó; không chép đè bundle production. Ghép source rồi build theo VLEX; lab đã cập nhật cả source và bundle.",
+      "sha256": "67DE9B398CC8BB720E9FDD689A0E854C3CCE8AC8B4ACB3249FCBD734E1260436",
+      "bytes": 795119,
+      "git_status": " M source/BookStack-21.11.1/public/dist/app.js"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/storage-upload.js",
+      "group": "Frontend dùng chung",
+      "origin": "new-lab",
+      "purpose": "Preflight, upload tuần tự từng file; render tên/loại/trạng thái xanh đỏ; chỉ lỗi mới hiện lý do; dùng textContent.",
+      "production_integration": "So sánh cơ chế upload/CSRF/response VLEX; không tự ghép giới hạn import Excel sang file lưu trữ.",
+      "sha256": "CBB577C76C0AB2655B03148E6A16CF72E76CB36D61E252FFBB6874F1481CB376",
+      "bytes": 4693,
+      "git_status": "?? source/BookStack-21.11.1/public/dist/storage-upload.js"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/storage-upload.css",
+      "group": "Frontend dùng chung",
+      "origin": "new-lab",
+      "purpose": "CSS scoped cho kết quả upload, tên/loại file và bảng file; responsive và dark mode.",
+      "production_integration": "Đối chiếu class/theme/layout VLEX để tránh ảnh hưởng CSS chung.",
+      "sha256": "0708E8369E65A14D1961AE2CCA2CC793F45006830CAEDB425F04650E1400EF87",
+      "bytes": 2849,
+      "git_status": "?? source/BookStack-21.11.1/public/dist/storage-upload.css"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/layouts/base.blade.php",
+      "group": "Frontend dùng chung",
+      "origin": "shared-existing",
+      "purpose": "Fingerprint app.js để tải bản selector mới; giữ CSP nonce.",
+      "production_integration": "File còn nạp asset của tìm kiếm/Office/dán Word trước đó; ghép riêng cache/CSP cần thiết.",
+      "sha256": "238ECD58E6D27BC51259A7F190271C739B6062461DE2B72E9EBA2E0BDA08DD03",
+      "bytes": 2238,
+      "git_status": " M source/BookStack-21.11.1/resources/views/layouts/base.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/database/migrations/2026_10_29_110000_add_book_folders_and_uploaded_files.php",
+      "group": "Schema lab",
+      "origin": "new-lab",
+      "purpose": "Thêm books.parent_book_id, vlex_book_files và vlex_book_hierarchy_lock.",
+      "production_integration": "Schema mô phỏng. Không chạy nguyên migration trên VLEX đã có hierarchy/file table; map schema và lập migration riêng nếu thực sự thiếu.",
+      "sha256": "EC8E62698C7B8E55819C25E02C2353B7E3D74081D01EC745D4F8DC3385D68417",
+      "bytes": 1703,
+      "git_status": "?? source/BookStack-21.11.1/database/migrations/2026_10_29_110000_add_book_folders_and_uploaded_files.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/database/migrations/2026_10_29_090000_create_vlex_storage.php",
+      "group": "Lịch sử đã ngừng",
+      "origin": "retired-lab",
+      "purpose": "Tạo vlex_storage_folders/files của bản kho riêng đã gỡ; giữ lịch sử migration đã chạy trong lab.",
+      "production_integration": "Không triển khai vào VLEX thật; không kích hoạt lại kho riêng hoặc tự xóa dữ liệu cũ.",
+      "sha256": "0D07347A0D9CE4592E9FCB6D50802AC83BFB7B5C350611D1A90E12D316F88632",
+      "bytes": 1364,
+      "git_status": "?? source/BookStack-21.11.1/database/migrations/2026_10_29_090000_create_vlex_storage.php"
+    },
+    {
+      "path": "Dockerfile",
+      "group": "Môi trường",
+      "origin": "modified-existing",
+      "purpose": "Bổ sung qpdf/poppler-utils để kiểm PDF; dùng LibreOffice và PHP/extensions của runtime lab.",
+      "production_integration": "Đối chiếu PATH, quyền chạy process/temp/font và công cụ được phép cài ở server VLEX; không dùng nguyên image lab làm yêu cầu production.",
+      "sha256": "1CA8CEA360524E9590C6061A229C8DB511D8ACA465C72A18C87889906AA6DE8A",
+      "bytes": 2303,
+      "git_status": " M Dockerfile"
+    },
+    {
+      "path": "compose.yaml",
+      "group": "Môi trường",
+      "origin": "shared-existing",
+      "purpose": "Truyền VLEX_STORAGE_MAX_MB vào app container; tham chiếu volume/private storage và cổng lab.",
+      "production_integration": "Chỉ tham chiếu lab; giữ config/secrets/deployment production. File còn có thay đổi của tác vụ khác.",
+      "sha256": "AE6A266C0F76064A2E6E516096B0D2618462C9E314322530687783C4928576AC",
+      "bytes": 1346,
+      "git_status": " M compose.yaml"
+    },
+    {
+      "path": "tests/storage/check-service.php",
+      "group": "Kiểm thử",
+      "origin": "new-lab",
+      "purpose": "File hợp lệ/giả/hỏng/CRC/XML/limit; hierarchy/move/hash; tìm đích, quyền, trash/restore/purge; rollback DB.",
+      "production_integration": "Chỉ chạy trong lab; dùng web user www-data và fixture tổng hợp, đối chiếu schema/auth trước khi tái dùng.",
+      "sha256": "DB98D61BF3E35BB0EF93233EF48AEB37AA8E005646A903D058A845B2D4C1D09D",
+      "bytes": 12213,
+      "git_status": "?? tests/storage/check-service.php"
+    },
+    {
+      "path": "tests/storage/check-http.ps1",
+      "group": "Kiểm thử",
+      "origin": "new-lab",
+      "purpose": "Tạo Shelf/Book/Page/file, kiểm màn move/delete, tìm theo shelf/book, cross-shelf, hash, guest và xóa; dọn dữ liệu thử.",
+      "production_integration": "Chỉ chạy lab: script chứa tài khoản lab và tạo/xóa dữ liệu. Không chạy nguyên script trên VLEX production.",
+      "sha256": "7A0E88F372C11294F642379122965DB9AE756CB568FF5577BFAF3710F324ED3E",
+      "bytes": 9707,
+      "git_status": "?? tests/storage/check-http.ps1"
+    },
+    {
+      "path": "tests/check-vlex-structure.php",
+      "group": "Kiểm thử",
+      "origin": "modified-existing",
+      "purpose": "Xác minh 5 vị trí đã triển khai, alias native, scaffold còn chờ và migration stub chưa kích hoạt.",
+      "production_integration": "Kiểm cấu trúc lab, không phải test chức năng production; cần vlex-file-map.json đúng bản.",
+      "sha256": "DC284E31B9C3B65BE8BB46600B180EB9F37371ECF6F666EA6B9CA896D1B8F74D",
+      "bytes": 3492,
+      "git_status": " M tests/check-vlex-structure.php"
+    },
+    {
+      "path": "docs/vlex-file-map.md",
+      "group": "Bảng kê và tài liệu",
+      "origin": "modified-existing",
+      "purpose": "Bảng đường dẫn người dùng cung cấp; đánh dấu 5 vị trí implemented-lab, các vị trí còn chờ.",
+      "production_integration": "Dùng nhận diện chỗ ghép, không xem implemented-lab là đã nhận mã gốc.",
+      "sha256": "84EB90BB22ED8A518110AA2CD45092F37C7121C1D9DA36D75A8D260092FBADCC",
+      "bytes": 47222,
+      "git_status": " M docs/vlex-file-map.md"
+    },
+    {
+      "path": "docs/vlex-file-map.json",
+      "group": "Bảng kê và tài liệu",
+      "origin": "modified-existing",
+      "purpose": "Bản máy đọc của bảng đường dẫn/trạng thái; đầu vào test cấu trúc.",
+      "production_integration": "Giữ phân biệt scaffold, alias, implemented-lab và migration chưa biết schema.",
+      "sha256": "25C4354A2565C4817E34E20D84AA9FE8FE8301DAA8592C928A5C58078DB91075",
+      "bytes": 66544,
+      "git_status": " M docs/vlex-file-map.json"
+    },
+    {
+      "path": "docs/vlex-local-development.md",
+      "group": "Bảng kê và tài liệu",
+      "origin": "modified-existing",
+      "purpose": "Ghi nhận cây VLEX đã xác nhận và cập nhật trạng thái triển khai lab.",
+      "production_integration": "Phần nền ngày 22/10 là lịch sử, ưu tiên ghi chú cập nhật và hồ sơ mới.",
+      "sha256": "E1F33E319E9AB160E1D0CC645264038AD2F5C38310DC6F17272A6CE4B0763EB6",
+      "bytes": 8139,
+      "git_status": " M docs/vlex-local-development.md"
+    },
+    {
+      "path": "docs/storage-files.md",
+      "group": "Bảng kê và tài liệu",
+      "origin": "new-lab",
+      "purpose": "Mô tả nghiệp vụ, quan hệ, quyền, kiểm file, luồng move/delete và cách kiểm thử hiện tại.",
+      "production_integration": "Đọc cùng hồ sơ bàn giao và manifest để đối chiếu hành vi với VLEX thật.",
+      "sha256": "63AE96AEFD8473EB5ECA97234E7605EEA557B99A6F7372CE7E4420C44C8AF9D8",
+      "bytes": 8838,
+      "git_status": "?? docs/storage-files.md"
+    },
+    {
+      "path": "README.md",
+      "group": "Bảng kê và tài liệu",
+      "origin": "shared-existing",
+      "purpose": "Điểm vào hướng dẫn lab, mô tả cây Book/file và liên kết hồ sơ.",
+      "production_integration": "Còn có ghi chú Word/Excel/PDF/dán Word; không xem toàn bộ README là phạm vi riêng tác vụ này.",
+      "sha256": "8E1A24B6E8038BC2D233B9EC21D803ED0945FE3354F3233819D05623A985C20E",
+      "bytes": 15584,
+      "git_status": " M README.md"
+    }
+  ],
+  "excluded_removed_paths": [
+    "app/Http/Controllers/StorageController.php",
+    "app/Uploads/StorageFile.php",
+    "app/Uploads/StorageFolder.php",
+    "resources/views/storage/index.blade.php",
+    "app/Entities/Tools/BookHierarchy.php"
+  ],
+  "exclusions_note": "Retired standalone storage code was removed; temporary BookHierarchy implementation was moved into the existing VLEX LibraryMap slot. No deployable source at those paths.",
+  "self_hash_note": "The manifest, generated handover and generator are not included in their own source hash list."
+}

@@ -34,9 +34,13 @@ class TrashCan
      *
      * @throws Exception
      */
-    public function softDestroyBook(Book $book)
+    public function softDestroyBook(Book $book, bool $recordDelete = true)
     {
-        Deletion::createForEntity($book);
+        if ($recordDelete) Deletion::createForEntity($book);
+
+        foreach ($book->childBooks()->get() as $childBook) {
+            $this->softDestroyBook($childBook, false);
+        }
 
         foreach ($book->pages as $page) {
             $this->softDestroyPage($page, false);
@@ -114,6 +118,13 @@ class TrashCan
     protected function destroyBook(Book $book): int
     {
         $count = 0;
+        foreach ($book->childBooks()->withTrashed()->get() as $childBook) {
+            $count += $this->destroyBook($childBook);
+        }
+        foreach ($book->uploadedFiles()->get() as $file) {
+            app(\BookStack\Entities\Repos\AttachedFileRepo::class)->destroy($file);
+            $count++;
+        }
         $pages = $book->pages()->withTrashed()->get();
         foreach ($pages as $page) {
             $this->destroyPage($page);
@@ -301,6 +312,9 @@ class TrashCan
 
         if ($entity instanceof Book) {
             $entity->chapters()->withTrashed()->withCount('deletions')->get()->each($restoreAction);
+            foreach ($entity->childBooks()->onlyTrashed()->doesntHave('deletions')->get() as $childBook) {
+                $count += $this->restoreEntity($childBook);
+            }
         }
 
         return $count;

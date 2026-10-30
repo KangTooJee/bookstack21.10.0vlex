@@ -6,6 +6,21 @@ use Illuminate\Http\Request;
 
 class SearchOptions
 {
+    public $documentScope = null;
+    public $rawQuery = '';
+    public $matchAllTerms = false;
+
+    public static function fromUserString(string $search): self
+    {
+        $instance = new self();
+        foreach (static::decode($search, true) as $type => $value) {
+            $instance->$type = $value;
+        }
+        $instance->rawQuery = $search;
+        $instance->matchAllTerms = true;
+        return $instance;
+    }
+
     /**
      * @var array
      */
@@ -52,15 +67,17 @@ class SearchOptions
         }
 
         if ($request->has('term')) {
-            return static::fromString($request->get('term'));
+            return static::fromUserString($request->get('term'));
         }
 
         $instance = new SearchOptions();
+        $instance->rawQuery = $request->input('search', '');
+        $instance->matchAllTerms = true;
         $inputs = $request->only(['search', 'types', 'filters', 'exact', 'tags']);
 
-        $parsedStandardTerms = static::parseStandardTermString($inputs['search'] ?? '');
-        $instance->searches = $parsedStandardTerms['terms'];
-        $instance->exacts = $parsedStandardTerms['exacts'];
+        $parsedStandardTerms = static::fromUserString($inputs['search'] ?? '');
+        $instance->searches = $parsedStandardTerms->searches;
+        $instance->exacts = $parsedStandardTerms->exacts;
 
         array_push($instance->exacts, ...array_filter($inputs['exact'] ?? []));
 
@@ -83,7 +100,7 @@ class SearchOptions
     /**
      * Decode a search string into an array of terms.
      */
-    protected static function decode(string $searchString): array
+    protected static function decode(string $searchString, bool $natural = false): array
     {
         $terms = [
             'searches' => [],
@@ -109,7 +126,7 @@ class SearchOptions
         }
 
         // Parse standard terms
-        $parsedStandardTerms = static::parseStandardTermString($searchString);
+        $parsedStandardTerms = static::parseStandardTermString($searchString, $natural);
         array_push($terms['searches'], ...$parsedStandardTerms['terms']);
         array_push($terms['exacts'], ...$parsedStandardTerms['exacts']);
 
@@ -130,8 +147,17 @@ class SearchOptions
      *
      * @return array{terms: array<string>, exacts: array<string>}
      */
-    protected static function parseStandardTermString(string $termString): array
+    protected static function parseStandardTermString(string $termString, bool $natural = false): array
     {
+        if ($natural) {
+            $terms = [];
+            $term = strtok($termString, SearchIndex::$delimiters);
+            while ($term !== false) {
+                $terms[] = $term;
+                $term = strtok(SearchIndex::$delimiters);
+            }
+            return ['terms' => array_values(array_unique($terms)), 'exacts' => []];
+        }
         $terms = explode(' ', $termString);
         $indexDelimiters = SearchIndex::$delimiters;
         $parsed = [

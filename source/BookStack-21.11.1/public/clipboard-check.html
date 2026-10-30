@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="vi"><meta charset="utf-8"><title>Kiểm tra clipboard Word</title>
+<style>body{font:18px Segoe UI,sans-serif;max-width:1000px;margin:40px auto;color:#172c3a}#paste{border:2px solid #2874a5;padding:30px;min-height:90px}pre{background:#f1f5f9;padding:20px;white-space:pre-wrap;font-size:16px}</style>
+<h1>Kiểm tra dữ liệu dán từ Word</h1>
+<p>Copy đúng đoạn bị lỗi từ Microsoft Word, click vào khung và nhấn Ctrl+V. Trang này chỉ hiển thị loại dữ liệu và số lượng, không tải nội dung lên máy chủ.</p>
+<div id="paste" contenteditable="true" role="textbox" aria-label="Dán đoạn Word để kiểm tra">Click vào đây rồi Ctrl+V</div>
+<pre id="report">Chưa nhận thao tác dán.</pre>
+<script>
+document.querySelector('#paste').addEventListener('paste',event=>{
+    event.preventDefault();
+    const data=event.clipboardData,html=data.getData('text/html'),rtf=data.getData('text/rtf');
+    const doc=new DOMParser().parseFromString(html,'text/html');
+    const report={trustedPaste:event.isTrusted,types:Array.from(data.types),htmlCharacters:html.length,rtfCharacters:rtf.length,
+        rtfPictures:(rtf.match(/\\pict\b/g)||[]).length,rtfFormats:{png:(rtf.match(/\\pngblip\b/g)||[]).length,jpeg:(rtf.match(/\\jpegblip\b/g)||[]).length,wmf:(rtf.match(/\\wmetafile\d*/g)||[]).length,emf:(rtf.match(/\\emfblip\b/g)||[]).length},
+        items:Array.from(data.items).map(item=>{const file=item.kind==='file'?item.getAsFile():null;return{kind:item.kind,type:item.type,bytes:file?.size||0}}),
+        htmlImages:Array.from(doc.querySelectorAll('img')).map(img=>{const src=img.getAttribute('src')||'';return{scheme:(src.match(/^[a-z]+:/i)||['relative'])[0],file:src.startsWith('file:')?src.split('/').pop():undefined,width:img.getAttribute('width'),height:img.getAttribute('height')}})};
+    document.querySelector('#report').textContent=JSON.stringify(report,null,2);
+});
+</script></html>

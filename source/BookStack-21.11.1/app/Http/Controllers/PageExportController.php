@@ -36,10 +36,19 @@ class PageExportController extends Controller
     public function pdf(string $bookSlug, string $pageSlug)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        if ($page->isPdf()) {
+            $pdf = $page->originalPdf();
+            $bytes = app(\BookStack\Uploads\AttachmentService::class)->getAttachmentFromStorage($pdf);
+            return $this->downloadResponse($bytes, $pageSlug . '.pdf')
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', \Symfony\Component\HttpFoundation\HeaderUtils::makeDisposition('attachment', $pdf->getFileName(), 'document.pdf'))
+                ->header('Cache-Control', 'private, no-store');
+        }
         $page->html = (new PageContent($page))->render();
         $pdfContent = $this->exportFormatter->pageToPdf($page);
 
-        return $this->downloadResponse($pdfContent, $pageSlug . '.pdf');
+        return $this->downloadResponse($pdfContent, $pageSlug . '.pdf')
+            ->header('Content-Type', 'application/pdf');
     }
 
     /**
@@ -51,6 +60,7 @@ class PageExportController extends Controller
     public function html(string $bookSlug, string $pageSlug)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        abort_if($page->isPdf(), 403, 'PDF chỉ xuất được file gốc.');
         $page->html = (new PageContent($page))->render();
         $containedHtml = $this->exportFormatter->pageToContainedHtml($page);
 
@@ -65,6 +75,7 @@ class PageExportController extends Controller
     public function word(string $bookSlug, string $pageSlug, WordExportService $exporter)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        abort_if($page->isPdf(), 403, 'PDF chỉ xuất được file gốc.');
         try {
             $content = $exporter->export($page);
         } catch (RuntimeException $exception) {
@@ -82,6 +93,7 @@ class PageExportController extends Controller
     public function plainText(string $bookSlug, string $pageSlug)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        abort_if($page->isPdf(), 403, 'PDF chỉ xuất được file gốc.');
         $pageText = $this->exportFormatter->pageToPlainText($page);
 
         return $this->downloadResponse($pageText, $pageSlug . '.txt');
@@ -90,6 +102,7 @@ class PageExportController extends Controller
     public function excel(string $bookSlug, string $pageSlug, ExcelExportService $exporter)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        abort_if($page->isPdf(), 403, 'PDF chỉ xuất được file gốc.');
         try {
             $content = $exporter->export($page);
         } catch (RuntimeException $exception) {
@@ -109,6 +122,7 @@ class PageExportController extends Controller
     public function markdown(string $bookSlug, string $pageSlug)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        abort_if($page->isPdf(), 403, 'PDF chỉ xuất được file gốc.');
         $pageText = $this->exportFormatter->pageToMarkdown($page);
 
         return $this->downloadResponse($pageText, $pageSlug . '.md');

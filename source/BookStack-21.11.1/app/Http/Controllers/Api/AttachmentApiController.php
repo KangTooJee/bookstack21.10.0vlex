@@ -110,6 +110,7 @@ class AttachmentApiController extends ApiController
         $requestData = $this->validate($request, $this->rules()['update']);
         /** @var Attachment $attachment */
         $attachment = Attachment::visible()->findOrFail($id);
+        abort_if($attachment->page && $attachment->page->isPdf(), 403, 'Không sửa file PDF gốc.');
 
         $page = $attachment->page;
         if ($requestData['uploaded_to'] ?? false) {
@@ -141,6 +142,7 @@ class AttachmentApiController extends ApiController
     {
         /** @var Attachment $attachment */
         $attachment = Attachment::visible()->findOrFail($id);
+        abort_if($attachment->page && $attachment->page->isPdf(), 403, 'Không xóa riêng file PDF gốc.');
         $this->checkOwnablePermission('attachment-delete', $attachment);
 
         $this->attachmentService->deleteFile($attachment);

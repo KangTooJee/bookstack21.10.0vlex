@@ -1,0 +1,214 @@
+{
+  "capturedDate": "2026-10-28",
+  "timezone": "Asia/Saigon",
+  "scope": "Search changes only; current complete file snapshots can include earlier unrelated changes.",
+  "sourceRoot": "source/BookStack-21.11.1",
+  "decision": {
+    "elasticsearch": "Not installed/integrated; excluded by project decision.",
+    "ocr": "Not installed/integrated; excluded by project decision.",
+    "reason": "User concern about Vietnamese accuracy; no Elasticsearch/OCR benchmark performed.",
+    "pdfSearch": "Title only (pages.name); no body or attachment filename search."
+  },
+  "hashAlgorithm": "SHA-256",
+  "hashScope": "Whole current working file, not isolated patch. Manifest itself excluded to avoid recursive hashing.",
+  "compatibility": "Local BookStack 21.11.1, PHP 8.0.30, Laravel 8.70.2, MySQL 8.0.36; actual customer VLEX compatibility not verified.",
+  "files": [
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/SearchScope.php",
+      "purpose": "Phạm vi tìm kiếm, nhãn PDF chỉ tiêu đề và validation.",
+      "sha256": "d2b934e4c35cd2630ae7eca7284ab38c77c0b5dafddcd7383061a3c4871c6f2f",
+      "sizeBytes": 482,
+      "gitStatusAtCapture": "?? source/BookStack-21.11.1/app/Entities/Tools/SearchScope.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/SearchText.php",
+      "purpose": "Chuẩn hóa text thuần và ranh giới ô/khối HTML.",
+      "sha256": "e791d8d53fd0fb4df8607498aa2883347e2fca51f641a4f6b1358355b3973098",
+      "sizeBytes": 594,
+      "gitStatusAtCapture": "?? source/BookStack-21.11.1/app/Entities/Tools/SearchText.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/SearchOptions.php",
+      "purpose": "Parser câu tự nhiên, rawQuery, matchAllTerms và lựa chọn phạm vi.",
+      "sha256": "e5898577bcb632fe626227346c212085dba80fedf8ed4e099fc8967e4073bce2",
+      "sizeBytes": 5795,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Entities/Tools/SearchOptions.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/SearchRunner.php",
+      "purpose": "Lọc phạm vi, Name/PDF chỉ tiêu đề, Word/Excel đủ từ, giữ quyền.",
+      "sha256": "5c20b6e3e706dd2e9fd14e3b513934df9a999350a46e9a77ad8b64b50134e85c",
+      "sizeBytes": 19641,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Entities/Tools/SearchRunner.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/SearchIndex.php",
+      "purpose": "Tách phần tử trước tokenize; thay chỉ mục atomic, insert lô 500.",
+      "sha256": "3a33ec190056d026f3f04d8e97f5204463f96b4bab94f9f444554d10c386b736",
+      "sizeBytes": 8468,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Entities/Tools/SearchIndex.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/SearchResultsFormatter.php",
+      "purpose": "Đoạn trích gần câu gốc; không preview nội dung Name/PDF.",
+      "sha256": "afc3111c527233a2d59ec966005d35ce6203b59fb79bd176d21eba16b9b409b2",
+      "sizeBytes": 8724,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Entities/Tools/SearchResultsFormatter.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Entities/Tools/PageContent.php",
+      "purpose": "Tạo pages.text bằng SearchText; file có thay đổi PDF trước đó.",
+      "sha256": "e5f05d09862fd7961faebe0fd61162d82200f2fea644108de93b2aae5fc6e513",
+      "sizeBytes": 14746,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Entities/Tools/PageContent.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Console/Commands/RepairDocumentSearch.php",
+      "purpose": "Repair loại Excel cũ, text và chỉ mục từng page; hỗ trợ resume.",
+      "sha256": "ab1b4346e00803ede304308d48e29903fc8cb6de7363986dfdeb76358d71700a",
+      "sizeBytes": 1634,
+      "gitStatusAtCapture": "?? source/BookStack-21.11.1/app/Console/Commands/RepairDocumentSearch.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/SearchController.php",
+      "purpose": "Validate scope, giữ input và tham số phân trang.",
+      "sha256": "5862695f11df1cd210c39d1b265f5f5845a5e96ba41a3fdfb5e2bbff4f664b7c",
+      "sizeBytes": 4327,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Http/Controllers/SearchController.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/Api/SearchApiController.php",
+      "purpose": "API bắt buộc scope; parser câu tự nhiên.",
+      "sha256": "9649f240cbfeb13eeb8868e8ce0507b80ff7d431bac2a1ad724d65f661088ae7",
+      "sizeBytes": 2523,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Http/Controllers/Api/SearchApiController.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/WordImportController.php",
+      "purpose": "Ghi document_type word khi import.",
+      "sha256": "49c6952f5626e25d849a63b42c931b34aa58a1665c6a212da090b1bd4ce038a7",
+      "sizeBytes": 2340,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Http/Controllers/WordImportController.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/ExcelImportController.php",
+      "purpose": "Ghi document_type excel khi import.",
+      "sha256": "3f2f9ef615c528432580e882dcd9d2569ea11801e56a20e96f8ce9aab25a65ed",
+      "sizeBytes": 2557,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/app/Http/Controllers/ExcelImportController.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/PdfImportController.php",
+      "purpose": "Ghi document_type pdf; file thuộc cả tính năng PDF trước đó.",
+      "sha256": "4dfbd611a1abbf802e6b23198a38c00d753a454eb760ba245ac1e76b2f70487b",
+      "sizeBytes": 3636,
+      "gitStatusAtCapture": "?? source/BookStack-21.11.1/app/Http/Controllers/PdfImportController.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/database/migrations/2026_10_28_090000_add_document_type_to_pages.php",
+      "purpose": "Thêm document_type có index và backfill theo lô.",
+      "sha256": "378d9376a4aa681c98494786d202534495a0a11b4662a70419775b5620a026bd",
+      "sizeBytes": 1274,
+      "gitStatusAtCapture": "?? source/BookStack-21.11.1/database/migrations/2026_10_28_090000_add_document_type_to_pages.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/common/header.blade.php",
+      "purpose": "Thanh tìm kiếm kết hợp và class căn giữa.",
+      "sha256": "cc3468ef56edd270fccc3f679ef1f25843f9219715ae5521d889408157cae635",
+      "sizeBytes": 5181,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/resources/views/common/header.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/search/parts/field.blade.php",
+      "purpose": "Partial ô tìm kiếm và select gọn.",
+      "sha256": "0070fdaf8c2a8e03e0eb67d6e296ba3b59d51fee5b24934502cd63e2dc6e5060",
+      "sizeBytes": 590,
+      "gitStatusAtCapture": "?? source/BookStack-21.11.1/resources/views/search/parts/field.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/search/parts/scope-select.blade.php",
+      "purpose": "Dropdown ngắn/đầy đủ, default Name, ghi chú PDF.",
+      "sha256": "a17cf8b7f7ed69e6dd9e999b7961dfd73e7a6e4364906032730e5d2eb1c91e43",
+      "sizeBytes": 709,
+      "gitStatusAtCapture": "?? source/BookStack-21.11.1/resources/views/search/parts/scope-select.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/search/all.blade.php",
+      "purpose": "Advanced Search hai trường, cảnh báo PDF và hiển thị kết quả.",
+      "sha256": "f1ba065461a2739d42ce760a036569575462ff048a1554cbab0fcc615100ffcb",
+      "sizeBytes": 6986,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/resources/views/search/all.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/entities/search-form.blade.php",
+      "purpose": "Ô tìm có scope trong sách/chương.",
+      "sha256": "aa61060d8018b262a0efc295de3947630a6bfa96e9133b12f321b0e1a41a8fdc",
+      "sizeBytes": 321,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/resources/views/entities/search-form.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/layouts/base.blade.php",
+      "purpose": "Nạp search-field.css với hash chống cache.",
+      "sha256": "2a6a916a8f28b5ac6c5939fa4857fb05455c8af044294d21319d1dea04e38f6f",
+      "sizeBytes": 1992,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/resources/views/layouts/base.blade.php"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/search-field.css",
+      "purpose": "Bo tròn header, căn giữa, kích thước sidebar và dark mode.",
+      "sha256": "cea72187f95f9a9a39bee34978ac408f0b04ebdfb5b57e9a5f84006d5745015c",
+      "sizeBytes": 2181,
+      "gitStatusAtCapture": "?? source/BookStack-21.11.1/public/dist/search-field.css"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/js/components/entity-search.js",
+      "purpose": "Gửi scope qua AJAX và xử lý đổi phạm vi.",
+      "sha256": "47fbc1c340ee1e77cdeba2da7e5a5792046a5ed49ae83ea14ebe28e61530c82a",
+      "sizeBytes": 2037,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/resources/js/components/entity-search.js"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/app.js",
+      "purpose": "Bundle phục vụ browser đã đồng bộ entity-search.",
+      "sha256": "7af3fd09b6ccd8e8055e88074b04d7df71a0c8e68c13b90b8a0602c3a7d25163",
+      "sizeBytes": 795096,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/public/dist/app.js"
+    },
+    {
+      "path": "source/BookStack-21.11.1/dev/api/requests/search-all.http",
+      "purpose": "Ví dụ API có scope.",
+      "sha256": "152a24a0dfc449e2c6673857dea37720ea2a639d279ccd9bd13a2259aef9185e",
+      "sizeBytes": 69,
+      "gitStatusAtCapture": "M source/BookStack-21.11.1/dev/api/requests/search-all.http"
+    },
+    {
+      "path": "tests/search-scope/check-service.php",
+      "purpose": "Kiểm thử độc lập bằng fixture rollback.",
+      "sha256": "8a88d29d60e0306480015b13162d54450f7996c283c7be468c595b55804e2f8b",
+      "sizeBytes": 5346,
+      "gitStatusAtCapture": "?? tests/search-scope/check-service.php"
+    },
+    {
+      "path": "tests/search-scope/check-http.ps1",
+      "purpose": "HTTP smoke test và regression dữ liệu local.",
+      "sha256": "1594bdb78f7068bfe7f1d5aefc7c1c05d88505651f71cea33451c06f27007ae3",
+      "sizeBytes": 3772,
+      "gitStatusAtCapture": "?? tests/search-scope/check-http.ps1"
+    },
+    {
+      "path": "docs/search-scope-changes.md",
+      "purpose": "Chi tiết hành vi và triển khai.",
+      "sha256": "c2580440220e1e0a4b0c3a46c7cfd926321ab60f2e5a21638d66a25cab46c70d",
+      "sizeBytes": 7458,
+      "gitStatusAtCapture": "?? docs/search-scope-changes.md"
+    },
+    {
+      "path": "docs/search-vlex-compatibility-handover.md",
+      "purpose": "Bảng file, ràng buộc và checklist tương thích VLEX thật.",
+      "sha256": "5b5fe6419d5055fe711eb175fee80ad1200d8ea29a8b843ade61704e2a94a3d7",
+      "sizeBytes": 13959,
+      "gitStatusAtCapture": "?? docs/search-vlex-compatibility-handover.md"
+    }
+  ],
+  "gitHeadAtCapture": "b7f6a3a22c4e35b9da6a5ce818309889b9960af5"
+}

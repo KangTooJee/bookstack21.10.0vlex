@@ -1,5 +1,9 @@
 @extends('layouts.tri')
 
+@push('head')
+    <link rel="stylesheet" href="{{ versioned_asset('dist/storage-upload.css') }}&amp;v={{ substr(hash_file('sha256', public_path('dist/storage-upload.css')), 0, 12) }}">
+@endpush
+
 @section('container-attrs')
     component="entity-search"
     option:entity-search:entity-id="{{ $book->id }}"
@@ -25,6 +29,13 @@
         <h1 class="break-text">{{$book->name}}</h1>
         <div refs="entity-search@contentView" class="book-content">
             <p class="text-muted">{!! nl2br(e($book->description)) !!}</p>
+            @if($folderBooks->count())
+                <div class="entity-list book-contents" data-book-folders="{{ $book->id }}">
+                    @foreach($folderBooks as $folderBook)
+                        @include('books.parts.list-item', ['book' => $folderBook])
+                    @endforeach
+                </div>
+            @endif
             @if(count($bookChildren) > 0)
                 <div class="entity-list book-contents">
                     @foreach($bookChildren as $childElement)
@@ -35,7 +46,7 @@
                         @endif
                     @endforeach
                 </div>
-            @else
+            @elseif($folderBooks->isEmpty() && $uploadedFiles->isEmpty())
                 <div class="mt-xl">
                     <hr>
                     <p class="text-muted italic mb-m mt-xl">{{ trans('entities.books_empty_contents') }}</p>
@@ -57,6 +68,7 @@
 
                 </div>
             @endif
+            @include('books.parts.uploaded-files')
         </div>
 
         @include('entities.search-results')
@@ -84,7 +96,17 @@
     <div class="actions mb-xl">
         <h5>{{ trans('common.actions') }}</h5>
         <div class="icon-list text-primary">
+            @if(signedInUser() && userCan('attachment-create-all') && userCan('page-create', $book))
+                <a href="{{ $book->getUrl('/upload-files') }}" class="icon-list-item">@icon('attach')<span>Upload file gốc</span></a>
+            @endif
+            @if(signedInUser() && userCan('book-create-all') && userCan('book-update', $book))
+                <a href="{{ $book->getUrl('/create-book') }}" class="icon-list-item">@icon('add')<span>Tạo book con</span></a>
+            @endif
+            @if(signedInUser() && userCan('book-update', $book))
+                <a href="{{ $book->getUrl('/move-folder') }}" class="icon-list-item">@icon('sort')<span>Chuyển book</span></a>
+            @endif
             @include('pages.parts.word-import-action', ['importParent' => $book])
+            @include('pages.parts.pdf-import-action', ['importParent' => $book])
             @include('pages.parts.excel-import-action', ['importParent' => $book])
 
             @if(userCan('page-create', $book))

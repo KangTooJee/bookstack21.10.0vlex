@@ -30,8 +30,20 @@
 
     <main class="content-wrap card">
         <div class="page-content clearfix" page-display="{{ $page->id }}" @if($excelContent) tabindex="0" role="region" aria-label="Bảng tính Excel, giữ chuột trái và kéo để cuộn ngang; giữ Shift để chọn chữ" @endif>
-            @include('pages.parts.pointer', ['page' => $page])
-            @include('pages.parts.page-display')
+            @if($page->isPdf())
+                <h1>{{ $page->name }}</h1>
+                <p class="text-muted">PDF gốc · Chỉ xem. Nội dung và bố cục được giữ nguyên.</p>
+                <p><a href="{{ $page->getUrl('/pdf-preview') }}" target="_blank" rel="noopener" class="button outline">Mở PDF trong tab mới</a>
+                @if(userCan('content-export'))
+                    <a href="{{ $page->getUrl('/export/pdf') }}" class="button">Tải PDF gốc</a>
+                @endif
+                </p>
+                <iframe src="{{ $page->getUrl('/pdf-preview') }}#toolbar=1&amp;navpanes=0&amp;pagemode=none" title="Xem PDF: {{ $page->name }}" style="width:100%; height:80vh; min-height:600px; border:0;"></iframe>
+                <p class="text-muted text-small">Nếu trình duyệt không hiển thị PDF, hãy mở trong tab mới hoặc tải file gốc.</p>
+            @else
+                @include('pages.parts.pointer', ['page' => $page])
+                @include('pages.parts.page-display')
+            @endif
         </div>
     </main>
 
@@ -139,13 +151,16 @@
             {{--User Actions--}}
             @if(userCan('page-update', $page))
                 @include('pages.parts.word-import-action', ['importParent' => $page->getParent()])
+                @include('pages.parts.pdf-import-action', ['importParent' => $page->getParent()])
                 @include('pages.parts.excel-import-action', ['importParent' => $page->getParent()])
+                @if(!$page->isPdf())
                 <a href="{{ $page->getUrl('/edit') }}" class="icon-list-item">
                     <span>@icon('edit')</span>
                     <span>{{ trans('common.edit') }}</span>
                 </a>
+                @endif
             @endif
-            @if(userCanOnAny('page-create'))
+            @if(!$page->isPdf() && userCanOnAny('page-create'))
                 <a href="{{ $page->getUrl('/copy') }}" class="icon-list-item">
                     <span>@icon('copy')</span>
                     <span>{{ trans('common.copy') }}</span>
@@ -158,10 +173,12 @@
 	                    <span>{{ trans('common.move') }}</span>
 	                </a>
                 @endif
+                @if(!$page->isPdf())
                 <a href="{{ $page->getUrl('/revisions') }}" class="icon-list-item">
                     <span>@icon('history')</span>
                     <span>{{ trans('entities.revisions') }}</span>
                 </a>
+                @endif
             @endif
             @if(userCan('restrictions-manage', $page))
                 <a href="{{ $page->getUrl('/permissions') }}" class="icon-list-item">

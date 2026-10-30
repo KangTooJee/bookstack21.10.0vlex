@@ -118,18 +118,21 @@ class BookshelfRepo
      */
     protected function updateBooks(Bookshelf $shelf, array $bookIds)
     {
-        $numericIDs = collect($bookIds)->map(function ($id) {
-            return intval($id);
+        \Illuminate\Support\Facades\DB::transaction(function () use ($shelf, $bookIds) {
+            \Illuminate\Support\Facades\DB::table('vlex_book_hierarchy_lock')->where('id', 1)->lockForUpdate()->first();
+            $ids = collect($bookIds)->map(function ($id) { return intval($id); })->filter()->unique()->values();
+            $books = Book::visible()->whereIn('id', $ids)->get()->keyBy('id');
+            abort_unless($books->count() === $ids->count(), 403);
+            foreach ($shelf->books()->whereNotIn('books.id', $ids)->get() as $removed) {
+                abort_unless(userCan('book-update', $removed), 403);
+            }
+            $sync = [];
+            foreach ($ids as $order => $id) {
+                app(\BookStack\View\LibraryMap::class)->place($books[$id], null, $shelf);
+                $sync[$id] = ['order' => $order];
+            }
+            $shelf->books()->sync($sync);
         });
-
-        $syncData = Book::visible()
-            ->whereIn('id', $bookIds)
-            ->pluck('id')
-            ->mapWithKeys(function ($bookId) use ($numericIDs) {
-                return [$bookId => ['order' => $numericIDs->search($bookId)]];
-            });
-
-        $shelf->books()->sync($syncData);
     }
 
     /**

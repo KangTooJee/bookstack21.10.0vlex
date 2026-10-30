@@ -1,0 +1,82 @@
+.vlex-upload-results {
+    display: grid;
+    gap: 10px;
+}
+.vlex-upload-result {
+    --upload-state-color: #626b78;
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid #dce1e6;
+    border-radius: 8px;
+}
+.vlex-upload-result--success { --upload-state-color: #187747; }
+.vlex-upload-result--error { --upload-state-color: #b42318; }
+.vlex-upload-result__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--upload-state-color);
+    background: #f0f2f5;
+}
+.vlex-upload-result--success .vlex-upload-result__icon { background: #e7f5ec; }
+.vlex-upload-result--error .vlex-upload-result__icon { background: #fcecea; }
+.vlex-upload-result__content { min-width: 0; }
+.vlex-upload-result__name {
+    display: block;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+.vlex-upload-result__type {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 1px 7px;
+    border: 1px solid #dce1e6;
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 1.6;
+    font-weight: 600;
+    opacity: .8;
+}
+.vlex-upload-result__status {
+    padding-top: 3px;
+    color: var(--upload-state-color);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.vlex-upload-result__errors {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    color: var(--upload-state-color);
+    font-size: 13px;
+    line-height: 1.5;
+}
+.vlex-upload-result__errors li { margin: 2px 0; }
+.vlex-book-file-name { display: flex; align-items: flex-start; gap: 8px; }
+.vlex-book-file-name strong { overflow-wrap: anywhere; }
+.vlex-book-file-saved { display: block; margin: 4px 0 0 20px; font-size: 12px; }
+.vlex-book-files-table td { vertical-align: top; }
+.vlex-book-files-table .vlex-upload-result__type { margin-top: 0; white-space: nowrap; }
+.vlex-book-file-actions { min-width: 115px; }
+.dark-mode .vlex-upload-result,
+.dark-mode .vlex-upload-result__type { border-color: #505861; }
+.dark-mode .vlex-upload-result--success { --upload-state-color: #79d5a0; }
+.dark-mode .vlex-upload-result--error { --upload-state-color: #ff9b91; }
+.dark-mode .vlex-upload-result--pending { --upload-state-color: #adb7c4; }
+.dark-mode .vlex-upload-result__icon { background: #303843; }
+.dark-mode .vlex-upload-result--success .vlex-upload-result__icon { background: #193b29; }
+.dark-mode .vlex-upload-result--error .vlex-upload-result__icon { background: #492625; }
+@media (max-width: 540px) {
+    .vlex-upload-result { grid-template-columns: 28px minmax(0, 1fr); padding: 12px; gap: 8px; }
+    .vlex-upload-result__icon { width: 28px; height: 28px; }
+    .vlex-upload-result__status { grid-column: 2; padding-top: 0; }
+}

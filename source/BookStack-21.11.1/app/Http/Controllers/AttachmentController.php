@@ -249,6 +249,7 @@ class AttachmentController extends Controller
         /** @var Attachment $attachment */
         $attachment = Attachment::query()->findOrFail($attachmentId);
         $this->checkOwnablePermission('attachment-delete', $attachment);
+        abort_if($attachment->page && $attachment->page->isPdf(), 403, 'Không xóa riêng file PDF gốc. Hãy xóa trang tài liệu nếu cần.');
         $this->attachmentService->deleteFile($attachment);
 
         return response()->json(['message' => trans('entities.attachments_deleted')]);

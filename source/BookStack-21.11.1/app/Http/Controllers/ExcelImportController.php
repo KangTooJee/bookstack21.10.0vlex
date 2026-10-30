@@ -51,6 +51,7 @@ class ExcelImportController extends Controller
 
         $page = DB::transaction(function () use ($pages, $parent, $name, $html) {
             $draft = $pages->getNewDraftPage($parent);
+            $draft->document_type = 'excel';
             $draft->name = mb_substr($name, 0, 255) ?: 'Tài liệu Excel';
             (new PageContent($draft))->setNewHTML($html);
             $draft->save();

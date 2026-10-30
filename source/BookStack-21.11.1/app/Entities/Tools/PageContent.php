@@ -40,6 +40,7 @@ class PageContent
      */
     public function setNewHTML(string $html)
     {
+        abort_if($this->page->isPdf(), 403, 'PDF chỉ được xem và tải xuống.');
         $html = $this->extractBase64ImagesFromHtml($html);
         $this->page->html = $this->formatHtml($html);
         $this->page->text = $this->toPlainText();
@@ -51,6 +52,7 @@ class PageContent
      */
     public function setNewMarkdown(string $markdown)
     {
+        abort_if($this->page->isPdf(), 403, 'PDF chỉ được xem và tải xuống.');
         $markdown = $this->extractBase64ImagesFromMarkdown($markdown);
         $this->page->markdown = $markdown;
         $html = $this->markdownToHtml($markdown);
@@ -278,7 +280,7 @@ class PageContent
     {
         $html = $this->render(true);
 
-        return html_entity_decode(strip_tags($html));
+        return SearchText::fromHtml($html);
     }
 
     /**

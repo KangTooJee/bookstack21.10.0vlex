@@ -105,7 +105,7 @@ class EntitySelector {
     }
 
     searchUrl() {
-        return `/ajax/search/entities?types=${encodeURIComponent(this.entityTypes)}&permission=${encodeURIComponent(this.entityPermission)}`;
+        return this.$opts.searchUrl || `/ajax/search/entities?types=${encodeURIComponent(this.entityTypes)}&permission=${encodeURIComponent(this.entityPermission)}`;
     }
 
     searchEntities(searchTerm) {

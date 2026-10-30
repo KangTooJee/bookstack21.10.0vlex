@@ -32,6 +32,7 @@ class ExportFormatter
      */
     public function pageToContainedHtml(Page $page)
     {
+        abort_if($page->isPdf(), 403, 'PDF chỉ xuất được file gốc.');
         $page->html = (new PageContent($page))->render();
         $pageHtml = view('pages.export', [
             'page'   => $page,
@@ -85,6 +86,9 @@ class ExportFormatter
      */
     public function pageToPdf(Page $page)
     {
+        if ($page->isPdf()) {
+            return app(\BookStack\Uploads\AttachmentService::class)->getAttachmentFromStorage($page->originalPdf());
+        }
         $page->html = (new PageContent($page))->render();
         $html = view('pages.export', [
             'page'   => $page,
@@ -201,6 +205,7 @@ class ExportFormatter
      */
     public function pageToPlainText(Page $page): string
     {
+        abort_if($page->isPdf(), 403, 'PDF chỉ xuất được file gốc.');
         $html = (new PageContent($page))->render();
         $text = strip_tags($html);
         // Replace multiple spaces with single spaces
@@ -251,6 +256,7 @@ class ExportFormatter
      */
     public function pageToMarkdown(Page $page): string
     {
+        abort_if($page->isPdf(), 403, 'PDF chỉ xuất được file gốc.');
         if ($page->markdown) {
             return '# ' . $page->name . "\n\n" . $page->markdown;
         }

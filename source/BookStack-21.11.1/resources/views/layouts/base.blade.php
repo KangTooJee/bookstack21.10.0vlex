@@ -18,6 +18,8 @@
 
     <!-- Styles and Fonts -->
     <link rel="stylesheet" href="{{ versioned_asset('dist/styles.css') }}">
+    <link rel="stylesheet" href="{{ versioned_asset('dist/office-content.css') }}&amp;v={{ substr(hash_file('sha256', public_path('dist/office-content.css')), 0, 12) }}">
+    <link rel="stylesheet" href="{{ versioned_asset('dist/search-field.css') }}&amp;v={{ substr(hash_file('sha256', public_path('dist/search-field.css')), 0, 12) }}">
     <link rel="stylesheet" media="print" href="{{ versioned_asset('dist/print-styles.css') }}">
 
     @yield('head')
@@ -50,7 +52,7 @@
     </div>
 
     @yield('bottom')
-    <script src="{{ versioned_asset('dist/app.js') }}" nonce="{{ $cspNonce }}"></script>
+    <script src="{{ versioned_asset('dist/app.js') }}&amp;v={{ substr(hash_file('sha256', public_path('dist/app.js')), 0, 12) }}" nonce="{{ $cspNonce }}"></script>
     @yield('scripts')
 
 </body>

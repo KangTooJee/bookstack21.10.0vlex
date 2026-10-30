@@ -19,7 +19,7 @@ $linted = 0;
 foreach ($map as $entry) {
     $relative = $entry['path'];
     $path = '/var/www/html/'.$relative;
-    if (in_array($entry['status'], ['compatibility-alias', 'scaffold', 'inactive-migration', 'compatibility-loader']) && preg_match('/\.php(?:\.stub)?$/', $relative)) {
+    if (in_array($entry['status'], ['compatibility-alias', 'scaffold', 'inactive-migration', 'compatibility-loader', 'implemented-lab']) && preg_match('/\.php(?:\.stub)?$/', $relative)) {
         exec('php -l '.escapeshellarg($path).' 2>&1', $output, $exitCode);
         if ($exitCode !== 0) {
             throw new RuntimeException('Invalid PHP: '.$relative.' '.implode("\n", $output));
@@ -50,8 +50,10 @@ verifyStructure(!$prototypeActions, 'Standalone workspace actions removed');
 verifyStructure(is_a(new BookStack\Permissions\User(), BookStack\Auth\User::class), 'Compatibility User remains native BookStack User');
 verifyStructure(config('auth.providers.users.model') === BookStack\Auth\User::class, 'Original auth model retained');
 verifyStructure(class_exists(BookStack\Http\Controllers\BookController::class) && class_exists(BookStack\Http\Controllers\PageController::class), 'Native book/page controllers load');
+verifyStructure((new BookStack\Entities\Models\AttachedFile())->getTable() === 'vlex_book_files', 'VLEX AttachedFile now belongs directly to Book');
+verifyStructure(class_exists(BookStack\View\LibraryMap::class) && class_exists(BookStack\ViewComponents\HierarchyFolder::class), 'VLEX hierarchy slots now implemented');
 try {
-    new BookStack\Entities\Models\AttachedFile();
+    new BookStack\Http\Controllers\ImportLibraryController();
     throw new RuntimeException('Unimplemented model silently initialized');
 } catch (LogicException $error) {
     verifyStructure(strpos($error->getMessage(), 'VLEX scaffold') !== false, 'Unimplemented feature fails explicitly');

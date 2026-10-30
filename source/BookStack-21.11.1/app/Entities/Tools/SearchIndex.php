@@ -11,6 +11,7 @@ use DOMDocument;
 use DOMNode;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class SearchIndex
 {
@@ -36,9 +37,13 @@ class SearchIndex
      */
     public function indexEntity(Entity $entity)
     {
-        $this->deleteEntityTerms($entity);
         $terms = $this->entityToTermDataArray($entity);
-        SearchTerm::query()->insert($terms);
+        DB::transaction(function () use ($entity, $terms) {
+            $this->deleteEntityTerms($entity);
+            foreach (array_chunk($terms, 500) as $chunk) {
+                SearchTerm::query()->insert($chunk);
+            }
+        });
     }
 
     /**
@@ -146,7 +151,7 @@ class SearchIndex
             'h6' => 1.5,
         ];
 
-        $html = '<body>' . $html . '</body>';
+        $html = '<body>' . SearchText::separateElements($html) . '</body>';
         libxml_use_internal_errors(true);
         $doc = new DOMDocument();
         $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));

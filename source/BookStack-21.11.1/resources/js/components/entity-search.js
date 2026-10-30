@@ -13,6 +13,7 @@ class EntitySearch {
         this.searchView = this.$refs.searchView;
         this.searchResults = this.$refs.searchResults;
         this.searchInput = this.$refs.searchInput;
+        this.scopeInput = this.$refs.scopeInput;
         this.searchForm = this.$refs.searchForm;
         this.clearButton = this.$refs.clearButton;
         this.loadingBlock = this.$refs.loadingBlock;
@@ -22,6 +23,7 @@ class EntitySearch {
 
     setupListeners() {
         this.searchInput.addEventListener('change', this.runSearch.bind(this));
+        this.scopeInput.addEventListener('change', this.runSearch.bind(this));
         this.searchForm.addEventListener('submit', e => {
             e.preventDefault();
             this.runSearch();
@@ -35,13 +37,16 @@ class EntitySearch {
         if (term.length === 0) {
             return this.clearSearch();
         }
+        if (!this.searchForm.reportValidity()) {
+            return;
+        }
 
         this.searchView.classList.remove('hidden');
         this.contentView.classList.add('hidden');
         this.loadingBlock.classList.remove('hidden');
 
         const url = window.baseUrl(`/search/${this.entityType}/${this.entityId}`);
-        window.$http.get(url, {term}).then(resp => {
+        window.$http.get(url, {term, scope: this.scopeInput.value}).then(resp => {
             this.searchResults.innerHTML = resp.data;
         }).catch(console.error).then(() => {
             this.loadingBlock.classList.add('hidden');

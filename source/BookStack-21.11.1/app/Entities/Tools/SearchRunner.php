@@ -66,9 +66,13 @@ class SearchRunner
         $entityTypesToSearch = $entityTypes;
 
         if ($entityType !== 'all') {
-            $entityTypesToSearch = $entityType;
+            $entityTypesToSearch = [$entityType];
         } elseif (isset($searchOpts->filters['type'])) {
             $entityTypesToSearch = explode('|', $searchOpts->filters['type']);
+        }
+
+        if ($searchOpts->documentScope !== null && $searchOpts->documentScope !== 'names') {
+            $entityTypesToSearch = array_intersect($entityTypesToSearch, ['page']);
         }
 
         $results = collect();
@@ -104,14 +108,18 @@ class SearchRunner
     /**
      * Search a book for entities.
      */
-    public function searchBook(int $bookId, string $searchString): Collection
+    public function searchBook(int $bookId, string $searchString, ?string $scope = null): Collection
     {
-        $opts = SearchOptions::fromString($searchString);
+        $opts = SearchOptions::fromUserString($searchString);
+        $opts->documentScope = $scope;
         $entityTypes = ['page', 'chapter'];
         $entityTypesToSearch = isset($opts->filters['type']) ? explode('|', $opts->filters['type']) : $entityTypes;
 
         $results = collect();
         foreach ($entityTypesToSearch as $entityType) {
+            if ($scope !== null && $scope !== 'names' && $entityType !== 'page') {
+                continue;
+            }
             if (!in_array($entityType, $entityTypes)) {
                 continue;
             }
@@ -127,9 +135,10 @@ class SearchRunner
     /**
      * Search a chapter for entities.
      */
-    public function searchChapter(int $chapterId, string $searchString): Collection
+    public function searchChapter(int $chapterId, string $searchString, ?string $scope = null): Collection
     {
-        $opts = SearchOptions::fromString($searchString);
+        $opts = SearchOptions::fromUserString($searchString);
+        $opts->documentScope = $scope;
         $entityModelInstance = $this->entityProvider->get('page');
         $pages = $this->buildQuery($opts, $entityModelInstance)->where('chapter_id', '=', $chapterId)->take(20)->get();
 
@@ -168,21 +177,37 @@ class SearchRunner
     protected function buildQuery(SearchOptions $searchOpts, Entity $entityModelInstance, string $action = 'view'): EloquentBuilder
     {
         $entityQuery = $entityModelInstance->newQuery();
+        $namesOnly = in_array($searchOpts->documentScope, ['names', 'pdf'], true);
+
+        if ($entityModelInstance instanceof Page && $searchOpts->documentScope !== null && $searchOpts->documentScope !== 'names') {
+            $entityQuery->where('document_type', '=', $searchOpts->documentScope);
+        }
 
         if ($entityModelInstance instanceof Page) {
-            $entityQuery->select($entityModelInstance::$listAttributes);
+            $entityQuery->select($namesOnly
+                ? array_values(array_diff($entityModelInstance::$listAttributes, ['text']))
+                : $entityModelInstance::$listAttributes);
         } else {
             $entityQuery->select(['*']);
         }
 
         // Handle normal search terms
-        $this->applyTermSearch($entityQuery, $searchOpts, $entityModelInstance);
+        if ($namesOnly) {
+            foreach ($searchOpts->searches as $term) {
+                $entityQuery->where('name', 'like', '%' . addcslashes($term, '\\%_') . '%');
+            }
+            $entityQuery->selectRaw('1 as score')->orderBy('name')->orderBy('id');
+        } else {
+            $this->applyTermSearch($entityQuery, $searchOpts, $entityModelInstance);
+        }
 
         // Handle exact term matching
         foreach ($searchOpts->exacts as $inputTerm) {
-            $entityQuery->where(function (EloquentBuilder $query) use ($inputTerm, $entityModelInstance) {
-                $query->where('name', 'like', '%' . $inputTerm . '%')
-                    ->orWhere($entityModelInstance->textField, 'like', '%' . $inputTerm . '%');
+            $entityQuery->where(function (EloquentBuilder $query) use ($inputTerm, $entityModelInstance, $namesOnly) {
+                $query->where('name', 'like', '%' . $inputTerm . '%');
+                if (!$namesOnly) {
+                    $query->orWhere($entityModelInstance->textField, 'like', '%' . $inputTerm . '%');
+                }
             });
         }
 
@@ -193,6 +218,11 @@ class SearchRunner
 
         // Handle filters
         foreach ($searchOpts->filters as $filterTerm => $filterValue) {
+            // A names-only request must never execute body scans through advanced syntax.
+            if ($namesOnly && $filterTerm === 'inbody') {
+                $entityQuery->whereRaw('1 = 0');
+                continue;
+            }
             $functionName = Str::camel('filter_' . $filterTerm);
             if (method_exists($this, $functionName)) {
                 $this->$functionName($entityQuery, $entityModelInstance, $filterValue);
@@ -224,12 +254,21 @@ class SearchRunner
         $subQuery->addBinding($scoreSelect['bindings'], 'select');
 
         $subQuery->where('entity_type', '=', $entity->getMorphClass());
+        if ($entity instanceof Page && $options->documentScope !== null) {
+            $subQuery->whereIn('entity_id', DB::table('pages')->select('id')
+                ->where('document_type', $options->documentScope)->whereNull('deleted_at'));
+        }
         $subQuery->where(function (Builder $query) use ($terms) {
             foreach ($terms as $inputTerm) {
                 $query->orWhere('term', 'like', $inputTerm . '%');
             }
         });
         $subQuery->groupBy('entity_type', 'entity_id');
+        if ($options->matchAllTerms) {
+            foreach ($terms as $inputTerm) {
+                $subQuery->havingRaw('SUM(CASE WHEN term LIKE ? THEN 1 ELSE 0 END) > 0', [addcslashes($inputTerm, '\\%_') . '%']);
+            }
+        }
 
         $entityQuery->joinSub($subQuery, 's', 'id', '=', 'entity_id');
         $entityQuery->addSelect('s.score');
@@ -272,6 +311,10 @@ class SearchRunner
      */
     protected function getTermAdjustments(SearchOptions $options): array
     {
+        // Scoped user searches avoid a separate global frequency aggregation.
+        if ($options->documentScope !== null) {
+            return array_fill_keys($options->searches, 1.0);
+        }
         if (isset($this->termAdjustmentCache[$options])) {
             return $this->termAdjustmentCache[$options];
         }

@@ -2,16 +2,16 @@
 
 namespace BookStack\Entities\Models;
 
-/**
- * VLEX SCAFFOLD — not an implemented feature.
- * Tài liệu gắn với thực thể VLEX; chờ schema và quan hệ gốc.
- * Replace this entire file with VLEX source, then check imports/schema/permissions.
- * This file is not registered in routes, service providers or auth bindings.
- */
-class AttachedFile
+// Original uploaded bytes live directly beside pages in a real Book folder.
+class AttachedFile extends \BookStack\Model
 {
-    public function __construct()
+    protected $table = 'vlex_book_files';
+    protected $guarded = ['id'];
+    protected $hidden = ['path'];
+    protected $casts = ['warnings' => 'array'];
+
+    public function book(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        throw new \LogicException('VLEX scaffold: app/Entities/Models/AttachedFile.php requires original implementation.');
+        return $this->belongsTo(Book::class);
     }
 }

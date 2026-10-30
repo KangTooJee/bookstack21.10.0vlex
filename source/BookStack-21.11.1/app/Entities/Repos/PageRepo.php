@@ -158,6 +158,7 @@ class PageRepo
      */
     public function publishDraft(Page $draft, array $input): Page
     {
+        abort_if($draft->isPdf(), 403, 'PDF chỉ được xem và tải xuống.');
         $this->updateTemplateStatusAndContentFromInput($draft, $input);
         $this->baseRepo->update($draft, $input);
 
@@ -181,6 +182,7 @@ class PageRepo
      */
     public function update(Page $page, array $input): Page
     {
+        abort_if($page->isPdf(), 403, 'PDF chỉ được xem và tải xuống.');
         // Hold the old details to compare later
         $oldHtml = $page->html;
         $oldName = $page->name;
@@ -251,6 +253,7 @@ class PageRepo
      */
     public function updatePageDraft(Page $page, array $input)
     {
+        abort_if($page->isPdf(), 403, 'PDF chỉ được xem và tải xuống.');
         // If the page itself is a draft simply update that
         if ($page->draft) {
             $this->updateTemplateStatusAndContentFromInput($page, $input);
@@ -290,6 +293,7 @@ class PageRepo
      */
     public function restoreRevision(Page $page, int $revisionId): Page
     {
+        abort_if($page->isPdf(), 403, 'PDF chỉ được xem và tải xuống.');
         $page->revision_count++;
 
         /** @var PageRevision $revision */
@@ -355,6 +359,7 @@ class PageRepo
      */
     public function copy(Page $page, string $parentIdentifier = null, string $newName = null): Page
     {
+        abort_if($page->isPdf(), 403, 'Hãy nhập lại PDF gốc để tạo bản sao.');
         $parent = $parentIdentifier ? $this->findParentByIdentifier($parentIdentifier) : $page->getParent();
         if ($parent === null) {
             throw new MoveOperationException('Book or chapter to move page into not found');

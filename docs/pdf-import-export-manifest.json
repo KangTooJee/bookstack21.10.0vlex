@@ -1,0 +1,195 @@
+{
+  "snapshot_date": "2026-10-28",
+  "timezone": "Asia/Saigon",
+  "branch": "files-curl",
+  "base_head": "b7f6a3a22c4e35b9da6a5ce818309889b9960af5",
+  "working_tree_uncommitted": true,
+  "repository_root": "C:/Users/Vissoft_PC/Downloads/VLEX/bookstack-lab",
+  "application_root": "source/BookStack-21.11.1",
+  "feature": "PDF gốc: chỉ xem, xuất nguyên byte; giữ toolbar và mặc định đóng menu bên cạnh nếu viewer hỗ trợ",
+  "note": "Snapshot bản file local chưa commit, chưa xác nhận tương thích Vlex thật. Không tự bao gồm hash của manifest. SHA-256 xác định bản mã nguồn, không phải tài liệu người dùng. Cần cập nhật snapshot khi file thay đổi.",
+  "files": [
+    {
+      "repo_path": "source/BookStack-21.11.1/database/migrations/2026_10_27_180000_add_pdf_attachment_to_pages.php",
+      "scope": "application-change",
+      "purpose": "Thêm cột nullable unsigned integer `pages.pdf_attachment_id`; rollback bỏ cột. Đối chiếu tên bảng, kiểu khóa attachment và cơ chế migration thật. Cột là dấu loại trang và liên kết file gốc, không suy đoán từ tên file/HTML.",
+      "git_status": "??",
+      "sha256": "e08bc1e17df3b632b585e38aad5ff57465078e614b203eac7a1a057e9ece0430"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Entities/Models/Page.php",
+      "scope": "application-change",
+      "purpose": "Thêm `isPdf()` và `originalPdf()`. Lấy attachment đúng `uploaded_to` của trang, đúng ID đã lưu, không phải link ngoài; thiếu file/record thì báo lỗi thay vì tạo PDF thay thế.",
+      "git_status": " M",
+      "sha256": "5716ab3e90b5130087b63383aeba7c901c183470b237e83f51c50a0b8edfd00e"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Uploads/PdfImportService.php",
+      "scope": "application-change",
+      "purpose": "Chỉ kiểm tra extension `.pdf`, tối đa 20 MB, MIME `application/pdf`, header `%PDF-` và `%%EOF` trong 4096 byte cuối. Không còn hàm chuyển PDF sang HTML. Đây là kiểm tra cơ bản, không xác minh toàn bộ cấu trúc PDF.",
+      "git_status": "??",
+      "sha256": "219a181181d241c8e607ce78d9133a36930c22701cc10ca3973756a58432f81f"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/PdfImportController.php",
+      "scope": "application-change",
+      "purpose": "Form/import theo sách hoặc chương; kiểm tra đăng nhập, `page-create`, `attachment-create-all`; validate request; lưu attachment, tạo/publish trang, so hash rồi gắn ID PDF trong transaction. Khi lỗi sau khi đã có attachment thì dọn file. Action `preview()` kiểm tra quyền xem và trả đúng bytes với MIME PDF, inline, private/no-store, nosniff.",
+      "git_status": "??",
+      "sha256": "f19465833b3d5f54eb23451269a58ae3a297b17b8018763e144db13bf071401e"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/routes/web.php",
+      "scope": "application-change",
+      "purpose": "Thêm import PdfImportController; GET/POST `/books/{bookSlug}/import-pdf` và `/books/{bookSlug}/chapter/{chapterSlug}/import-pdf`; POST throttle 10 lần/phút. Thêm GET `/books/{bookSlug}/page/{pageSlug}/pdf-preview` trong nhóm route auth. Route export PDF từng trang đã có sẵn.",
+      "git_status": " M",
+      "sha256": "2e474c56ca1aa5057b8ea97effef9d88fe45ec8c1f317a6da99cd01f3dc62890"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/pages/import-pdf.blade.php",
+      "scope": "application-change",
+      "purpose": "Form tên trang/file, CSRF, lỗi validation và giới hạn 20 MB; giải thích lưu nguyên file, chỉ xem, hỗ trợ scan và phụ thuộc trình duyệt. Nút nhập mở trang xem, không mở bản nháp.",
+      "git_status": "??",
+      "sha256": "bf412cfb96731a3a17e3ad5e4ebfb43c0476d9891041952ce7306f030f417726"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/pages/parts/pdf-import-action.blade.php",
+      "scope": "application-change",
+      "purpose": "Nút “Nhập PDF (.pdf)” khi đăng nhập và có quyền tạo trang tại parent cùng quyền tạo attachment.",
+      "git_status": "??",
+      "sha256": "69400392f9cb7196eca0643b54c17624125bcca98b32bfd1b4a66c01326277d6"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/books/show.blade.php",
+      "scope": "application-change",
+      "purpose": "Chèn partial nhập PDF trong menu sách, parent là sách hiện tại.",
+      "git_status": " M",
+      "sha256": "85ea98294c10fc37f2b88a44116c3de6c7d22b4cafda6853f0c922c4cb8b6c5c"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/chapters/show.blade.php",
+      "scope": "application-change",
+      "purpose": "Chèn partial nhập PDF trong menu chương, parent là chương hiện tại.",
+      "git_status": " M",
+      "sha256": "b2bf420eca79d50bab68d0086ea9a4394e53b24cc8faaccd9c6e0fc63467561f"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/pages/show.blade.php",
+      "scope": "application-change",
+      "purpose": "Trang PDF hiển thị tiêu đề, thông báo chỉ xem, iframe và nút mở/tải; khung giữ toolbar và mặc định đóng menu bên cạnh. Bỏ pointer sửa từng đoạn, nút edit/copy và mục revisions tại menu actions cho PDF. Thêm hành động nhập PDF vào parent của trang; giữ luồng hiển thị Excel/HTML cũ.",
+      "git_status": " M",
+      "sha256": "948e21bb8225a255575cfb7df53f80dcede732051b3bee5b2a2ba5f78b550f39"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/resources/views/entities/export-menu.blade.php",
+      "scope": "application-change",
+      "purpose": "Nếu entity là trang PDF chỉ hiển thị “Tải PDF gốc”; các loại trang/sách/chương khác giữ menu xuất hiện có.",
+      "git_status": " M",
+      "sha256": "feb870620f4704d77c67e9edb7cd2b50f5a916e942fdd41aa28ff06536af5250"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/PageExportController.php",
+      "scope": "application-change",
+      "purpose": "`pdf()` nhận diện PDF để đọc attachment và trả file nguyên vẹn, MIME PDF, tên gốc UTF-8 và private/no-store. Trang thường vẫn xuất từ HTML. Chặn xuất Word/Excel/HTML/plain text/Markdown của trang PDF. Middleware `content-export` và PageRepo kiểm tra khả năng xem vẫn được dùng.",
+      "git_status": " M",
+      "sha256": "5b87495ca7e511431dfa5b8312d6c6d870e35120775ae6d5cdf1f728f2b82a25"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Entities/Tools/ExportFormatter.php",
+      "scope": "application-change",
+      "purpose": "`pageToPdf()` trả bytes của attachment nếu là PDF; chặn xuất HTML chứa tài nguyên/plain text/Markdown cho PDF. Các hàm xuất trang thường và sách/chương vẫn tồn tại. Đây là điểm dùng chung với API nên không chỉ sửa riêng web controller.",
+      "git_status": " M",
+      "sha256": "2068a562616016deda6d3641c38bbde1a7426d9dfeebb247105fa661f0e12924"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/Api/PageExportApiController.php",
+      "scope": "application-change",
+      "purpose": "Response xuất PDF có MIME `application/pdf` tường minh. API dùng `ExportFormatter::pageToPdf()` nên nhận file gốc cho trang PDF, giữ quyền view/export và tên tải theo slug của API.",
+      "git_status": " M",
+      "sha256": "c49d79f5d78b83eaafcf74624209931063a8c37d14a488d00c5c0089eb7eb576"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/PageController.php",
+      "scope": "application-change",
+      "purpose": "Action `edit()` trả 403 nếu trang là PDF, chặn người gõ URL editor trực tiếp. Các đường ghi nội dung được khóa tiếp tại repo/content.",
+      "git_status": " M",
+      "sha256": "5ccd9f72c5f88652f9993684c4b650557067783729fff9d7458a6bbfed423511"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Entities/Repos/PageRepo.php",
+      "scope": "application-change",
+      "purpose": "Chặn publish lại trang đã đánh dấu PDF, update, updatePageDraft, restoreRevision và copy PDF. Các endpoint web/API dùng repo cùng nhận giới hạn chỉ xem; di chuyển và xóa trang không bị chặn bởi thay đổi này.",
+      "git_status": " M",
+      "sha256": "fbaef16efb5fb3795115d0d887de03a516f3a1e7fe82e5c14ceeb1c6351a4532"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Entities/Tools/PageContent.php",
+      "scope": "application-change",
+      "purpose": "`setNewHTML()` và `setNewMarkdown()` chặn trang PDF trước khi xử lý nội dung/ảnh; không chỉ dựa vào việc ẩn nút editor.",
+      "git_status": " M",
+      "sha256": "b8beabbf0851389fa3bce37402b3d65992a996df566d3ea85ec0e9a9bfab1c9c"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Uploads/AttachmentService.php",
+      "scope": "application-change",
+      "purpose": "Chặn `saveUpdatedUpload()` và `updateFile()` của attachment thuộc trang PDF, tránh thay bytes hoặc biến file gốc thành liên kết. Giữ `deleteFile()` nội bộ để rollback import và xóa vĩnh viễn trang vẫn dọn file được.",
+      "git_status": " M",
+      "sha256": "95b3ff93427bd441ea05ff77ced544fb993b860c00a4a99e0cb7041b1ba07e08"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/AttachmentController.php",
+      "scope": "application-change",
+      "purpose": "Chặn endpoint xóa riêng attachment của trang PDF. Thay file/sửa metadata ở web còn được chặn bởi AttachmentService. Luồng đọc/tải attachment sẵn có tiếp tục kiểm tra quyền xem trang.",
+      "git_status": " M",
+      "sha256": "72b119f4043a071eb14c2fc051844b88a27eea4799256677a2c83944e02dc12a"
+    },
+    {
+      "repo_path": "source/BookStack-21.11.1/app/Http/Controllers/Api/AttachmentApiController.php",
+      "scope": "application-change",
+      "purpose": "Chặn update PDF attachment **trước khi đổi `uploaded_to`**, tránh chuyển attachment sang trang khác để vượt giới hạn; chặn xóa riêng attachment PDF qua API.",
+      "git_status": " M",
+      "sha256": "2a124c7d6a9ccb8b6f50e831abc844daa071002ad8248091204b66b0783e3afb"
+    },
+    {
+      "repo_path": "tests/pdf-import/check-service.php",
+      "scope": "test",
+      "purpose": "Tạo fixture tổng hợp bằng Dompdf sẵn có: chữ/bảng/ảnh, scan, trộn chữ/scan, mã hóa, 51 trang; kiểm tra file sai/cụt, extension, bytes không đổi và chặn sửa qua repo/content. Bootstrap lab `/var/www/html`, dùng `/tmp/pdf-import-test`.",
+      "git_status": "??",
+      "sha256": "d9093d7e853fa436650e676cb8ac4b91a2daaf5e181ca2a8230129cbc4d85ec5"
+    },
+    {
+      "repo_path": "tests/pdf-import/check-http.ps1",
+      "scope": "test",
+      "purpose": "Đăng nhập lab, tạo sách thử; import cả 5 loại PDF; so SHA-256 nguồn với preview và export; thử edit, lưu nháp, sửa/thay/xóa attachment, xuất định dạng khác; kiểm tra 403/422, chặn khách và editor trang thường. Cuối cùng đưa sách thử vào thùng rác. Cần đổi URL/tài khoản trước khi chạy staging thật.",
+      "git_status": "??",
+      "sha256": "ad9a7215f48497cd86d2d21cffa4e60bf9271ccd32464bc77856533346da67ce"
+    },
+    {
+      "repo_path": "tests/pdf-import/.gitignore",
+      "scope": "test",
+      "purpose": "Loại PDF, ảnh, text và HTML trung gian đã chỉ định khỏi Git; không đưa file sinh tự động hoặc tài liệu thật của người dùng vào bộ mã tích hợp.",
+      "git_status": "??",
+      "sha256": "b1c4ae59aae79fcba0b3baf77214881eaed57e4a7b1ea10cd31a14fe1922efe1"
+    },
+    {
+      "repo_path": "README.md",
+      "scope": "documentation",
+      "purpose": "Cách dùng PDF chỉ xem, giới hạn, yêu cầu migration, PDF cũ cần nhập lại, và liên kết đến các tài liệu PDF.",
+      "git_status": " M",
+      "sha256": "935134a08d5d0c75ac3f57082d556bcfbad0f55a03d7add4d8b12feebc1fb9a7"
+    },
+    {
+      "repo_path": "docs/pdf-import-export-changes.md",
+      "scope": "documentation",
+      "purpose": "Bảng kê và hướng dẫn đối chiếu hiện tại.",
+      "git_status": "??",
+      "sha256": "c9c95fe32e86fceabdbfe9eaeedde382e32fcf4553164c97fe0cb5dcffa463b3"
+    },
+    {
+      "repo_path": "docs/pdf-browser-compatibility-notes.md",
+      "scope": "documentation",
+      "purpose": "File riêng ghi các giới hạn trình duyệt, cách fallback và ma trận kiểm thử trước triển khai.",
+      "git_status": "??",
+      "sha256": "7b03e57fd4547a814345e09e90b6ea1a7f1af7fb96c4bfdfee31ca423e1d3700"
+    }
+  ]
+}

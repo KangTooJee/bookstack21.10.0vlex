@@ -1,0 +1,192 @@
+{
+  "date": "2026-10-29",
+  "scope": "Word paste/import/export handover; not a manifest of unrelated PDF/search/Excel changes",
+  "baseline": {
+    "bookstack": "21.11.1",
+    "tinymce": "4.9.4",
+    "php": "8.0.30"
+  },
+  "knownLimitation": "Word Ctrl+A paste can contain only file:// image references without image bytes; full mixed image paste remains unsupported for that case. Toast guides copying individual images to the desired caret position. No external clipboard helper.",
+  "files": [
+    {
+      "path": "source/BookStack-21.11.1/public/dist/word-paste.js",
+      "purpose": "Luồng paste: giữ định dạng hỗ trợ, La Mã, đọc RTF/bitmap, upload ảnh, giữ con trỏ trước xử lý bất đồng bộ, chặn lưu khi đang upload, toast thiếu dữ liệu ảnh. Không gọi ứng dụng ngoài.",
+      "deployment": "review-and-merge",
+      "sha256": "d02b48d5d87a833ff9a3ecd7901b49c1cc920b672e2c7ee4042b74c18f4b74ab"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/pages/edit.blade.php",
+      "purpose": "Nạp script paste nội bộ trước khởi tạo TinyMCE, cache bust theo nội dung file.",
+      "deployment": "review-and-merge",
+      "sha256": "03c833069d9900b16f8306266fed563e57bb1264faa2012d6bc394a753a115a3"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/dist/office-content.css",
+      "purpose": "Hiển thị font/bảng/ảnh nội dung Office trong editor và trang xem; xử lý bảng rộng.",
+      "deployment": "review-and-merge",
+      "sha256": "15e9dd646d8dcaa49e50527f8c884e547bec6cd4043e9c67e60cc01f2e1862e9"
+    },
+    {
+      "path": "source/BookStack-21.11.1/resources/views/layouts/base.blade.php",
+      "purpose": "Nạp CSS Office nội bộ và cache bust cho trang xem.",
+      "deployment": "review-and-merge",
+      "sha256": "2d8a29eaab449c2ccef2d5c2eb51e780b9b93854a6287ac7d45c05befff18c4f"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/OfficeHtmlStyles.php",
+      "purpose": "Chuẩn hóa CSS Office được hỗ trợ, font/cỡ chữ, thông tin trang và wrapper tài liệu; dùng trong nhập Word.",
+      "deployment": "review-and-merge",
+      "sha256": "5cb10e655da0f390d647adcba520b0d20a9d5417ac141c19ad5ac202b589c039"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/WordImportService.php",
+      "purpose": "Chuyển DOC/DOCX bằng LibreOffice, bảo toàn định dạng hỗ trợ và ảnh; thêm chuyển nhóm ảnh RTF cho clipboard.",
+      "deployment": "review-and-merge",
+      "sha256": "3c840b1a18b23f10e5f8c342b9265beeefdeaacf92b11e2487415205414f593c"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/WordPasteController.php",
+      "purpose": "Endpoint chuyển ảnh RTF, kiểm tra quyền, giới hạn dữ liệu và nội dung RTF.",
+      "deployment": "review-and-merge",
+      "sha256": "82f26f9b878b58c7ad6daed6e1bffec62e45979ef2f774e24a7246d6164e99d6"
+    },
+    {
+      "path": "source/BookStack-21.11.1/routes/web.php",
+      "purpose": "Đăng ký POST /clipboard/word-images trong nhóm auth và throttle; file dùng chung nhiều tính năng.",
+      "deployment": "review-and-merge",
+      "sha256": "6a4498ad443591397c051eca2d0876dac246d2fb43ec140b274c78013297078f"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/WordExportService.php",
+      "purpose": "Xuất DOCX, xử lý tài liệu Office, tránh thêm tiêu đề ứng dụng và đoạn trống cuối gây trang trắng.",
+      "deployment": "review-and-merge",
+      "sha256": "575b81ee2cdb1b1bf08bc39da7c52f97240510b5ed2fe57bc0d0be78d8501806"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/WordExportAppearance.php",
+      "purpose": "Chuẩn hóa định dạng khi xuất, gồm đậm/nghiêng/gạch chân lồng nhau.",
+      "deployment": "review-and-merge",
+      "sha256": "26dfd84f4940a9beb4d747be6f0a0eba569b9144bcd76506f5210031a70074e4"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Uploads/WordExportLayout.php",
+      "purpose": "Áp dụng thông tin bố cục/kích thước/lề tài liệu Office khi xuất.",
+      "deployment": "review-and-merge",
+      "sha256": "c56bcb596d369d7f25a2ba6132cb974664b3555624932f662d6200070eaf5493"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/WordImportController.php",
+      "purpose": "Điểm vào nhập Word, liên kết draft và loại tài liệu; có thay đổi dùng chung.",
+      "deployment": "review-and-merge",
+      "sha256": "49c6952f5626e25d849a63b42c931b34aa58a1665c6a212da090b1bd4ce038a7"
+    },
+    {
+      "path": "source/BookStack-21.11.1/app/Http/Controllers/PageExportController.php",
+      "purpose": "Điểm tải DOCX; có cả các đường xuất khác, chỉ đối chiếu phần Word.",
+      "deployment": "review-and-merge",
+      "sha256": "5b87495ca7e511431dfa5b8312d6c6d870e35120775ae6d5cdf1f728f2b82a25"
+    },
+    {
+      "path": "source/BookStack-21.11.1/public/clipboard-check.html",
+      "purpose": "Trang chẩn đoán các dạng clipboard, số ảnh, bytes/RTF; không phải chức năng editor sản phẩm.",
+      "deployment": "review-and-merge",
+      "sha256": "ba970514a36149a030b5986f171f3aabbb31f3aaf9a92c12ad486fe8fe888235"
+    },
+    {
+      "path": "compose.yaml",
+      "purpose": "URL/bind LAN, tắt dịch vụ ngoài; cấu hình triển khai thử nghiệm, không chép đè cấu hình thật.",
+      "deployment": "review-and-merge",
+      "sha256": "9d2155092a380faabcf9905b1621a131c01f845d7516366b370c8c19e4ca7981"
+    },
+    {
+      "path": "tests/word-paste/check-browser.cjs",
+      "purpose": "Kiểm tra paste mô phỏng, toast hướng dẫn, upload/lưu/mở lại, La Mã, WMF, lỗi quyền và không gọi ngoài.",
+      "deployment": "review-and-merge",
+      "sha256": "3917bc24e1c8669515fa1ec0b488d1e61e6ada78771306f7d0197c0ebb795bf5"
+    },
+    {
+      "path": "tests/word-paste/check-paste-position.cjs",
+      "purpose": "Kiểm tra chuỗi keydown/paste/keyup tại con trỏ, vùng chọn, ô bảng và Ctrl+Shift+V.",
+      "deployment": "review-and-merge",
+      "sha256": "47ec0b641b57188167607ca4ffd016c8379b852293b12645fd14588a6bc1bf68"
+    },
+    {
+      "path": "tests/word-paste/check-customer-fidelity.cjs",
+      "purpose": "Ca mẫu khách hàng/font/bảng/ảnh; có các kỳ vọng lịch sử cần đối chiếu với chính sách không chèn đoạn thiếu ảnh hiện tại trước khi chạy lại.",
+      "deployment": "review-and-merge",
+      "sha256": "8fdb7ab114c09da30499e1027f4ce3e70d8a13e5eee283a7847ad2e8bca54b09"
+    },
+    {
+      "path": "tests/word-paste/check-roundtrip.py",
+      "purpose": "Đối chiếu DOCX nguồn/xuất: text, cỡ chữ, nghiêng, ảnh và bố cục.",
+      "deployment": "review-and-merge",
+      "sha256": "2aa9d7fdb072a1331c9f70da0055fc9c3855adc1315dd0e94292f10ab12ab16f"
+    },
+    {
+      "path": "docs/word-paste-trial.md",
+      "purpose": "Ghi chép triển khai và phạm vi thử nghiệm paste.",
+      "deployment": "review-and-merge",
+      "sha256": "d90182ed3d42588ead90fcf3164b65a64f4dfe04c5ca49a6ac870399cb3172a8"
+    },
+    {
+      "path": "docs/word-import-export-changes.md",
+      "purpose": "Ghi chép nhập/xuất Word trước đợt paste, dùng để tra cứu bổ sung.",
+      "deployment": "review-and-merge",
+      "sha256": "51c75734dcf2a71e55d19a21a26462a05e4e0aedcfbba1578692cd452548ba4f"
+    },
+    {
+      "path": "docs/word-import-export-manifest.json",
+      "purpose": "Manifest nhập/xuất Word trước đây; không thay thế snapshot mới của đợt paste.",
+      "deployment": "review-and-merge",
+      "sha256": "74226e2cedb6a15df53b72ad030099d7c48200611a1f68e6b033d0a53315bd8c"
+    },
+    {
+      "path": "scripts/prepare-word-clipboard.ps1",
+      "purpose": "Công cụ clipboard Windows đã ngừng dùng; không cài, không chạy, không bật tự động.",
+      "deployment": "excluded-experiment",
+      "sha256": "56451308f25542d5fc8e0aaaa6181408a2c753ba7b5b2c6a30c42d5ce5e7cab5"
+    },
+    {
+      "path": "tests/word-paste/check-native-bridge.ps1",
+      "purpose": "Chỉ kiểm tra công cụ đã loại.",
+      "deployment": "excluded-experiment",
+      "sha256": "389fd8da839a5ac563489c345ba374e55fce045d52ef02a407b07aac3ef223b7"
+    },
+    {
+      "path": "tests/word-paste/check-native-upload.cjs",
+      "purpose": "Chỉ kiểm tra thử nghiệm native cũ.",
+      "deployment": "excluded-experiment",
+      "sha256": "75782886875990e5feec08025c00564783b016e61447ad4789a3d206af8cea87"
+    },
+    {
+      "path": "tests/word-paste/check-full-word-paste.cjs",
+      "purpose": "Ca 15 ảnh với cầu nối và clipboard mô phỏng; không chứng minh paste Word thuần web.",
+      "deployment": "excluded-experiment",
+      "sha256": "3fea2905d2e201a724fb01a8002e9cd3416749329b0a8e590bbc75adfc64dba8"
+    },
+    {
+      "path": "tests/word-paste/serve-native-bridge-fixture.ps1",
+      "purpose": "Máy chủ fixture cho thử nghiệm cầu nối cũ.",
+      "deployment": "excluded-experiment",
+      "sha256": "5b6f6713616501e136ef440f1e5ad91bc56f3d21c476543bab9766c309707cba"
+    },
+    {
+      "path": "docs/native-word-clipboard-trial.md",
+      "purpose": "Lịch sử phương án bị loại.",
+      "deployment": "excluded-experiment",
+      "sha256": "47b7609a722a1c323bce09cf734a36f37452a898737d9e38a1d53f8490086814"
+    },
+    {
+      "path": "docs/word-paste-vlex-handover.md",
+      "purpose": "Bàn giao và hướng dẫn tra cứu",
+      "deployment": "documentation",
+      "sha256": "cc4f372a2f8a1186c1e38757a10de5c03613cedb09326f7497342cb55df9a4f6"
+    },
+    {
+      "path": "README.md",
+      "purpose": "Hướng dẫn chung lab; có nội dung tính năng khác, không chép đè",
+      "deployment": "documentation",
+      "sha256": "85d86ef36b1318d2a66c9f7a17f93714bad8487c8bc220774a0a950e2230691f"
+    }
+  ]
+}

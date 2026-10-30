@@ -77,10 +77,17 @@ class WordExportAppearance
         return $parent;
     }
 
-    private function fonts(DOMElement $node, string $family, float $size): void
+    private function fonts(DOMElement $node, string $family, float $size, string $weight = 'normal', string $italic = 'normal', string $decoration = 'none'): void
     {
         $styles = $this->styles($node);
         $tag = strtolower($node->tagName);
+        if (in_array($tag, ['strong', 'b'], true)) { $weight = 'bold'; }
+        if (in_array($tag, ['em', 'i'], true)) { $italic = 'italic'; }
+        if ($tag === 'u') { $decoration = 'underline'; }
+        if (in_array($tag, ['s', 'strike'], true)) { $decoration = 'line-through'; }
+        $weight = $styles['font-weight'] ?? $weight;
+        $italic = $styles['font-style'] ?? $italic;
+        $decoration = $styles['text-decoration'] ?? $decoration;
         $parentSize = $size;
         $headings = ['h1' => 3.425, 'h2' => 2.8275, 'h3' => 2.333, 'h4' => 1.666, 'h5' => 1.4, 'h6' => 1.2];
         if (isset($headings[$tag])) { $size *= $headings[$tag]; }
@@ -103,12 +110,12 @@ class WordExportAppearance
         }
         foreach (iterator_to_array($node->childNodes) as $child) {
             if ($child instanceof DOMElement) {
-                $this->fonts($child, $family, $size);
+                $this->fonts($child, $family, $size, $weight, $italic, $decoration);
             } elseif ($child instanceof \DOMText && trim($child->nodeValue) !== '') {
                 $span = $node->ownerDocument->createElement('span');
                 // Word stores font sizes in half-points. Resolve CSS keywords,
                 // percentages and px before Writer applies table/font defaults.
-                $span->setAttribute('style', 'font-family: "' . str_replace('"', '', $family) . '"; font-size: ' . (round($size * 2) / 2) . 'pt');
+                $span->setAttribute('style', 'font-family: "' . str_replace('"', '', $family) . '"; font-size: ' . (round($size * 2) / 2) . 'pt; font-weight: ' . $weight . '; font-style: ' . $italic . '; text-decoration: ' . $decoration);
                 $node->replaceChild($span, $child);
                 $span->appendChild($child);
             }

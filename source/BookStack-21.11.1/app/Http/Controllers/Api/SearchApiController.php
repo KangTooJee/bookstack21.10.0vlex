@@ -5,6 +5,7 @@ namespace BookStack\Http\Controllers\Api;
 use BookStack\Entities\Models\Entity;
 use BookStack\Entities\Tools\SearchOptions;
 use BookStack\Entities\Tools\SearchRunner;
+use BookStack\Entities\Tools\SearchScope;
 use Illuminate\Http\Request;
 
 class SearchApiController extends ApiController
@@ -28,6 +29,7 @@ class SearchApiController extends ApiController
      * Run a search query against all main content types (shelves, books, chapters & pages)
      * in the system. Takes the same input as the main search bar within the BookStack
      * interface as a 'query' parameter. See https://www.bookstackapp.com/docs/user/searching/
+     * VLEX additionally requires scope=names|word|excel|pdf to bound user searches.
      * for a full list of search term options. Results contain a 'type' property to distinguish
      * between: bookshelf, book, chapter & page.
      *
@@ -38,9 +40,10 @@ class SearchApiController extends ApiController
      */
     public function all(Request $request)
     {
-        $this->validate($request, $this->rules['all']);
+        $this->validate($request, array_merge($this->rules['all'], ['scope' => SearchScope::rules()]));
 
-        $options = SearchOptions::fromString($request->get('query') ?? '');
+        $options = SearchOptions::fromUserString($request->get('query') ?? '');
+        $options->documentScope = $request->input('scope');
         $page = intval($request->get('page', '0')) ?: 1;
         $count = min(intval($request->get('count', '0')) ?: 20, 100);
 

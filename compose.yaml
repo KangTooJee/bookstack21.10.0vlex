@@ -18,12 +18,14 @@ services:
   app:
     build: .
     ports:
-      - "127.0.0.1:${APP_PORT:-8080}:80"
+      - "${APP_BIND_ADDRESS:-127.0.0.1}:${APP_PORT:-8080}:80"
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
       APP_KEY: ${APP_KEY:?Set APP_KEY in .env}
-      APP_URL: http://localhost:${APP_PORT:-8080}
+      APP_URL: ${APP_URL:-http://localhost:${APP_PORT:-8080}}
+      DISABLE_EXTERNAL_SERVICES: "true"
+      DRAWIO: ${DRAWIO:-false}
       DB_HOST: db
       DB_PORT: 3306
       DB_DATABASE: bookstack
@@ -32,6 +34,7 @@ services:
       MAIL_DRIVER: log
       APP_TIMEZONE: Asia/Ho_Chi_Minh
       FILE_UPLOAD_SIZE_LIMIT: 20
+      VLEX_STORAGE_MAX_MB: ${VLEX_STORAGE_MAX_MB:-20}
     volumes:
       - storage:/var/www/html/storage
       - uploads:/var/www/html/public/uploads

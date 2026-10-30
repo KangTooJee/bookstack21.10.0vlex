@@ -17,6 +17,59 @@ use Throwable;
 
 class BookController extends Controller
 {
+    public function createChild(string $bookSlug)
+    {
+        $this->checkPermission('book-create-all');
+        $parentBook = $this->bookRepo->getBySlug($bookSlug);
+        $this->checkOwnablePermission('book-update', $parentBook);
+        $this->setPageTitle('Tạo book con');
+        return view('books.create-child', compact('parentBook'));
+    }
+
+    public function storeChild(Request $request, string $bookSlug)
+    {
+        $this->checkPermission('book-create-all');
+        $parent = $this->bookRepo->getBySlug($bookSlug);
+        $this->checkOwnablePermission('book-update', $parent);
+        $request->validate([
+            'name' => 'required|string|max:255', 'description' => 'nullable|string|max:1000',
+            'image' => array_merge(['nullable'], $this->getImageValidationRules()),
+        ]);
+        $book = \Illuminate\Support\Facades\DB::transaction(function () use ($parent, $request) {
+            $input = $request->all();
+            $input['description'] = $input['description'] ?? '';
+            $book = $this->bookRepo->create($input);
+            app(\BookStack\View\LibraryMap::class)->place($book, $parent, null, true);
+            $this->bookRepo->updateCoverImage($book, $request->file('image'));
+            return $book;
+        });
+        return redirect($book->getUrl());
+    }
+
+    public function showMoveFolder(string $bookSlug)
+    {
+        $book = $this->bookRepo->getBySlug($bookSlug);
+        $this->checkOwnablePermission('book-update', $book);
+        $hierarchy = app(\BookStack\View\LibraryMap::class);
+        $excluded = $hierarchy->descendantIds($book);
+        $books = \BookStack\Entities\Models\Book::visible()->whereNotIn('id', $excluded)->get()
+            ->filter(function ($target) { return userCan('book-update', $target); });
+        $shelves = Bookshelf::visible()->get()->filter(function ($target) { return userCan('bookshelf-update', $target); });
+        $this->setPageTitle('Chuyển book');
+        return view('books.move-folder', compact('book', 'books', 'shelves', 'hierarchy'));
+    }
+
+    public function moveFolder(Request $request, string $bookSlug)
+    {
+        $book = $this->bookRepo->getBySlug($bookSlug);
+        $this->checkOwnablePermission('book-update', $book);
+        $request->validate(['destination' => ['required', 'string', 'regex:/^(book|shelf):[1-9][0-9]*$/']]);
+        [$type, $id] = explode(':', $request->input('destination'));
+        $parent = $type === 'book' ? \BookStack\Entities\Models\Book::visible()->findOrFail($id) : null;
+        $shelf = $type === 'shelf' ? Bookshelf::visible()->findOrFail($id) : null;
+        app(\BookStack\View\LibraryMap::class)->place($book, $parent, $shelf);
+        return redirect($book->getUrl());
+    }
     protected $bookRepo;
     protected $entityContextManager;
 
@@ -100,7 +153,7 @@ class BookController extends Controller
         $this->bookRepo->updateCoverImage($book, $request->file('image', null));
 
         if ($bookshelf) {
-            $bookshelf->appendBook($book);
+            $bookshelf->appendBook($book, true);
             Activity::addForEntity($bookshelf, ActivityType::BOOKSHELF_UPDATE);
         }
 
@@ -113,8 +166,13 @@ class BookController extends Controller
     public function show(Request $request, string $slug)
     {
         $book = $this->bookRepo->getBySlug($slug);
-        $bookChildren = (new BookContents($book))->getTree(true);
-        $bookParentShelves = $book->shelves()->scopes('visible')->get();
+        $folderContents = app(\BookStack\ViewComponents\HierarchyFolder::class)->contents($book);
+        $folderBooks = $folderContents['books'];
+        $uploadedFiles = $folderContents['files'];
+        $bookChildren = $folderContents['pages'];
+        $bookParentShelves = $book->parent_book_id
+            ? collect(app(\BookStack\View\LibraryMap::class)->ancestors($book))->filter(function ($parent) { return $parent instanceof Bookshelf; })
+            : $book->shelves()->scopes('visible')->get();
 
         View::incrementFor($book);
         if ($request->has('shelf')) {
@@ -124,6 +182,8 @@ class BookController extends Controller
         $this->setPageTitle($book->getShortName());
 
         return view('books.show', [
+            'folderBooks' => $folderBooks,
+            'uploadedFiles' => $uploadedFiles,
             'book'              => $book,
             'current'           => $book,
             'bookChildren'      => $bookChildren,

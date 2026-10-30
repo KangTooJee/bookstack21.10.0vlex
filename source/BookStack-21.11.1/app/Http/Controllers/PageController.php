@@ -189,6 +189,7 @@ class PageController extends Controller
     public function edit(string $bookSlug, string $pageSlug)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        abort_if($page->isPdf(), 403, 'PDF chỉ được xem và tải xuống.');
         $this->checkOwnablePermission('page-update', $page);
 
         $page->isDraft = false;

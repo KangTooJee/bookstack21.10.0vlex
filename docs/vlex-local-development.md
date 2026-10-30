@@ -1,5 +1,7 @@
 # Nền BookStack 21.11.1 để tiếp nhận mã VLEX
 
+> Cập nhật 29/10/2026: theo xác nhận của người dùng, VLEX dùng shelves → book lồng nhiều cấp → page + file upload. Các vị trí AttachedFile, AttachedFileRepo, FileAttachedController, LibraryMap, HierarchyFolder đã được triển khai trong lab theo cây đã cung cấp. Kho `/storage` độc lập đã gỡ. Chi tiết hiện hành tại `storage-files.md`; các mô tả scaffold/hierarchy chưa triển khai bên dưới là trạng thái nền ngày 22/10/2026.
+
 ## Mục tiêu hiện tại
 
 Giữ ứng dụng BookStack gốc làm bộ khung, dựng các đường dẫn bổ sung theo cây mã nguồn VLEX do người dùng cung cấp. Người dùng có thể chép từng file VLEX vào đúng vị trí để phân tích và sửa lỗi. Chưa triển khai lại chức năng VLEX từ ảnh và chưa tạo ứng dụng độc lập cạnh BookStack.

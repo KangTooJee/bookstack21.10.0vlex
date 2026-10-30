@@ -28,7 +28,7 @@ class SearchResultsFormatter
     protected function setSearchPreview(Entity $entity, SearchOptions $options)
     {
         $textProperty = $entity->textField;
-        $textContent = $entity->$textProperty;
+        $textContent = in_array($options->documentScope, ['names', 'pdf'], true) ? '' : ($entity->$textProperty ?? '');
         $terms = array_merge($options->exacts, $options->searches);
 
         $originalContentByNewAttribute = [
@@ -38,7 +38,10 @@ class SearchResultsFormatter
 
         foreach ($originalContentByNewAttribute as $attributeName => $content) {
             $targetLength = ($attributeName === 'preview_name') ? 0 : 260;
-            $matchRefs = $this->getMatchPositions($content, $terms);
+            $phrase = trim($options->rawQuery, " \t\n\r\0\x0B\"");
+            $previewTerms = $attributeName === 'preview_content' && $phrase !== '' && stripos($content, $phrase) !== false
+                ? [$phrase] : $terms;
+            $matchRefs = $this->getMatchPositions($content, $previewTerms);
             $mergedRefs = $this->sortAndMergeMatchPositions($matchRefs);
             $formatted = $this->formatTextUsingMatchPositions($mergedRefs, $content, $targetLength);
             $entity->setAttribute($attributeName, new HtmlString($formatted));

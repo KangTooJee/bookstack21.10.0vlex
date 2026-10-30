@@ -46,7 +46,13 @@ class WordExportLayout
 
     public function prepareHtml(DOMElement $body): void
     {
-        $this->fitHtml($body, self::PAGE_WIDTH);
+        $available = self::PAGE_WIDTH;
+        $office = (new DOMXPath($body->ownerDocument))->query('//*[@data-office-page]')->item(0);
+        if ($office) {
+            $page = array_map('intval', explode(',', $office->getAttribute('data-office-page')));
+            if (count($page) === 6 && $page[0] - $page[3] - $page[5] > 1000) { $available = $page[0] - $page[3] - $page[5]; }
+        }
+        $this->fitHtml($body, $available);
     }
 
     private function fitHtml(DOMElement $node, float $available): void

@@ -106,6 +106,7 @@ class AttachmentService
      */
     public function saveUpdatedUpload(UploadedFile $uploadedFile, Attachment $attachment): Attachment
     {
+        abort_if($attachment->page && $attachment->page->isPdf(), 403, 'Không thay thế file PDF gốc.');
         if (!$attachment->external) {
             $this->deleteFileInStorage($attachment);
         }
@@ -158,6 +159,7 @@ class AttachmentService
      */
     public function updateFile(Attachment $attachment, array $requestData): Attachment
     {
+        abort_if($attachment->page && $attachment->page->isPdf(), 403, 'Không sửa file PDF gốc.');
         $attachment->name = $requestData['name'];
         $link = trim($requestData['link'] ?? '');
 

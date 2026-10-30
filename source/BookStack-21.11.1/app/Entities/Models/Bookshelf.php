@@ -37,7 +37,7 @@ class Bookshelf extends Entity implements HasCoverImage
      */
     public function visibleBooks(): BelongsToMany
     {
-        return $this->books()->scopes('visible');
+        return $this->books()->whereNull('books.parent_book_id')->scopes('visible');
     }
 
     /**
@@ -106,13 +106,8 @@ class Bookshelf extends Entity implements HasCoverImage
      *
      * @param Book $book
      */
-    public function appendBook(Book $book)
+    public function appendBook(Book $book, bool $new = false)
     {
-        if ($this->contains($book)) {
-            return;
-        }
-
-        $maxOrder = $this->books()->max('order');
-        $this->books()->attach($book->id, ['order' => $maxOrder + 1]);
+        app(\BookStack\View\LibraryMap::class)->place($book, null, $this, $new);
     }
 }

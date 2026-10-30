@@ -26,7 +26,7 @@ class PageExportApiController extends ApiController
         $page = Page::visible()->findOrFail($id);
         $pdfContent = $this->exportFormatter->pageToPdf($page);
 
-        return $this->downloadResponse($pdfContent, $page->slug . '.pdf');
+        return $this->downloadResponse($pdfContent, $page->slug . '.pdf')->header('Content-Type', 'application/pdf');
     }
 
     /**
